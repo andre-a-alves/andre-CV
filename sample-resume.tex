@@ -1,0 +1,144 @@
+\documentclass[US, sourcesanspro, 11pt]{andre-cv}
+
+\SetName{Andre Alves}
+\SetTown{Hamburg, Germany}
+\SetAddressOne{123 Main Street}
+\SetAddressTwo{Anytown, FL}
+\SetEmail{andre@alves.me}
+\SetGithub{andre-a-alves}
+\SetLinkedIn{andre-a-alves}
+\SetPhone{123-456-7890}
+\SetCitizenship{United State of America}
+\SetDPOB{1985-09-02~$\cdot$~Rio de Janeiro, Brazil}
+\MakeHeader
+	{\DisplayName}
+	{\DisplayEmail~$\cdot$~\DisplayPhone}
+	{\DisplayTown \hspace*{3mm} \color{accentColor} \DisplayGithubIcon \bigskip \hspace*{3mm} \DisplayLinkedInIcon}
+
+\begin{document}
+\MakeCoverLetter
+	{\DisplayName}
+	{\DisplayAddressOne\\\DisplayAddressTwo\\\DisplayPhone\\\DisplayEmail}
+	{Matawan Borough}
+	{201 Broad St\\Matawan, NJ 07747}
+	{Application for Job Posting 123456}	
+	{Dear recruiting manager,}
+	{\lipsum[1] \\
+
+		\lipsum[2] \\
+
+		\lipsum[3]\\
+
+		\lipsum[4][1-3]}
+	{Sincerely yours}
+	{./img/1000px-JohnHancocksSignature.svg.png}
+
+\cvsection{Education}{
+	\cventry
+		{2019 - Present}
+		{Bachelor of Science in Information Engineering}
+		{Hamburg University of Applied Sciences~$\cdot$~GPA 0.0}
+		{Hamburg, Germany}
+		{\cvitemize{
+			\item Equivalent of Computer Engineering in US universities.
+			\item Recipient of \emph{Excellence Scholarship} for high academic performance.
+		}}
+	\cventry
+		{2007}
+		{Bachelor of Science in Physics}
+		{United States Naval Academy~$\cdot$~GPA 2.0}
+		{Annapolis, Maryland}
+		{}
+}
+
+\cvsection{Personal Projects \faGithub}
+{
+	\cvsectionlist{
+		\cvlistitem{Sorting Visualizer}
+			{Application that visualizes and animates various sorting algorithms, including selection, insertion, merge, heap, and quick sort algorithms. \textbf{Java}}
+			{https://github.com/andre-a-alves/SortingVisualizer}
+		\cvlistitem{LZW Compressor}
+			{Application that performs LZW compression on files, but also has a feature to perform LZW at the string level to allow for visualizing the algorithm. \textbf{Java}}
+			{https://github.com/andre-a-alves/LZW-encoder}
+		\cvlistitem{Quantum Simulator}
+			{Application that simulates a quantum computer. created as a challenge for the Quantum Open Source Foundation. \textbf{Python}}
+			{https://github.com/andre-a-alves/QOSF-Mentorship-Submission-Quantum-Simulator}
+	}
+}
+
+\cvsection{Experience}
+{
+	\cventry
+		{Aug~2020 - Current}
+		{Undergraduate Research Assistant}
+		{Hamburg University of Applied Sciences}
+		{Hamburg}
+		{\cvitemize{
+			\item Performed a literature review of photovoltaic system power inverter physics-of-failure modeling.
+			\item Developed SPICE and MATLAB models of three-phase photovoltaic power inverter.
+			\item Setup Linux server for Comsol Multiphysics simulation software and performed all sysadmin duties.
+		}}
+	\cventry
+		{Oct~2019 - Jul~2020}
+		{IT Service and Support Associate}
+		{Deposit Solutions GmbH}
+		{Hamburg}
+		{\cvitemize{
+			\item Developed and implemented management solutions and workflows for a fleet of more than 50 MacBooks.
+			\item Developed, wrote, and improved documentation and guides for more than a half-dozen workflows.
+			\item Wrote and distributed custom Shell Script app automate printer installation for the company’s Macs.
+		}}
+	\cventry
+		{Jul~2018 - Apr~2019}
+		{Entrepreneur}
+		{Monk and Dagger Brewing Company LLC}
+		{San Antonio, Texas (USA)}
+		{}
+	\cventry
+		{Jan~2013 - Jul~2018}
+		{Foreign Service Officer}
+		{U.S. Department of State}
+		{Caracas, Venezuela $\cdot$ Washington, D.C. (USA)}
+		{\cvitemize{
+			\item Advised senior and Washington-based officials on matters related to Latin America.
+		}}
+	\cventry
+		{May~2007 - Jan~2013}
+		{Communications Officer}
+		{U.S. Marine Corps}
+		{USA $\cdot$ Afghanistan}
+		{\cvitemize{
+			\item Led and managed organizations of Marines ranging in size from 55 to more than 100 individuals, including a unit geographically dispersed across an entire continent.
+			\item Designed and supervised the installation, operation, and maintenance of the radio and satellite network architecture carrying all communications (data, phone, and radio) for multiple military operations, including a network responsible for all communications in the southern region of Afghanistan during active NATO combat operations.
+			\item Responsible at times for equipment worth more than \$13 million.
+		}}
+}
+
+\cvsection{Skills}
+{
+	\cvsectionlist{
+		\cvlistitem{Programming Languages}
+			{Java $\cdot$ C $\cdot$ Python $\cdot$ VHDL $\cdot$ Matlab $\cdot$ Bash (Shell Script)}
+			{}
+		\cvlistitem{Operating Systems}
+			{Windows $\cdot$ Linux $\cdot$ MacOS}
+			{}
+		\cvlistitem{Simulation}
+			{Matlab/Simulink with Simscape $\cdot$ LTSpice}
+			{}
+		\cvlistitem{SysAdmin}
+			{OpenSSH $\cdot$ UFW Firewall $\cdot$ XRDP Remote Desktop Server}
+			{}
+		\cvlistitem{Other Skills}
+			{Soldering $\cdot$ LaTeX/CircuiTikz $\cdot$ AutoDesk Eagle $\cdot$ Git $\cdot$ Jira $\cdot$ Confluence $\cdot$ Mendeley Reference Manager}
+			{}
+		\cvlistitem{Soft Skills}
+			{Public speaking $\cdot$ Teamwork $\cdot$ Leadership $\cdot$ Multicultural environments}
+			{}
+		\cvlistitem{Languages}
+			{English (Native) $\cdot$ Portuguese (Fluent) $\cdot$ Spanish (Fluent) $\cdot$ German (Beginner)}
+			{}
+	}
+}
+
+\end{document}
