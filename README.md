@@ -28,7 +28,7 @@
 
   This project is created under the LaTeX Project Public License (LPPL) version 1.3c.
   Under that license, this project may be free used and modified as long as all derivative works adhere to the same or an update LPPL license.
-  Details of the licence can be found in the [license file](https://github.com/andre-a-alves/andre-CV/blob/main/LICENSE).
+  Details of the licence can be found in the [license file](https://github.com/andre-a-alves/andre-CV/blob/main/LICENSE.txt).
 
   Files not explicitely listed in the [manifest file](https://github.com/andre-a-alves/andre-CV/blob/main/manifest.txt) are not considered part of the project and are not free to be shared unless that permission is derived elsewhere, such as an image being a part of the public domain.
 
