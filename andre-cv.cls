@@ -166,12 +166,20 @@
 \newcommand*{\SetTown}[1]{\def\DisplayTown{#1}}
 \newcommand*{\SetEmail}[1]{\def\DisplayEmail{\href{mailto:#1}{#1}}}
 \newcommand*{\SetCitizenship}[1]{\def\DisplayCitizenship{#1}}
+\newcommand*{\SetMaritalStatus}[1]{\def\DisplayMaritalStatus{#1}}
+\newcommand*{\SetFamilySize}[1]{\def\DisplayFamilySize{#1}}
 \newcommand*{\SetGithub}[1]
 	{\def\DisplayGithubIcon{\faGithub\href{https://github.com/#1}{~#1}}
 	\def\DisplayGithub{\href{https://github.com/#1}{~#1}}}
 \newcommand*{\SetLinkedIn}[1]
 	{\def\DisplayLinkedInIcon{\faLinkedin\href{https://linkedin.com/in/#1}{~#1}}
 	\def\DisplayLinkedIn{\href{https://linkedin.com/in/#1}{~#1}}}
+\newcommand*{\SetXing}[1]
+	{\def\DisplayXingIcon{\faXing\href{https://www.xing.com/profile/#1}{~#1}}
+	\def\DisplayXing{\href{https://www.xing.com/profile/#1}{~#1}}}
+\newcommand*{\SetHomepage}[1]
+	{\def\DisplayHomepageIcon{\faLaptop\href{https://#1}{~#1}}
+	\def\DisplayHomepage{\href{https://#1}{~#1}}}
 \newcommand*{\SetPhone}[1]{\def\DisplayPhone{#1}}
 \newcommand*{\MakeHeader}[3]
 	{\def\InsertHeader
@@ -251,6 +259,7 @@
 \newcommand{\ResizeTabular}[1]{\renewcommand{\tabularColumnWidth}{#1}}
 \newcommand{\picturewidth}{6cm}
 \newcommand{\ChangePictureWidth}[1]{\renewcommand{\picturewidth}{#1}}
+\newcommand{\HeaderImageSize}[1]{\renewcommand{\picturewidth}{#1}}
 
 \newcommand*{\DisplayHeader}[2]{
 	\thispagestyle{noheader}
@@ -264,18 +273,76 @@
 
 	\cvsection{Personal Details}
 	{\cvpara{
-	\begin{tabular}{c l}
-		\faMapMarker & \DisplayAddressOne, \DisplayAddressTwo \\
-		\faMobile & \DisplayPhone \\
-		\faEnvelope & \DisplayEmail \\
-		\faHome & \DisplayCitizenship\\
-		\faStarO & \DisplayDPOB\\
-		\faGithub & \DisplayGithub \\
-		\faLinkedin & \DisplayLinkedIn\\
-	\end{tabular}
+	% \begin{tabular}{c l}
+	% 	\faMapMarker & \DisplayAddressOne, \DisplayAddressTwo \\
+	% 	\faMobile & \DisplayPhone \\
+	% 	\faEnvelope & \DisplayEmail \\
+	% 	\faHome & \DisplayCitizenship\\
+	% 	\faBirthdayCake & \DisplayDPOB \\
+	% 	\faGithub & \DisplayGithub \\
+	% 	\faLinkedin & \DisplayLinkedIn\\
+	% \end{tabular}
+	\IncludeCVHeaderTable
 	 \vspace{3mm}}}
 	\end{minipage}
 }
+
+\newcommand{\IncludeCVHeaderTable}{
+	\begin{tabular}{c l}
+		\ifthenelse{\isundefined{\DisplayAddressOne} \and \isundefined{\DisplayAddressTwo} \and \isundefined{\DisplayAddressThree}}
+			{}
+			{\faMapMarker &
+				\ifthenelse{\isundefined{\DisplayAddressOne}}
+					{}
+					{\DisplayAddressOne
+					\ifthenelse{\isundefined{\DisplayAddressTwo} \and \isundefined{\DisplayAddressThree}}
+						{}
+						{,}
+					} 
+					\ifthenelse{\isundefined{\DisplayAddressTwo}}
+						{}
+						{\DisplayAddressTwo
+							\ifthenelse{\isundefined{\DisplayAddressThree}}
+								{}
+								{,}
+							} 
+				\ifthenelse{\isundefined{\DisplayAddressThree}}
+					{}
+					{\DisplayAddressThree} 
+			\\}
+		\ifthenelse{\isundefined{\DisplayPhone}}
+			{}
+			{\faMobile & \DisplayPhone \\}
+		\ifthenelse{\isundefined{\DisplayEmail}}
+			{}
+			{\faEnvelope & \DisplayEmail \\}
+		\ifthenelse{\isundefined{\DisplayCitizenship}}
+			{}
+			{\faHome & \DisplayCitizenship \\}
+		\ifthenelse{\isundefined{\DisplayDPOB}}
+			{}
+			{\faBirthdayCake & \DisplayDPOB \\}
+		\ifthenelse{\isundefined{\DisplayMaritalStatus}}
+			{}
+			{\faHeart & \DisplayMaritalStatus \\}
+		\ifthenelse{\isundefined{\DisplayFamilySize}}
+			{}
+			{\faChild & \DisplayFamilySize \\}
+		\ifthenelse{\isundefined{\DisplayGithub}}
+			{}
+			{\faGithub & \DisplayGithub \\}
+		\ifthenelse{\isundefined{\DisplayLinkedIn}}
+			{}
+			{\faLinkedin & \DisplayLinkedIn \\}
+		\ifthenelse{\isundefined{\DisplayXing}}
+			{}
+			{\faXing & \DisplayXing \\}
+		\ifthenelse{\isundefined{\DisplayHomepage}}
+			{}
+			{\faLaptop & \DisplayHomepage \\}
+	\end{tabular}
+}
+
 \newcommand*{\cvsection}[2]{
 	\vspace{2mm}
 	{\Large \color{accentColor} \fontseries{sb}\selectfont{#1}}
