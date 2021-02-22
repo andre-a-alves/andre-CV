@@ -263,10 +263,16 @@
 
 \newcommand*{\DisplayHeader}[2]{
 	\thispagestyle{noheader}
-	\begin{wrapfigure}{r}{\picturewidth}
-	\raggedleft
-	\includegraphics[height=\picturewidth, width=\picturewidth]{#2}
-	\end{wrapfigure}
+	\ifthenelse{\equal{}{#2}}
+		{
+			\ChangePictureWidth{0mm}
+		}
+		{
+			\begin{wrapfigure}{r}{\picturewidth}
+			\raggedleft
+			\includegraphics[height=\picturewidth, width=\picturewidth]{#2}
+			\end{wrapfigure}
+		}
 	\begin{minipage}[t]{\textwidth-\picturewidth}
 	{\HUGE {\fontseries{m}\selectfont \textsc{\DisplayName}}}\\
 	\vspace{4mm}{\Large \color{gray} \textbf{#1}}
