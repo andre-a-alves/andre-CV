@@ -292,59 +292,59 @@
 	 \vspace{3mm}}}
 	\end{minipage}
 }
-
+\newcommand{\zerospace}{~\kern -0.2 pc}
 \newcommand{\IncludeCVHeaderTable}{
 	\begin{tabular}{c l}
 		\ifthenelse{\isundefined{\DisplayAddressOne} \and \isundefined{\DisplayAddressTwo} \and \isundefined{\DisplayAddressThree}}
-			{}
+			{\zerospace}
 			{\faMapMarker &
 				\ifthenelse{\isundefined{\DisplayAddressOne}}
-					{}
+					{\zerospace}
 					{\DisplayAddressOne
 					\ifthenelse{\isundefined{\DisplayAddressTwo} \and \isundefined{\DisplayAddressThree}}
-						{}
+						{\zerospace}
 						{,}
 					} 
 					\ifthenelse{\isundefined{\DisplayAddressTwo}}
-						{}
+						{\zerospace}
 						{\DisplayAddressTwo
 							\ifthenelse{\isundefined{\DisplayAddressThree}}
-								{}
+								{\zerospace}
 								{,}
 							} 
 				\ifthenelse{\isundefined{\DisplayAddressThree}}
-					{}
+					{\zerospace}
 					{\DisplayAddressThree} 
 			\\}
 		\ifthenelse{\isundefined{\DisplayPhone}}
-			{}
+			{\zerospace}
 			{\faMobile & \DisplayPhone \\}
 		\ifthenelse{\isundefined{\DisplayEmail}}
-			{}
+			{\zerospace}
 			{\faEnvelope & \DisplayEmail \\}
 		\ifthenelse{\isundefined{\DisplayCitizenship}}
-			{}
+			{\zerospace}
 			{\faHome & \DisplayCitizenship \\}
 		\ifthenelse{\isundefined{\DisplayDPOB}}
-			{}
+			{\zerospace}
 			{\faBirthdayCake & \DisplayDPOB \\}
 		\ifthenelse{\isundefined{\DisplayMaritalStatus}}
-			{}
+			{\zerospace}
 			{\faHeart & \DisplayMaritalStatus \\}
 		\ifthenelse{\isundefined{\DisplayFamilySize}}
-			{}
+			{\zerospace}
 			{\faChild & \DisplayFamilySize \\}
 		\ifthenelse{\isundefined{\DisplayGithub}}
-			{}
+			{\zerospace}
 			{\faGithub & \DisplayGithub \\}
 		\ifthenelse{\isundefined{\DisplayLinkedIn}}
-			{}
+			{\zerospace}
 			{\faLinkedin & \DisplayLinkedIn \\}
 		\ifthenelse{\isundefined{\DisplayXing}}
-			{}
+			{\zerospace}
 			{\faXing & \DisplayXing \\}
 		\ifthenelse{\isundefined{\DisplayHomepage}}
-			{}
+			{\zerospace}
 			{\faLaptop & \DisplayHomepage \\}
 	\end{tabular}
 }
