@@ -111,7 +111,7 @@
 \RequirePackage{fancyhdr}       % necessary for "fancy headers" specificied later
 \pagestyle{fancy}
 \fancyhf{}
-\setlength{\headheight}{-5pt}	
+\setlength{\headheight}{50pt}	
 \renewcommand{\headrulewidth}{0pt} 
 \rfoot{
 	\ifnum\ztotpages>1
@@ -129,7 +129,7 @@
 	{
 		\chead{\InsertHeader}
 		\lfoot{\FooterGrayColor\today}
-		\geometry{includehead, headsep=1in, footskip=0.25in}
+		\geometry{includehead, headsep=0.2in, footskip=0.25in}
 	}
 \fancypagestyle{noheader}{\fancyhead{}}
 
@@ -248,7 +248,7 @@
 	{\ifbool{EuroFormat}
 		{\MakeCoverLetterEuro{#1}{#2}{#3}{#4}{#5}{#6}{#7}{#8}{#9}}
 		{\MakeCoverLetterUS{#1}{#2}{#3}{#4}{#5}{#6}{#7}{#8}{#9}}
-		}
+	}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
@@ -279,17 +279,9 @@
 
 	\cvsection{Personal Details}
 	{\cvpara{
-	% \begin{tabular}{c l}
-	% 	\faMapMarker & \DisplayAddressOne, \DisplayAddressTwo \\
-	% 	\faMobile & \DisplayPhone \\
-	% 	\faEnvelope & \DisplayEmail \\
-	% 	\faHome & \DisplayCitizenship\\
-	% 	\faBirthdayCake & \DisplayDPOB \\
-	% 	\faGithub & \DisplayGithub \\
-	% 	\faLinkedin & \DisplayLinkedIn\\
-	% \end{tabular}
-	\IncludeCVHeaderTable
-	 \vspace{3mm}}}
+		\IncludeCVHeaderTable
+	 	\vspace{3mm}}
+	}
 	\end{minipage}
 }
 \newcommand{\zerospace}{~\kern -0.2 pc}
@@ -414,6 +406,20 @@
 
 \newcommand*{\cvpara}[1]{\vspace{3mm}#1}
 \newcommand*{\cvsectionlist}[1]{\vspace{1.5mm}#1}
+
+\newcommand*{\cvtabularlist}[1]{
+	\vspace{3mm}
+	\setlength\tabcolsep{0pt}
+	\setlength{\extrarowheight}{0pt}
+	\raggedright
+	\begin{tabularx}{\textwidth}{l l X}
+		#1
+	\end{tabularx}
+}
+
+\newcommand*{\tabularitem}[2]{
+	\textbf{#1} & \hspace{3mm} & #2 \vspace{2mm}\\
+}
 
 \newcommand*{\DisplaySignature}[2]
 		{
