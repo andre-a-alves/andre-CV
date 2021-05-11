@@ -31,6 +31,18 @@
 	\booltrue{FontChosen}}
 \DeclareOption{sourcesanspro}
 	{\booltrue{FontChosen}}
+\DeclareOption{noto}
+	{\renewcommand{\ChosenFont}{noto}
+	\booltrue{FontChosen}}
+\DeclareOption{lato}
+	{\renewcommand{\ChosenFont}{lato}
+	\booltrue{FontChosen}}
+\DeclareOption{inria}
+	{\renewcommand{\ChosenFont}{inria}
+	\booltrue{FontChosen}}
+\DeclareOption{alegreya}
+	{\renewcommand{\ChosenFont}{alegreya}
+	\booltrue{FontChosen}}
 % Format
 \DeclareOption{US}{\boolfalse{EuroFormat}}
 \DeclareOption{Euro}{\booltrue{EuroFormat}}
