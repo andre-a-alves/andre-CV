@@ -18,9 +18,13 @@
 \ProvidesClass{andre-cv}[2021-02-15]
 
 \RequirePackage{etoolbox}
+
+% Declare booleans
 \newbool{EuroFormat}
 \newbool{FontChosen}
+\newbool{BadgeToggled}
 \booltrue{EuroFormat}
+
 \newcommand{\ChosenFont}{sourcesanspro}
 % Fonts
 \DeclareOption{roboto}
@@ -117,55 +121,6 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-% Headers and Footers
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\RequirePackage{fancyhdr}       % necessary for "fancy headers" specificied later
-\pagestyle{fancy}
-\fancyhf{}
-\setlength{\headheight}{50pt}	
-\renewcommand{\headrulewidth}{0pt} 
-\rfoot{
-	\ifnum\ztotpages>1
-		{\FooterGrayColor
-	{\thepage\ of \zpageref{LastPage}}}
-	\else {}
-	\fi
-}
-\fancypagestyle{letter}{\fancyhf{}}
-\ifbool{EuroFormat}
-	{
-		\rhead{\large \textbf{\textsc{\DisplayName}}}
-		\geometry{vmargin=16.9mm, hmargin=24.1mm, footskip=0.6cm}
-	}
-	{
-		\chead{\InsertHeader}
-		\lfoot{\FooterGrayColor\today}
-		\geometry{includehead, headsep=0.2in, footskip=0.25in}
-	}
-\fancypagestyle{noheader}{\fancyhead{}}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-% Color-Related
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\RequirePackage{xcolor}		% define colors
-% Color names and codes obtained from https://coolors.co/
-\definecolor{UltramarineBlue}{HTML}{2E5EFF}
-\definecolor{YellowGreen}{HTML}{36AB00}
-\definecolor{Fuchsia}{HTML}{F500E4}
-\definecolor{Tangerine}{HTML}{F58B00}
-\definecolor{ElectricViolet}{HTML}{8B00F5}
-\definecolor{Coquelicot}{HTML}{F53900}
-\definecolor{Rose}{HTML}{FF0F80}
-\definecolor{gray}{HTML}{999999}
-\definecolor{light_gray}{RGB}{185,185,185}
-\colorlet{accentColor}{UltramarineBlue}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
 % Parameter Declaration Commands
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -199,7 +154,62 @@
 		\small #2 \\
 		#3}
 	}
+\newcommand*{\SetBadge}[2]
+  	{\booltrue{BadgeToggled}
+	\def\InsertBadge{\includegraphics[scale=#1]{#2}}
+	}
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Headers and Footers
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\RequirePackage{fancyhdr}       % necessary for "fancy headers" specificied later
+\RequirePackage{tikz}			% for placing an icon in the corner of the page
+\pagestyle{fancy}
+\fancyhf{}
+\setlength{\headheight}{50pt}	
+\renewcommand{\headrulewidth}{0pt} 
+\rfoot{
+	\ifnum\ztotpages>1
+		{\FooterGrayColor
+	{\thepage\ of \zpageref{LastPage}}}
+	\else {}
+	\fi
+}
+\fancypagestyle{letter}{\fancyhf{}}
+\ifbool{EuroFormat}
+	{
+		\rhead{\large \textbf{\textsc{\DisplayName}}}
+		\geometry{vmargin=16.9mm, hmargin=24.1mm, footskip=0.6cm}
+	}
+	{
+		\chead{\InsertHeader}
+		\rhead{\ifbool{BadgeToggled}{\InsertBadge}}
+		\lfoot{\FooterGrayColor\today}
+		\geometry{includehead, headsep=0.2in, footskip=0.25in}
+	}
+\fancypagestyle{noheader}{\fancyhead{}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Color-Related
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\RequirePackage{xcolor}		% define colors
+% Color names and codes obtained from https://coolors.co/
+\definecolor{UltramarineBlue}{HTML}{2E5EFF}
+\definecolor{YellowGreen}{HTML}{36AB00}
+\definecolor{Fuchsia}{HTML}{F500E4}
+\definecolor{Tangerine}{HTML}{F58B00}
+\definecolor{ElectricViolet}{HTML}{8B00F5}
+\definecolor{Coquelicot}{HTML}{F53900}
+\definecolor{Rose}{HTML}{FF0F80}
+\definecolor{gray}{HTML}{999999}
+\definecolor{light_gray}{RGB}{185,185,185}
+\colorlet{accentColor}{UltramarineBlue}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
