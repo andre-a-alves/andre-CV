@@ -1,61 +1,67 @@
-  %% sample-CV.tex
-  %% Copyright 2021 A. A. Alves
-  %
-  % This work may be distributed and/or modified under the
-  % conditions of the LaTeX Project Public License, either version 1.3
-  % of this license or (at your option) any later version.
-  % The latest version of this license is in
-  %   http://www.latex-project.org/lppl.txt
-  % and version 1.3 or later is part of all distributions of LaTeX
-  % version 2005/12/01 or later.
-  %
-  % This work has the LPPL maintenance status `maintained'.
-  %
-  % The Current Maintainer of this work is A. A. Alves.
-  %
-  % This work consists of all files listed in manifest.txt.
-\documentclass[Euro, sourcesanspro, 11pt]{andre-cv}
+%% sample-CV.tex
+%% Copyright 2021-2024 Andre A. Alves
+%
+% This work may be distributed and/or modified under the
+% conditions of the LaTeX Project Public License, either version 1.3
+% of this license or (at your option) any later version.
+% The latest version of this license is in
+%   http://www.latex-project.org/lppl.txt
+% and version 1.3 or later is part of all distributions of LaTeX
+% version 2005/12/01 or later.
+%
+% This work has the LPPL maintenance status `maintained'.
+%
+% The Current Maintainer of this work is Andre A. Alves.
+%
+% This work consists of all files listed in manifest.txt.
+\documentclass[10pt]{andre-cv}
+
+\setmainfont{Source Sans 3}
+\setsansfont{Source Sans 3} % Set the sans-serif font
+\setmonofont{Source Sans 3} % Set the monospace font
 
 \SetName{Andre Alves}
 \SetTown{Hamburg, Germany}
 \SetAddressOne{Hauptstrasse 123}
 \SetAddressTwo{20095 Hamburg}
 %\SetAddressThree{Germany}
-\SetEmail{andre@alves.me}
-%\SetGithub{andre-a-alves}
+\SetEmail{sample@email.com}
+\SetGithub{andre-a-alves}
 \SetLinkedIn{andre-a-alves}
-\SetPhone{0123 45678910}
-\SetCitizenship{United State of America}
-\SetDPOB{1985-09-02~$\cdot$~Rio de Janeiro, Brazil}
+\SetPhone{0123 4567 8901}
+\SetCitizenship{United Federation of Planets}
+%\SetDPOB{1901-01-01~$\cdot$~Paris, France}
 %\SetFamilySize{0 Children}
 %\SetMaritalStatus{Single}
-\SetHomepage{www.andre-a-alves.com}
+%\SetHomepage{www.andre-a-alves.com}
 %\SetXing{Andre\_Alves12}
-\HeaderImageSize{5.6cm}
+\HeaderImageSize{3.9cm}
 
 \begin{document}
-%\MakeCoverLetter
+%	\MakeCoverLetter
 %	{\DisplayName}
 %	{\DisplayAddressOne\\\DisplayAddressTwo\\\DisplayPhone\\\DisplayEmail}
 %	{City of Hamburg GmbH}
 %	{Rathausmarkt 1\\20095 Hamburg}
-%	{Application for Job Posting 123456}	
+%	{Application for Job Posting 123456}
 %	{Dear recruiting manager,}
 %	{\lipsum[1] \\
 %
-%		\lipsum[2] \\
+%	\lipsum[2] \\
 %
-%		\lipsum[3]\\
+%	\lipsum[3]\\
 %
-%		\lipsum[4][1-3]}
+%	\lipsum[4]\\
+%
+%	\lipsum[5][1-8]}
 %	{Sincerely yours}
 %	{./img/1000px-JohnHancocksSignature.svg.png}
 
-\DisplayHeader{Information Engineering Student}{./img/andreAlvesSquare.jpg}
+	\DisplayHeader{Information Engineering Student}{./img/andreAlvesSquare.jpg}
 %\DisplayHeader{Information Engineering Student}{}
 
-\cvsection{Education}{
-	\cventry
+	\cvsection{Education}{
+		\cventry
 		{2019 - Present}
 		{Bachelor of Science in Information Engineering}
 		{Hochschule für Angewandte Wissenschaften Hamburg \hfill GPA 0.0}
@@ -64,38 +70,38 @@
 			\item Equivalent of Computer Engineering in US universities.
 			\item Recipient of \emph{Excellence Scholarship} for high academic performance.
 		}}
-	\cventry
+		\cventry
 		{2007}
 		{Bachelor of Science in Physics}
 		{United States Naval Academy \hfill GPA 2.0}
 		{Annapolis, Maryland (USA)}
 		{}
-	\cventry
+		\cventry
 		{2003}
 		{High School Diploma}
 		{Monmouth County Academy of Allied Health and Science \hfill GPA 1.0}
 		{Neptune City, New Jersey (USA)}
 		{}
-}
+	}
 
-\cvsection{Personal Projects \faGithub}
-{
-	\cvsectionlist{
-		\cvlistitem{Sorting Visualizer}
+	\cvsection{Personal Projects}
+	{
+		\cvsectionlist{
+			\cvlistitem{Sorting Visualizer}
 			{Application that visualizes and animates various sorting algorithms, including selection, insertion, merge, heap, and quick sort algorithms. \textbf{Java}}
 			{https://github.com/andre-a-alves/SortingVisualizer}
-		\cvlistitem{LZW Compressor}
+			\cvlistitem{LZW Compressor}
 			{Application that performs LZW compression on files, but also has a feature to perform LZW at the string level to allow for visualizing the algorithm. \textbf{Java}}
 			{https://github.com/andre-a-alves/LZW-encoder}
-		\cvlistitem{Quantum Simulator}
+			\cvlistitem{Quantum Simulator}
 			{Application that simulates a quantum computer. created as a challenge for the Quantum Open Source Foundation. \textbf{Python}}
 			{https://github.com/andre-a-alves/QOSF-Mentorship-Submission-Quantum-Simulator}
+		}
 	}
-}
 
-\cvsection{Experience}
-{
-	\cventry
+	\cvsection{Experience}
+	{
+		\cventry
 		{Aug~2020 - Current}
 		{Undergraduate Research Assistant}
 		{Hochschule für Angewandte Wissenschaften Hamburg}
@@ -105,7 +111,7 @@
 			\item Developed SPICE and MATLAB models of three-phase photovoltaic power inverter.
 			\item Setup Linux server for Comsol Multiphysics simulation software and performed all sysadmin duties.
 		}}
-	\cventry
+		\cventry
 		{Oct~2019 - Jul~2020}
 		{IT Service and Support Associate}
 		{Deposit Solutions GmbH}
@@ -115,13 +121,13 @@
 			\item Developed, wrote, and improved documentation and guides for more than a half-dozen workflows.
 			\item Wrote and distributed custom Shell Script app automate printer installation for the company’s Macs.
 		}}
-	\cventry
+		\cventry
 		{Jul~2018 - Apr~2019}
 		{Entrepreneur}
 		{Monk and Dagger Brewing Company LLC}
 		{San Antonio, Texas (USA)}
 		{}
-	\cventry
+		\cventry
 		{Jan~2013 - Jul~2018}
 		{Foreign Service Officer}
 		{U.S. Department of State}
@@ -129,7 +135,7 @@
 		{\cvitemize{
 			\item Advised senior and Washington-based officials on matters related to Latin America.
 		}}
-	\cventry
+		\cventry
 		{May~2007 - Jan~2013}
 		{Communications Officer}
 		{U.S. Marine Corps}
@@ -139,36 +145,36 @@
 			\item Designed and supervised the installation, operation, and maintenance of the radio and satellite network architecture carrying all communications (data, phone, and radio) for multiple military operations, including a network responsible for all communications in the southern region of Afghanistan during active NATO combat operations.
 			\item Responsible at times for equipment worth more than \$13 million.
 		}}
-}
+	}
 
-\cvsection{Skills}
-{
-	\cvsectionlist{
-		\cvlistitem{Programming Languages}
+	\cvsection{Skills}
+	{
+		\cvsectionlist{
+			\cvlistitem{Programming Languages}
 			{Java $\cdot$ C $\cdot$ Python $\cdot$ VHDL $\cdot$ Matlab $\cdot$ Bash (Shell Script)}
 			{}
-		\cvlistitem{Operating Systems}
+			\cvlistitem{Operating Systems}
 			{Windows $\cdot$ Linux $\cdot$ MacOS}
 			{}
-		\cvlistitem{Simulation}
+			\cvlistitem{Simulation}
 			{Matlab/Simulink with Simscape $\cdot$ LTSpice}
 			{}
-		\cvlistitem{SysAdmin}
+			\cvlistitem{SysAdmin}
 			{OpenSSH $\cdot$ UFW Firewall $\cdot$ XRDP Remote Desktop Server}
 			{}
-		\cvlistitem{Other Skills}
+			\cvlistitem{Other Skills}
 			{Soldering $\cdot$ LaTeX/CircuiTikz $\cdot$ AutoDesk Eagle $\cdot$ Git $\cdot$ Jira $\cdot$ Confluence $\cdot$ Mendeley Reference Manager}
 			{}
-		\cvlistitem{Soft Skills}
+			\cvlistitem{Soft Skills}
 			{Public speaking $\cdot$ Teamwork $\cdot$ Leadership $\cdot$ Multicultural environments}
 			{}
-		\cvlistitem{Languages}
+			\cvlistitem{Languages}
 			{English (Native) $\cdot$ Portuguese (Fluent) $\cdot$ Spanish (Fluent) $\cdot$ German (Beginner)}
 			{}
+		}
 	}
-}
 
-\DisplaySignature
+	\DisplaySignature
 	{./img/1000px-JohnHancocksSignature.svg.png}
 	{Hamburg}
 

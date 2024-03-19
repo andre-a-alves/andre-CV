@@ -1,3 +1,5 @@
+# This repo is temporarily broken. Expect a fix during the last week of March 2024
+
 # andre-CV
   A LaTeX German CV and US Resume class and template.
 

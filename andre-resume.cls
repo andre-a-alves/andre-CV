@@ -15,9 +15,13 @@
   %
   % This work consists of all files listed in manifest.txt.
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{andre-cv}[2024-03-19]
+\ProvidesClass{andre-resume}[2024-02-18]
 
 \RequirePackage{etoolbox}
+
+% Declare booleans
+\newbool{FontChosen}
+\newbool{BadgeToggled}
 
 % Font Size
 \DeclareOption{10pt}{\def\ChosenFontSize{10pt}}
@@ -27,16 +31,93 @@
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{article}}
 \ExecuteOptions{11pt}
 \ProcessOptions
-\PassOptionsToClass{\ChosenFontSize}{andre-cv-base}
+\PassOptionsToClass{\ChosenFontSize}{article}
 \relax
-\LoadClass{andre-cv-base}
+\LoadClass{article}
 
-\RequirePackage[a4paper, vmargin=16.9mm, hmargin=24.1mm]{geometry}
+\RequirePackage[utf8]{inputenc} % for direct use of special characters.
+\RequirePackage[T1]{fontenc}    % better font encoding
+\RequirePackage[english]{babel} % standard language: British English
+\RequirePackage{fontspec}
 
+
+\RequirePackage{ifthen}
+
+\RequirePackage[letterpaper, margin=0.75in]{geometry}
+\RequirePackage[en-US, useregional]{datetime2}
+\RequirePackage{hyperref}
+\hypersetup{
+    colorlinks=true,  % activate colours
+    linkcolor=black,  % for internal links use black
+    citecolor=black,  % for citations to reference list use black
+    urlcolor=black    % for external links use black
+}
+
+\RequirePackage{tabularx}
+\RequirePackage{graphicx}
+
+\RequirePackage{enumitem}
+\RequirePackage{lipsum}
+
+\RequirePackage[totpages,lastpage,user]{zref}
+
+\RequirePackage{fontawesome}
 \setlength{\parindent}{0pt}
+
+\RequirePackage{calc}
+\RequirePackage{multirow}
 \RequirePackage{wrapfig}
 
-\DTMsetdatestyle{iso}
+\DTMsetstyle{en-US}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Fonts
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\RequirePackage{moresize}   % more font size definitions
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Parameter Declaration Commands
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\FooterGrayColor}[1]{\color{gray} #1}
+\newcommand*{\SetName}[1]{\def\DisplayName{#1}}
+\newcommand*{\SetAddressOne}[1]{\def\DisplayAddressOne{#1}}
+\newcommand*{\SetAddressTwo}[1]{\def\DisplayAddressTwo{#1}}
+\newcommand*{\SetAddressThree}[1]{\def\DisplayAddressThree{#1}}
+\newcommand*{\SetDPOB}[1]{\def\DisplayDPOB{#1}}
+\newcommand*{\SetTown}[1]{\def\DisplayTown{#1}}
+\newcommand*{\SetEmail}[1]{\def\DisplayEmail{\href{mailto:#1}{#1}}}
+\newcommand*{\SetCitizenship}[1]{\def\DisplayCitizenship{#1}}
+\newcommand*{\SetMaritalStatus}[1]{\def\DisplayMaritalStatus{#1}}
+\newcommand*{\SetFamilySize}[1]{\def\DisplayFamilySize{#1}}
+\newcommand*{\SetGithub}[1]
+	{\def\DisplayGithubIcon{\faGithub\href{https://github.com/#1}{~#1}}
+	\def\DisplayGithub{\href{https://github.com/#1}{~#1}}}
+\newcommand*{\SetLinkedIn}[1]
+	{\def\DisplayLinkedInIcon{\faLinkedin\href{https://linkedin.com/in/#1}{~#1}}
+	\def\DisplayLinkedIn{\href{https://linkedin.com/in/#1}{~#1}}}
+\newcommand*{\SetXing}[1]
+	{\def\DisplayXingIcon{\faXing\href{https://www.xing.com/profile/#1}{~#1}}
+	\def\DisplayXing{\href{https://www.xing.com/profile/#1}{~#1}}}
+\newcommand*{\SetHomepage}[1]
+	{\def\DisplayHomepageIcon{\faLaptop\href{https://#1}{~#1}}
+	\def\DisplayHomepage{\href{https://#1}{~#1}}}
+\newcommand*{\SetPhone}[1]{\def\DisplayPhone{#1}}
+\newcommand*{\MakeHeader}[3]
+	{\def\InsertHeader
+		{\HUGE \textsc{#1}\\
+		\small #2 \\
+		#3}
+	}
+\newcommand*{\SetBadge}[2]
+  	{\booltrue{BadgeToggled}
+	\def\InsertBadge{\includegraphics[scale=#1]{#2}}
+	}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -45,6 +126,7 @@
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \RequirePackage{fancyhdr}       % necessary for "fancy headers" specificied later
+\RequirePackage{tikz}			% for placing an icon in the corner of the page
 \pagestyle{fancy}
 \fancyhf{}
 \setlength{\headheight}{50pt}	
@@ -57,8 +139,10 @@
 	\fi
 }
 \fancypagestyle{letter}{\fancyhf{}}
-\rhead{\large \textbf{\textsc{\DisplayName}}}
-\geometry{vmargin=16.9mm, hmargin=24.1mm, footskip=0.6cm}
+\chead{\InsertHeader}
+\rhead{\ifbool{BadgeToggled}{\InsertBadge}}
+\lfoot{\FooterGrayColor\today}
+\geometry{includehead, headsep=0.2in, footskip=0.25in}
 \fancypagestyle{noheader}{\fancyhead{}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -85,39 +169,30 @@
 % Letter Production Commands
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \newcommand{\MakeCoverLetter}[9]{
 	\thispagestyle{letter}
-	\newgeometry{top=2cm, right=2cm, left=2.5cm, bottom=2cm}
-	\begin{flushright}
-	{\Large \textsc{#1}}\\
+	\newgeometry{margin=0.75in}
+	{\Large {\fontseries{m}\selectfont \textsc{#1}}}\\
 	#2\\
-	\end{flushright}
 
-	\vspace{2\baselineskip} % skip three lines
-
+	\today\\
+	
 	\textsc{#3}\\
-	#4\\[\baselineskip] % skip three lines
+	#4\\
 
-	\begin{flushright}
-		\today
-	\end{flushright}
+	\textbf{#5}\\
 
-	\vspace{\baselineskip} % skip two lines
+	#6\\
 
-	\textbf{#5}\\[\baselineskip] % skip two lines
+	#7\\
 
-	#6\\ % greeting
-
-	#7\\ % body
-
-	#8,\\ % salutation
-
-	% Signature if included
+	#8,\\
 	\ifthenelse{\equal{#9}{}}
 		{\\[3\baselineskip]}
 		{\includegraphics[height=3\baselineskip]{#9}\\}
-	#1 % name
-	\newpage
+	#1
+	\restoregeometry
 	\setcounter{page}{1}
 }
 
@@ -132,57 +207,11 @@
 \newcommand{\ChangePictureWidth}[1]{\renewcommand{\picturewidth}{#1}}
 \newcommand{\HeaderImageSize}[1]{\renewcommand{\picturewidth}{#1}}
 
-\newcommand*{\DisplayHeader}[2]{
-	\thispagestyle{noheader}
-	\ifthenelse{\equal{}{#2}}
-		{
-			\ChangePictureWidth{0mm}
-		}
-		{
-			\begin{wrapfigure}{r}{\picturewidth}
-			\vspace{-1.5em}
-			\raggedleft
-			\includegraphics[height=\picturewidth, width=\picturewidth]{#2}
-			\end{wrapfigure}
-		}
-	\begin{minipage}[t]{\textwidth-\picturewidth}
-	{\HUGE \textsc{\DisplayName}}\\
-	\vspace{4mm}{\Large \color{gray} \textbf{#1}}
-
-	\cvsection{Personal Details}
-	{\cvpara{
-		\IncludeCVHeaderTable
-	 	\vspace{3mm}}
-	}
-	\end{minipage}
-}
 \newcommand{\zerospace}{~\kern -0.2 pc}
-\newcommand{\IncludeCVHeaderTable}{
-	\begin{tabular}{c l c l}
-		\ifthenelse{\isundefined{\DisplayTown}}
-			{\zerospace}
-			{\faMapMarker & \DisplayTown &}
-		\ifthenelse{\isundefined{\DisplayCitizenship}}
-			{\zerospace}
-			{\hspace{2.5em}\faHome & \DisplayCitizenship \\}
-		\ifthenelse{\isundefined{\DisplayPhone}}
-			{\zerospace}
-			{\faMobile & \DisplayPhone &}
-		\ifthenelse{\isundefined{\DisplayGithub}}
-			{\zerospace}
-			{\hspace{2.5em}\faGithub & \DisplayGithub \\}
-		\ifthenelse{\isundefined{\DisplayEmail}}
-			{\zerospace}
-			{\faEnvelope & \DisplayEmail &}
-		\ifthenelse{\isundefined{\DisplayLinkedIn}}
-			{\zerospace}
-			{\hspace{2.5em}\faLinkedin & \DisplayLinkedIn \\}
-	\end{tabular}
-}
 
 \newcommand*{\cvsection}[2]{
 	\vspace{2mm}
-	{\large \color{accentColor} \textbf{#1}}
+	{\Large \color{accentColor} \textbf{#1}}
 	{\textcolor{light_gray}\hrulefill}
 	\vspace{-2mm}
 	\begin{cventries}
@@ -195,12 +224,11 @@
 	\vspace{4mm}
 	\setlength\tabcolsep{0pt}
 	\setlength{\extrarowheight}{0pt}
-	\begin{tabularx}{\textwidth}{ l X }
-	\multirow[t]{2}{\tabularColumnWidth}{{#1}~\hspace{3mm}} & {\textbf{#2}} \hfill {\small #4}\\
-	& \textsc{#3} \\
-	& #5
+	\begin{tabularx}{\textwidth}{X r}
+		\large{\textbf{#2}} & \color{accentColor}#1 \\
+		\textsc{#3} & {\small #4}
 	\end{tabularx}
-	\vspace{-4mm}
+	#5
 	\end{minipage}
 }
 
@@ -218,11 +246,11 @@
 	\vspace{1.5mm}
 	\setlength\tabcolsep{0pt}
 	\setlength{\extrarowheight}{0pt}
-	\begin{tabularx}{\textwidth}{p{\tabularColumnWidth} X}
-		\raggedright \ifthenelse{\equal{#3}{}}
+	\begin{tabularx}{\textwidth}{l l X}
+		\ifthenelse{\equal{#3}{}}
 			{\textbf{#1}}
 			{\href{#3}{\textbf{#1}}}
-			& #2 \\
+			& \hspace{0.3cm} & #2 \\
 	\end{tabularx}\\
 }
 
