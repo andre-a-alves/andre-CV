@@ -1,4 +1,4 @@
-  %% andre-cv.cls
+  %% andre-resume.cls
   %% Copyright 2024 Andre A Alves
   %
   % This work may be distributed and/or modified under the

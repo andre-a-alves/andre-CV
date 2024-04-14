@@ -16,6 +16,11 @@
 % This work consists of all files listed in manifest.txt.
 \documentclass[10pt]{andre-cv}
 
+\usepackage[backend=biber,  style=chicago-authordate]{biblatex}
+\addbibresource{sample-papers.bib}
+\nocite{duality}
+\nocite{methods}
+
 \setmainfont{Source Sans 3}
 \setsansfont{Source Sans 3} % Set the sans-serif font
 \setmonofont{Source Sans 3} % Set the monospace font
@@ -40,10 +45,12 @@
 \begin{document}
 %	\MakeCoverLetter
 %	{\DisplayName}
-%	{\DisplayAddressOne\\\DisplayAddressTwo\\\DisplayPhone\\\DisplayEmail}
-%	{City of Hamburg GmbH}
-%	{Rathausmarkt 1\\20095 Hamburg}
-%	{Application for Job Posting 123456}
+%	{\DisplayAddressOne\\\DisplayAddressTwo\\\DisplayAddressThree\\\DisplayPhone\\\DisplayEmail}
+%	{Global Institute of Archaeology}
+%	{123 Explorer's Way\\
+%	Heritage City, HC 45678\\
+%	USA}
+%	{Application for Professor of Archaeology and Director of Ancient Studies}
 %	{Dear recruiting manager,}
 %	{\lipsum[1] \\
 %
@@ -53,12 +60,11 @@
 %
 %	\lipsum[4]\\
 %
-%	\lipsum[5][1-8]}
+%	\lipsum[5][1-2]}
 %	{Sincerely yours}
 %	{./img/DALLE-indy-sig.png}
 
 	\DisplayHeader{Archaeologist}{./img/DALLE_adventurer.png}
-%\DisplayHeader{Information Engineering Student}{}
 
 	\cvsection{Experience}
 	{
@@ -106,45 +112,22 @@
 		}}
 	}
 
-	\cvsection{Personal Projects}
+	\cvsection{Professional Affiliations}
 	{
 		\cvsectionlist{
-			\cvlistitem{Sorting Visualizer}
-			{Application that visualizes and animates various sorting algorithms, including selection, insertion, merge, heap, and quick sort algorithms. \textbf{Java}}
-			{https://github.com/andre-a-alves/SortingVisualizer}
-			\cvlistitem{LZW Compressor}
-			{Application that performs LZW compression on files, but also has a feature to perform LZW at the string level to allow for visualizing the algorithm. \textbf{Java}}
-			{https://github.com/andre-a-alves/LZW-encoder}
-			\cvlistitem{Quantum Simulator}
-			{Application that simulates a quantum computer. created as a challenge for the Quantum Open Source Foundation. \textbf{Python}}
-			{https://github.com/andre-a-alves/QOSF-Mentorship-Submission-Quantum-Simulator}
+			\cvlistitem{Member}
+			{American Society of Archaeologists}
+			{}
+			\cvlistitem{Founding Member}
+			{International Council of Ancient Monument Preservation}
+			{}
 		}
 	}
 
-	\cvsection{Skills}
+	\cvsection{Relevant Publications}
 	{
 		\cvsectionlist{
-			\cvlistitem{Programming Languages}
-			{Java $\cdot$ C $\cdot$ Python $\cdot$ VHDL $\cdot$ Matlab $\cdot$ Bash (Shell Script)}
-			{}
-			\cvlistitem{Operating Systems}
-			{Windows $\cdot$ Linux $\cdot$ MacOS}
-			{}
-			\cvlistitem{Simulation}
-			{Matlab/Simulink with Simscape $\cdot$ LTSpice}
-			{}
-			\cvlistitem{SysAdmin}
-			{OpenSSH $\cdot$ UFW Firewall $\cdot$ XRDP Remote Desktop Server}
-			{}
-			\cvlistitem{Other Skills}
-			{Soldering $\cdot$ LaTeX/CircuiTikz $\cdot$ AutoDesk Eagle $\cdot$ Git $\cdot$ Jira $\cdot$ Confluence $\cdot$ Mendeley Reference Manager}
-			{}
-			\cvlistitem{Soft Skills}
-			{Public speaking $\cdot$ Teamwork $\cdot$ Leadership $\cdot$ Multicultural environments}
-			{}
-			\cvlistitem{Languages}
-			{English (Native) $\cdot$ Portuguese (Fluent) $\cdot$ Spanish (Fluent) $\cdot$ German (Beginner)}
-			{}
+			\printbibliography[heading=none]
 		}
 	}
 
