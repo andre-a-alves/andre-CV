@@ -143,7 +143,7 @@
     \directlua{
         personalDetails[personalDetailsIndex] = {
             value = "\\DisplayHomepage",
-            icon = "\\\faLaptop",
+            icon = "\\faLaptop",
         }
         personalDetailsIndex = personalDetailsIndex + 1
     }
