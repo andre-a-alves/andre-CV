@@ -154,14 +154,14 @@
 \newcommand{\tabularColumnWidth}{2.4cm}
 \newcommand{\ResizeTabular}[1]{\renewcommand{\tabularColumnWidth}{#1}}
 \newcommand{\picturewidth}{6cm}
-\newcommand{\ChangePictureWidth}[1]{\renewcommand{\picturewidth}{#1}}
+\newcommand{\ZeroPictureWidth}{\renewcommand{\picturewidth}{0mm}}
 \newcommand{\HeaderImageSize}[1]{\renewcommand{\picturewidth}{#1}}
 
 \newcommand*{\DisplayHeader}[2]{
 	\thispagestyle{noheader}
 	\ifthenelse{\equal{}{#2}}
 		{
-			\ChangePictureWidth{0mm}
+			\ZeroPictureWidth
 		}
 		{
 			\begin{wrapfigure}{r}{\picturewidth}
