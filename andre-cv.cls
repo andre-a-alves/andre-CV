@@ -62,6 +62,18 @@
 
 		tex.sprint("\\end{tabular}")
 	end
+
+	function getPictureWidthFromArray(arr)
+		if setPictureWidth == 0 then
+			return 3 + math.ceil(#arr / 2) * 0.3
+		else
+			return setPictureWidth
+		end
+	end
+
+	function setSetPictureWidth(value)
+		setPictureWidth = value
+	end
 \end{luacode}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -153,11 +165,15 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newcommand{\tabularColumnWidth}{2.4cm}
 \newcommand{\ResizeTabular}[1]{\renewcommand{\tabularColumnWidth}{#1}}
-\newcommand{\picturewidth}{6cm}
+\newcommand{\picturewidth}{}
 \newcommand{\ZeroPictureWidth}{\renewcommand{\picturewidth}{0mm}}
-\newcommand{\HeaderImageSize}[1]{\renewcommand{\picturewidth}{#1}}
+\newcommand{\HeaderImageSizeCm}[1]{\directlua{setSetPictureWidth(#1)}}
 
 \newcommand*{\DisplayHeader}[2]{
+	\directlua{
+		local pictureWidth = getPictureWidthFromArray(personalDetails)
+		tex.sprint("\\renewcommand{\\picturewidth}{" .. pictureWidth .. "cm}")
+	}
 	\thispagestyle{noheader}
 	\ifthenelse{\equal{}{#2}}
 		{
