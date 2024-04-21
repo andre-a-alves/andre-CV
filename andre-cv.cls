@@ -38,6 +38,31 @@
 
 \DTMsetdatestyle{iso}
 
+\begin{luacode}
+	function printTwoColumnTableFromArray(arr)
+		function printLineWithTwoItems(index, middleIndex)
+			tex.sprint(arr[index]["icon"] .. "&" .. arr[index]["value"] .. "& \\hspace{2.5em}" .. arr[middleIndex + index]["icon"] .. "&" .. arr[middleIndex + index]["value"] .. "\\\\" )
+		end
+
+		local length = #arr
+		local middle = math.ceil(length / 2)
+		local i = 1
+
+		tex.sprint("\\begin{tabular}{c l c l}")
+
+		while i < middle do
+			printLineWithTwoItems(i, middle)
+			i = i + 1
+		end
+		if length % 2 == 1 then
+			tex.sprint(arr[i]["icon"] .. "&" .. arr[i]["value"] .. "\\\\" )
+		else
+			printLineWithTwoItems(i, middle)
+		end
+
+		tex.sprint("\\end{tabular}")
+	end
+\end{luacode}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
@@ -123,7 +148,7 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-% CV/Resume Production Commands
+% CV Production Commands
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newcommand{\tabularColumnWidth}{2.4cm}
@@ -158,26 +183,9 @@
 }
 \newcommand{\zerospace}{~\kern -0.2 pc}
 \newcommand{\IncludeCVHeaderTable}{
-	\begin{tabular}{c l c l}
-		\ifthenelse{\isundefined{\DisplayTown}}
-			{\zerospace}
-			{\faMapMarker & \DisplayTown &}
-		\ifthenelse{\isundefined{\DisplayCitizenship}}
-			{\zerospace}
-			{\hspace{2.5em}\faHome & \DisplayCitizenship \\}
-		\ifthenelse{\isundefined{\DisplayPhone}}
-			{\zerospace}
-			{\faMobile & \DisplayPhone &}
-		\ifthenelse{\isundefined{\DisplayGithub}}
-			{\zerospace}
-			{\hspace{2.5em}\faGithub & \DisplayGithub \\}
-		\ifthenelse{\isundefined{\DisplayEmail}}
-			{\zerospace}
-			{\faEnvelope & \DisplayEmail &}
-		\ifthenelse{\isundefined{\DisplayLinkedIn}}
-			{\zerospace}
-			{\hspace{2.5em}\faLinkedin & \DisplayLinkedIn \\}
-	\end{tabular}
+	\directlua{
+			printTwoColumnTableFromArray(personalDetails)
+	}
 }
 
 \newcommand*{\cvsection}[2]{

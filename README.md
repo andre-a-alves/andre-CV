@@ -1,4 +1,5 @@
-# This repo is temporarily broken. Expect a fix during the last week of March 2024
+# Warning: The instructions/wiki are out of date
+# Warning: andre-cv (German CV) works. andre-resume (US) is temporarily broken
 
 # andre-CV
   A LaTeX German CV and US Resume class and template.
