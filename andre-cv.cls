@@ -181,7 +181,6 @@
 	}
 	\end{minipage}
 }
-\newcommand{\zerospace}{~\kern -0.2 pc}
 \newcommand{\IncludeCVHeaderTable}{
 	\directlua{
 			printTwoColumnTableFromArray(personalDetails)
