@@ -1,4 +1,7 @@
 andre-cv.cls
+andre-cv-base.cls
+andre-resume.cls
 sample-CV.tex
+sample-papers.bib
 sample-resume.tex
 README.md
