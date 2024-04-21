@@ -56,6 +56,7 @@
 \begin{luacode}
     personalDetails = {}
     personalDetailsIndex = 1
+    setPictureWidth = 0
 \end{luacode}
 
 \newcommand{\FooterGrayColor}[1]{\color{gray} #1}
@@ -142,7 +143,7 @@
     \directlua{
         personalDetails[personalDetailsIndex] = {
             value = "\\DisplayHomepage",
-            icon = "\\\faLaptop",
+            icon = "\\faLaptop",
         }
         personalDetailsIndex = personalDetailsIndex + 1
     }
