@@ -16,7 +16,7 @@
 
   This project represents what I came up with to solve my own resume/CV requirements, and I hope others can take advantage of it for the same purpose.
 
-  The German cover letter roughly adheres to the DIN 5008 guidelines when compiled using 11 point Source Code Sans font.
+  The German cover letter adheres to the DIN 5008 guidelines.
 
 ## Beta Release
   As this project is still in beta, there is no intention to make future release backwards compatible.
@@ -36,21 +36,13 @@
 
 ## Plans
   The following updates are currently planned for the project:
-  * Make a sample CV and Resume for a dummy person instead of using one based on myself.
-  * Support for a Europass-inspired CV style.
-  * Support for a German CV style that does not require a photo.
   * Support for a two-column resume style.
   * Lower-level TeX class definitions.
   * Additional language support.
-  * Additional optional website link support.
-  * BibTeX-based publication support.
   * Simplified LaTeX-based syntax for document creation, including
     * Use of `\section{}` for CV/resume sections.
     * Eliminating the need for a `\cvpara{}` environment.
     * Use of an environment for making cover letters.
-    * Supporting both Form A and Form B German cover letters.
-    * Formatting cover letters with precise locations based on DIN 5008.
-    * Multiple date formats.
 
 ## Requests/Recommendations
   If you have feature requests or project recommendations, please feel free to reach out and ask.
