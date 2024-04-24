@@ -17,12 +17,10 @@
 \relax
 \LoadClass{article}
 
-%\RequirePackage[utf8]{inputenc} % for direct use of special characters.
 \RequirePackage[T1]{fontenc}    % better font encoding
 \RequirePackage[english]{babel} % standard language: British English
 \RequirePackage{fontspec}
 \RequirePackage{ifthen}
-\RequirePackage{datetime2}
 \RequirePackage{hyperref}
 \hypersetup{
     colorlinks=true,  % activate colours
@@ -38,6 +36,7 @@
 \RequirePackage{fontawesome}
 \RequirePackage{calc}
 \RequirePackage{multirow}
+\RequirePackage{wrapfig}
 \RequirePackage{luacode} % for use of Lua code
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -148,3 +147,69 @@
         personalDetailsIndex = personalDetailsIndex + 1
     }
 }
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Headers and Footers
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\RequirePackage{fancyhdr}       % necessary for "fancy headers" specificied later
+\fancyhf{}
+\setlength{\headheight}{50pt}
+\rfoot{
+    \ifnum\ztotpages>1{
+        \FooterGrayColor{\thepage\ of \zpageref{LastPage}}
+    }
+    \else {}
+    \fi
+}
+\renewcommand{\headrulewidth}{0pt}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Color-Related
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\RequirePackage{xcolor}		% define colors
+% Color names and codes obtained from https://coolors.co/
+\definecolor{UltramarineBlue}{HTML}{2E5EFF}
+\definecolor{YellowGreen}{HTML}{36AB00}
+\definecolor{Fuchsia}{HTML}{F500E4}
+\definecolor{Tangerine}{HTML}{F58B00}
+\definecolor{ElectricViolet}{HTML}{8B00F5}
+\definecolor{Coquelicot}{HTML}{F53900}
+\definecolor{Rose}{HTML}{FF0F80}
+\definecolor{gray}{HTML}{999999}
+\definecolor{light_gray}{RGB}{185,185,185}
+\colorlet{accentColor}{UltramarineBlue}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% CV/Resume Production Commands
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand*{\cvsection}[2]{
+\vspace{2mm}
+{\Large \color{accentColor} \textbf{#1}}
+{\textcolor{light_gray}\hrulefill}
+\vspace{-2mm}
+\begin{cventries}
+#2
+\end{cventries}
+}
+
+\newcommand*{\cvitemize}[1]{
+\vspace{-2.0mm}
+\begin{itemize}[noitemsep,topsep=0pt,parsep=1pt,partopsep=0pt, leftmargin=*]
+#1
+\end{itemize}
+}
+
+\newenvironment{cventries}
+{\vspace{-1mm}\begin{flushleft}}
+{\end{flushleft}}
+
+\newcommand*{\cvpara}[1]{\vspace{3mm}#1}
+\newcommand*{\cvsectionlist}[1]{\vspace{1.5mm}#1}

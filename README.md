@@ -1,5 +1,4 @@
 # Warning: The instructions/wiki are out of date
-# Warning: andre-cv (German CV) works. andre-resume (US) is temporarily broken
 
 # andre-CV
   A LaTeX German CV and US Resume class and template.

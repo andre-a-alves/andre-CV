@@ -1,5 +1,5 @@
   %% sample-resume.tex
-  %% Copyright 2021 A. A. Alves
+  %% Copyright 2021-2024 A. A. Alves
   %
   % This work may be distributed and/or modified under the
   % conditions of the LaTeX Project Public License, either version 1.3
@@ -14,26 +14,29 @@
   % The Current Maintainer of this work is A. A. Alves.
   %
   % This work consists of all files listed in manifest.txt.
-\documentclass[11pt]{andre-resume}
+\documentclass[10pt]{andre-resume}
+
+\usepackage[backend=biber,  style=chicago-authordate]{biblatex}
+\addbibresource{sample-papers.bib}
+\nocite{duality}
+\nocite{methods}
 
 \setmainfont{Source Sans 3} % Set the main (serif) font
 \setsansfont{Source Sans 3} % Set the sans-serif font
 \setmonofont{Source Sans 3} % Set the monospace font
 
-\SetName{Andre Alves}
-\SetTown{Hamburg, Germany}
-\SetAddressOne{123 Main Street}
-\SetAddressTwo{Anytown, FL}
-\SetEmail{andre@alves.me}
-\SetGithub{andre-a-alves}
-\SetLinkedIn{andre-a-alves}
-\SetPhone{123-456-7890}
-\SetCitizenship{United State of America}
-\SetDPOB{1985-09-02~$\cdot$~Rio de Janeiro, Brazil}
+\SetName{Dr. Henry Jones, Jr.}
+\SetAddressOne{123 Artifact Lane}
+\SetAddressTwo{Marshall College, Bedford, Connecticut}
+\SetPhone{203 555 0198}
+\SetEmail{indyjones@marshall.edu}
+\SetLinkedIn{indy-jones}
+\SetTown{Bedford, Connecticut}
+
 \MakeHeader
 	{\DisplayName}
+	{\DisplayTown}
 	{\DisplayEmail~$\cdot$~\DisplayPhone}
-	{\DisplayTown \hspace*{3mm} \color{accentColor} \DisplayGithubIcon \bigskip \hspace*{3mm} \DisplayLinkedInIcon}
 
 \begin{document}
 \MakeCoverLetter
@@ -51,113 +54,70 @@
 
 		\lipsum[4][1-3]}
 	{Sincerely yours}
-	{./img/1000px-JohnHancocksSignature.svg.png}
-
-\cvsection{Education}{
-	\cventry
-		{2019 - Present}
-		{Bachelor of Science in Information Engineering}
-		{Hamburg University of Applied Sciences~$\cdot$~GPA 0.0}
-		{Hamburg, Germany}
-		{\cvitemize{
-			\item Equivalent of Computer Engineering in US universities.
-			\item Recipient of \emph{Excellence Scholarship} for high academic performance.
-		}}
-	\cventry
-		{2007}
-		{Bachelor of Science in Physics}
-		{United States Naval Academy~$\cdot$~GPA 2.0}
-		{Annapolis, Maryland}
-		{}
-}
-
-\cvsection{Personal Projects \faGithub}
-{
-	\cvsectionlist{
-		\cvlistitem{Sorting Visualizer}
-			{Application that visualizes and animates various sorting algorithms, including selection, insertion, merge, heap, and quick sort algorithms. \textbf{Java}}
-			{https://github.com/andre-a-alves/SortingVisualizer}
-		\cvlistitem{LZW Compressor}
-			{Application that performs LZW compression on files, but also has a feature to perform LZW at the string level to allow for visualizing the algorithm. \textbf{Java}}
-			{https://github.com/andre-a-alves/LZW-encoder}
-		\cvlistitem{Quantum Simulator}
-			{Application that simulates a quantum computer. created as a challenge for the Quantum Open Source Foundation. \textbf{Python}}
-			{https://github.com/andre-a-alves/QOSF-Mentorship-Submission-Quantum-Simulator}
-	}
-}
+	{./img/DALLE-indy-sig.png}
 
 \cvsection{Experience}
 {
 	\cventry
-		{Aug~2020 - Current}
-		{Undergraduate Research Assistant}
-		{Hamburg University of Applied Sciences}
-		{Hamburg}
-		{\cvitemize{
-			\item Performed a literature review of photovoltaic system power inverter physics-of-failure modeling.
-			\item Developed SPICE and MATLAB models of three-phase photovoltaic power inverter.
-			\item Setup Linux server for Comsol Multiphysics simulation software and performed all sysadmin duties.
-		}}
+	{1936 - Present}
+	{Professor of Archaeology}
+	{Marshall College}
+	{Bedford, Connecticut}
+	{\cvitemize{
+		\item Lectures on theories of archaeology, methods of excavation, and history of ancient civilizations.
+		\item Supervises graduate students in their fieldwork and thesis preparation.
+		\item Conducts and publishes research on various archaeological finds and their implications on historical knowledge.
+		\item Organizes and leads summer archaeological expeditions for students and researchers.
+	}}
 	\cventry
-		{Oct~2019 - Jul~2020}
-		{IT Service and Support Associate}
-		{Deposit Solutions GmbH}
-		{Hamburg}
-		{\cvitemize{
-			\item Developed and implemented management solutions and workflows for a fleet of more than 50 MacBooks.
-			\item Developed, wrote, and improved documentation and guides for more than a half-dozen workflows.
-			\item Wrote and distributed custom Shell Script app automate printer installation for the company’s Macs.
-		}}
-	\cventry
-		{Jul~2018 - Apr~2019}
-		{Entrepreneur}
-		{Monk and Dagger Brewing Company LLC}
-		{San Antonio, Texas (USA)}
-		{}
-	\cventry
-		{Jan~2013 - Jul~2018}
-		{Foreign Service Officer}
-		{U.S. Department of State}
-		{Caracas, Venezuela $\cdot$ Washington, D.C. (USA)}
-		{\cvitemize{
-			\item Advised senior and Washington-based officials on matters related to Latin America.
-		}}
-	\cventry
-		{May~2007 - Jan~2013}
-		{Communications Officer}
-		{U.S. Marine Corps}
-		{USA $\cdot$ Afghanistan}
-		{\cvitemize{
-			\item Led and managed organizations of Marines ranging in size from 55 to more than 100 individuals, including a unit geographically dispersed across an entire continent.
-			\item Designed and supervised the installation, operation, and maintenance of the radio and satellite network architecture carrying all communications (data, phone, and radio) for multiple military operations, including a network responsible for all communications in the southern region of Afghanistan during active NATO combat operations.
-			\item Responsible at times for equipment worth more than \$13 million.
-		}}
+	{1920 - Present}
+	{Archaeologist and Explorer}
+	{Freelance}
+	{Global}
+	{\cvitemize{
+		\item Conducted numerous archaeological expeditions around the world, including in South America, Asia, Africa, and Europe.
+		\item Recovered and preserved iconic artifacts such as the Ark of the Covenant and the Holy Grail.
+		\item Collaborated with museums worldwide to ensure safe and ethical display of artifacts.
+		\item Navigated complex political and environmental terrains to access and excavate sites.
+	}}
 }
 
-\cvsection{Skills}
+\cvsection{Education}{
+	\cventry
+	{1922}
+	{Ph.D. in Archaeology}
+	{University of Chicago}
+	{Chicago, Illinois}
+	{\cvitemize{
+		\item Dissertation on \emph{The Influence of Ritualistic Symbolism in Ancient Mayan Artifacts.}.
+		\item Conducted extensive field research in Central America as part of doctoral studies.
+	}}
+	\cventry
+	{1916}
+	{Bachelor of Arts in European History}
+	{Princeton University}
+	{Princeton, New Jersey}
+	{\cvitemize{
+		\item Graduated with honors, focusing on ancient European civilizations and their languages.
+	}}
+}
+
+\cvsection{Professional Affiliations}
 {
 	\cvsectionlist{
-		\cvlistitem{Programming Languages}
-			{Java $\cdot$ C $\cdot$ Python $\cdot$ VHDL $\cdot$ Matlab $\cdot$ Bash (Shell Script)}
-			{}
-		\cvlistitem{Operating Systems}
-			{Windows $\cdot$ Linux $\cdot$ MacOS}
-			{}
-		\cvlistitem{Simulation}
-			{Matlab/Simulink with Simscape $\cdot$ LTSpice}
-			{}
-		\cvlistitem{SysAdmin}
-			{OpenSSH $\cdot$ UFW Firewall $\cdot$ XRDP Remote Desktop Server}
-			{}
-		\cvlistitem{Other Skills}
-			{Soldering $\cdot$ LaTeX/CircuiTikz $\cdot$ AutoDesk Eagle $\cdot$ Git $\cdot$ Jira $\cdot$ Confluence $\cdot$ Mendeley Reference Manager}
-			{}
-		\cvlistitem{Soft Skills}
-			{Public speaking $\cdot$ Teamwork $\cdot$ Leadership $\cdot$ Multicultural environments}
-			{}
-		\cvlistitem{Languages}
-			{English (Native) $\cdot$ Portuguese (Fluent) $\cdot$ Spanish (Fluent) $\cdot$ German (Beginner)}
-			{}
+		\cvlistitem{Member}
+		{American Society of Archaeologists}
+		{}
+		\cvlistitem{Founding Member}
+		{International Council of Ancient Monument Preservation}
+		{}
+	}
+}
+
+\cvsection{Relevant Publications}
+{
+	\cvsectionlist{
+		\printbibliography[heading=none]
 	}
 }
 

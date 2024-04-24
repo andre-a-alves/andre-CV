@@ -25,16 +25,16 @@
 \DeclareOption{12pt}{\def\ChosenFontSize{12pt}}
 
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{article}}
-\ExecuteOptions{11pt}
+\ExecuteOptions{10pt}
 \ProcessOptions
 \PassOptionsToClass{\ChosenFontSize}{andre-cv-base}
 \relax
 \LoadClass{andre-cv-base}
 
+\RequirePackage{datetime2}
 \RequirePackage[a4paper, vmargin=16.9mm, hmargin=24.1mm]{geometry}
 
 \setlength{\parindent}{0pt}
-\RequirePackage{wrapfig}
 
 \DTMsetdatestyle{iso}
 
@@ -81,41 +81,11 @@
 % Headers and Footers
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\RequirePackage{fancyhdr}       % necessary for "fancy headers" specificied later
 \pagestyle{fancy}
-\fancyhf{}
-\setlength{\headheight}{50pt}	
-\renewcommand{\headrulewidth}{0pt} 
-\rfoot{
-	\ifnum\ztotpages>1
-		{\FooterGrayColor
-	{\thepage\ of \zpageref{LastPage}}}
-	\else {}
-	\fi
-}
 \fancypagestyle{letter}{\fancyhf{}}
 \rhead{\large \textbf{\textsc{\DisplayName}}}
 \geometry{vmargin=16.9mm, hmargin=24.1mm, footskip=0.6cm}
 \fancypagestyle{noheader}{\fancyhead{}}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-% Color-Related
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\RequirePackage{xcolor}		% define colors
-% Color names and codes obtained from https://coolors.co/
-\definecolor{UltramarineBlue}{HTML}{2E5EFF}
-\definecolor{YellowGreen}{HTML}{36AB00}
-\definecolor{Fuchsia}{HTML}{F500E4}
-\definecolor{Tangerine}{HTML}{F58B00}
-\definecolor{ElectricViolet}{HTML}{8B00F5}
-\definecolor{Coquelicot}{HTML}{F53900}
-\definecolor{Rose}{HTML}{FF0F80}
-\definecolor{gray}{HTML}{999999}
-\definecolor{light_gray}{RGB}{185,185,185}
-\colorlet{accentColor}{UltramarineBlue}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
@@ -203,16 +173,6 @@
 	}
 }
 
-\newcommand*{\cvsection}[2]{
-	\vspace{2mm}
-	{\large \color{accentColor} \textbf{#1}}
-	{\textcolor{light_gray}\hrulefill}
-	\vspace{-2mm}
-	\begin{cventries}
-	#2	
-	\end{cventries}
-}
-
 \newcommand*{\cventry}[5]{
 	\begin{minipage}{\textwidth}
 	\vspace{4mm}
@@ -227,16 +187,6 @@
 	\end{minipage}
 }
 
-\newcommand*{\cvitemize}[1]{
-	\vspace{-2.0mm}
-	\begin{itemize}[noitemsep,topsep=0pt,parsep=1pt,partopsep=0pt, leftmargin=*]
-		#1
-	\end{itemize}
-}
-\newenvironment{cventries}
-	{\vspace{-1mm}\begin{flushleft}}
-	{\end{flushleft}}
-
 \newcommand*{\cvlistitem}[3]{
 	\vspace{1.5mm}
 	\setlength\tabcolsep{0pt}
@@ -247,23 +197,6 @@
 			{\href{#3}{\textbf{#1}}}
 			& #2 \\
 	\end{tabularx}\\
-}
-
-\newcommand*{\cvpara}[1]{\vspace{3mm}#1}
-\newcommand*{\cvsectionlist}[1]{\vspace{1.5mm}#1}
-
-\newcommand*{\cvtabularlist}[1]{
-	\vspace{3mm}
-	\setlength\tabcolsep{0pt}
-	\setlength{\extrarowheight}{0pt}
-	\raggedright
-	\begin{tabularx}{\textwidth}{l l X}
-		#1
-	\end{tabularx}
-}
-
-\newcommand*{\tabularitem}[2]{
-	\textbf{#1} & \hspace{3mm} & #2 \vspace{2mm}\\
 }
 
 \newcommand*{\DisplaySignature}[2]

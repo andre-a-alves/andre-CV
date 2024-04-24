@@ -29,115 +29,42 @@
 \DeclareOption{12pt}{\def\ChosenFontSize{12pt}}
 
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{article}}
-\ExecuteOptions{11pt}
+\ExecuteOptions{10pt}
 \ProcessOptions
-\PassOptionsToClass{\ChosenFontSize}{article}
+\PassOptionsToClass{\ChosenFontSize}{andre-cv-base}
 \relax
-\LoadClass{article}
-
-\RequirePackage[utf8]{inputenc} % for direct use of special characters.
-\RequirePackage[T1]{fontenc}    % better font encoding
-\RequirePackage[english]{babel} % standard language: British English
-\RequirePackage{fontspec}
-
-
-\RequirePackage{ifthen}
+\LoadClass{andre-cv-base}
 
 \RequirePackage[letterpaper, margin=0.75in]{geometry}
 \RequirePackage[en-US, useregional]{datetime2}
-\RequirePackage{hyperref}
-\hypersetup{
-    colorlinks=true,  % activate colours
-    linkcolor=black,  % for internal links use black
-    citecolor=black,  % for citations to reference list use black
-    urlcolor=black    % for external links use black
-}
 
-\RequirePackage{tabularx}
-\RequirePackage{graphicx}
-
-\RequirePackage{enumitem}
-\RequirePackage{lipsum}
-
-\RequirePackage[totpages,lastpage,user]{zref}
-
-\RequirePackage{fontawesome}
 \setlength{\parindent}{0pt}
-
-\RequirePackage{calc}
-\RequirePackage{multirow}
-\RequirePackage{wrapfig}
-
 \DTMsetstyle{en-US}
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-% Fonts
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\RequirePackage{moresize}   % more font size definitions
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 % Parameter Declaration Commands
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newcommand{\FooterGrayColor}[1]{\color{gray} #1}
-\newcommand*{\SetName}[1]{\def\DisplayName{#1}}
-\newcommand*{\SetAddressOne}[1]{\def\DisplayAddressOne{#1}}
-\newcommand*{\SetAddressTwo}[1]{\def\DisplayAddressTwo{#1}}
-\newcommand*{\SetAddressThree}[1]{\def\DisplayAddressThree{#1}}
-\newcommand*{\SetDPOB}[1]{\def\DisplayDPOB{#1}}
-\newcommand*{\SetTown}[1]{\def\DisplayTown{#1}}
-\newcommand*{\SetEmail}[1]{\def\DisplayEmail{\href{mailto:#1}{#1}}}
-\newcommand*{\SetCitizenship}[1]{\def\DisplayCitizenship{#1}}
-\newcommand*{\SetMaritalStatus}[1]{\def\DisplayMaritalStatus{#1}}
-\newcommand*{\SetFamilySize}[1]{\def\DisplayFamilySize{#1}}
-\newcommand*{\SetGithub}[1]
-	{\def\DisplayGithubIcon{\faGithub\href{https://github.com/#1}{~#1}}
-	\def\DisplayGithub{\href{https://github.com/#1}{~#1}}}
-\newcommand*{\SetLinkedIn}[1]
-	{\def\DisplayLinkedInIcon{\faLinkedin\href{https://linkedin.com/in/#1}{~#1}}
-	\def\DisplayLinkedIn{\href{https://linkedin.com/in/#1}{~#1}}}
-\newcommand*{\SetXing}[1]
-	{\def\DisplayXingIcon{\faXing\href{https://www.xing.com/profile/#1}{~#1}}
-	\def\DisplayXing{\href{https://www.xing.com/profile/#1}{~#1}}}
-\newcommand*{\SetHomepage}[1]
-	{\def\DisplayHomepageIcon{\faLaptop\href{https://#1}{~#1}}
-	\def\DisplayHomepage{\href{https://#1}{~#1}}}
-\newcommand*{\SetPhone}[1]{\def\DisplayPhone{#1}}
 \newcommand*{\MakeHeader}[3]
 	{\def\InsertHeader
 		{\HUGE \textsc{#1}\\
 		\small #2 \\
 		#3}
 	}
+
 \newcommand*{\SetBadge}[2]
   	{\booltrue{BadgeToggled}
 	\def\InsertBadge{\includegraphics[scale=#1]{#2}}
 	}
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 % Headers and Footers
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\RequirePackage{fancyhdr}       % necessary for "fancy headers" specificied later
 \RequirePackage{tikz}			% for placing an icon in the corner of the page
 \pagestyle{fancy}
-\fancyhf{}
-\setlength{\headheight}{50pt}	
-\renewcommand{\headrulewidth}{0pt} 
-\rfoot{
-	\ifnum\ztotpages>1
-		{\FooterGrayColor
-	{\thepage\ of \zpageref{LastPage}}}
-	\else {}
-	\fi
-}
 \fancypagestyle{letter}{\fancyhf{}}
 \chead{\InsertHeader}
 \rhead{\ifbool{BadgeToggled}{\InsertBadge}}
@@ -201,24 +128,6 @@
 % CV/Resume Production Commands
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newcommand{\tabularColumnWidth}{2.4cm}
-\newcommand{\ResizeTabular}[1]{\renewcommand{\tabularColumnWidth}{#1}}
-\newcommand{\picturewidth}{6cm}
-\newcommand{\ChangePictureWidth}[1]{\renewcommand{\picturewidth}{#1}}
-\newcommand{\HeaderImageSize}[1]{\renewcommand{\picturewidth}{#1}}
-
-\newcommand{\zerospace}{~\kern -0.2 pc}
-
-\newcommand*{\cvsection}[2]{
-	\vspace{2mm}
-	{\Large \color{accentColor} \textbf{#1}}
-	{\textcolor{light_gray}\hrulefill}
-	\vspace{-2mm}
-	\begin{cventries}
-	#2	
-	\end{cventries}
-}
-
 \newcommand*{\cventry}[5]{
 	\begin{minipage}{\textwidth}
 	\vspace{4mm}
@@ -232,16 +141,6 @@
 	\end{minipage}
 }
 
-\newcommand*{\cvitemize}[1]{
-	\vspace{-2.0mm}
-	\begin{itemize}[noitemsep,topsep=0pt,parsep=1pt,partopsep=0pt, leftmargin=*]
-		#1
-	\end{itemize}
-}
-\newenvironment{cventries}
-	{\vspace{-1mm}\begin{flushleft}}
-	{\end{flushleft}}
-
 \newcommand*{\cvlistitem}[3]{
 	\vspace{1.5mm}
 	\setlength\tabcolsep{0pt}
@@ -253,33 +152,3 @@
 			& \hspace{0.3cm} & #2 \\
 	\end{tabularx}\\
 }
-
-\newcommand*{\cvpara}[1]{\vspace{3mm}#1}
-\newcommand*{\cvsectionlist}[1]{\vspace{1.5mm}#1}
-
-\newcommand*{\cvtabularlist}[1]{
-	\vspace{3mm}
-	\setlength\tabcolsep{0pt}
-	\setlength{\extrarowheight}{0pt}
-	\raggedright
-	\begin{tabularx}{\textwidth}{l l X}
-		#1
-	\end{tabularx}
-}
-
-\newcommand*{\tabularitem}[2]{
-	\textbf{#1} & \hspace{3mm} & #2 \vspace{2mm}\\
-}
-
-\newcommand*{\DisplaySignature}[2]
-		{
-			\bigskip
-			\begin{minipage}{.5\textwidth}
-				\hspace{0cm}
-			\end{minipage}
-			\begin{minipage}{.5\textwidth}
-				\includegraphics[width=5cm]{#1} \\
-				#2 \\
-				\today
-			\end{minipage}
-		}
