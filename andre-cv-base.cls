@@ -99,7 +99,7 @@
     \directlua{
             personalDetails[personalDetailsIndex] = {
                 value = "\\DisplayCitizenship",
-                icon = "\\faHome",
+                icon = "\\faFlag",
             }
         personalDetailsIndex = personalDetailsIndex + 1
     }
