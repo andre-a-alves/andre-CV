@@ -187,6 +187,19 @@
 	\end{minipage}
 }
 
+\newcommand*{\cvpadlessentry}[5]{
+  \begin{minipage}{\textwidth}
+  \setlength\tabcolsep{0pt}
+  \setlength{\extrarowheight}{0pt}
+  \begin{tabularx}{\textwidth}{ l X }
+  \multirow[t]{2}{\tabularColumnWidth}{{#1}~\hspace{3mm}} & {\textbf{#2}} \hfill {\small #4}\\
+  & \textsc{#3} \\
+  & #5
+  \end{tabularx}
+  \vspace{-4mm}
+  \end{minipage}
+}
+
 \newcommand*{\cvlistitem}[3]{
 	\vspace{1.5mm}
 	\setlength\tabcolsep{0pt}
