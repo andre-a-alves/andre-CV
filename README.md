@@ -1,54 +1,267 @@
-# Warning: The instructions/wiki are out of date
-
 # andre-CV
-  A LaTeX German CV and US Resume class and template.
 
-  ![Status](https://img.shields.io/github/last-commit/andre-a-alves/andre-CV)
-  ![Release](https://img.shields.io/badge/Release-Beta-orange)
-  ![BuildErrors](https://img.shields.io/badge/Build-Errors-lightgrey.svg)
-  
-  ![License](https://img.shields.io/badge/License-LPPLv1.3c-brightgreen.svg)
-  ![UserGuide](https://img.shields.io/badge/User_Guide-Wiki-blue.svg)
+A LaTeX document-class set for building:
 
-## What is andre-CV?
-  When I was preparing my resume for internship applications to positions in the United States while simultaneously creating CVs for internship applications for positions in Germany, I became quite frustrated at how much work it took to update each resume and/or CV and the issues associated with combining appropriately-formatted cover letters with those documents.
-  I was also disappointed with templates that were easily found online.
+- German-style CVs with optional cover letters
+- US-style resumes with optional cover letters
 
-  This project represents what I came up with to solve my own resume/CV requirements, and I hope others can take advantage of it for the same purpose.
+The repository already includes working examples in `sample-CV.tex` and `sample-resume.tex`.
 
-  The German cover letter adheres to the DIN 5008 guidelines.
+## Current Status
 
-## Beta Release
-  As this project is still in beta, there is no intention to make future release backwards compatible.
+This project is still marked beta. The document API may change, and backward compatibility is not guaranteed between revisions.
 
-## Instructions
-  For simplicity's sake, instructions on how to use this repository are included in the project's [wiki](https://github.com/andre-a-alves/andre-CV/wiki).
+## What Is In This Repository
 
-## Permission
-  Plainly stated: Anyone is free to use and modify this project to create their own resume, CV, and/or cover letter.
-  Any other use or modification of this project is permissable as long as that use falls within this project's current license.
+- `andre-cv.cls`: CV class tuned for A4 output
+- `andre-resume.cls`: resume class tuned for US letter output
+- `andre-cv-base.cls`: shared commands, colors, and layout primitives
+- `sample-CV.tex`: current CV example
+- `sample-resume.tex`: current resume example
+- `sample-papers.bib`: bibliography sample used by both example documents
 
-  This project is created under the LaTeX Project Public License (LPPL) version 1.3c.
-  Under that license, this project may be free used and modified as long as all derivative works adhere to the same or an update LPPL license.
-  Details of the licence can be found in the [license file](https://github.com/andre-a-alves/andre-CV/blob/main/LICENSE.txt).
+## Requirements
 
-  Files not explicitely listed in the [manifest file](https://github.com/andre-a-alves/andre-CV/blob/main/manifest.txt) are not considered part of the project and are not free to be shared unless that permission is derived elsewhere, such as an image being a part of the public domain.
+This project uses:
 
-## Plans
-  The following updates are currently planned for the project:
-  * Support for a two-column resume style.
-  * Lower-level TeX class definitions.
-  * Additional language support.
-  * Simplified LaTeX-based syntax for document creation, including
-    * Use of `\section{}` for CV/resume sections.
-    * Eliminating the need for a `\cvpara{}` environment.
-    * Use of an environment for making cover letters.
+- `fontspec`
+- `luacode`
+- `biblatex` with `biber` in the samples
 
-## Requests/Recommendations
-  If you have feature requests or project recommendations, please feel free to reach out and ask.
-  Also feel free to reach out if you would like to contribute.
+That means you should compile with `lualatex`, not `pdflatex`.
+
+## Quick Start
+
+Use one of the sample files as your starting point.
+
+For a CV:
+
+```tex
+\documentclass[10pt]{andre-cv}
+
+\setmainfont{Source Sans 3}
+\setsansfont{Source Sans 3}
+\setmonofont{Source Sans 3}
+
+\SetName{Dr. Henry Jones, Jr.}
+\SetAddressOne{123 Artifact Lane}
+\SetAddressTwo{Marshall College, Bedford, Connecticut}
+\SetAddressThree{USA}
+\SetTown{Bedford, Connecticut, USA}
+\SetPhone{+1 203 555 0198}
+\SetEmail{indyjones@marshall.edu}
+\SetCitizenship{USA}
+
+\begin{document}
+\DisplayHeader{Archaeologist}{./img/DALLE_adventurer.png}
+
+\cvsection{Experience}{
+  \cventry[
+    dates    = {1936 - Present},
+    title    = {Professor of Archaeology},
+    org      = {Marshall College},
+    location = {Bedford, Connecticut, USA},
+  ]{
+    \cvitemize{
+      \item Example bullet
+    }
+  }
+}
+\end{document}
+```
+
+For a resume:
+
+```tex
+\documentclass[10pt]{andre-resume}
+
+\setmainfont{Source Sans 3}
+\setsansfont{Source Sans 3}
+\setmonofont{Source Sans 3}
+
+\SetName{Dr. Henry Jones, Jr.}
+\SetAddressOne{123 Artifact Lane}
+\SetAddressTwo{Marshall College, Bedford, Connecticut}
+\SetTown{Bedford, Connecticut}
+\SetPhone{203 555 0198}
+\SetEmail{indyjones@marshall.edu}
+\SetLinkedIn{indy-jones}
+
+\MakeHeader
+  {\DisplayName}
+  {\DisplayTown}
+  {\DisplayEmail~$\cdot$~\DisplayPhone}
+
+\begin{document}
+\cvsection{Experience}{
+  \cventry[
+    dates    = {1936 - Present},
+    title    = {Professor of Archaeology},
+    org      = {Marshall College},
+    location = {Bedford, Connecticut},
+  ]{
+    \cvitemize{
+      \item Example bullet
+    }
+  }
+}
+\end{document}
+```
+
+## Building
+
+If your document uses bibliography support, build with:
+
+```bash
+lualatex sample-CV.tex
+biber sample-CV
+lualatex sample-CV.tex
+lualatex sample-CV.tex
+```
+
+Or for the resume:
+
+```bash
+lualatex sample-resume.tex
+biber sample-resume
+lualatex sample-resume.tex
+lualatex sample-resume.tex
+```
+
+If you are not using `biblatex`, you can skip the `biber` step.
+
+## Current Document API
+
+### Shared personal-detail commands
+
+These commands are defined in `andre-cv-base.cls` and are used by both classes:
+
+- `\SetName{...}`
+- `\SetAddressOne{...}`
+- `\SetAddressTwo{...}`
+- `\SetAddressThree{...}`
+- `\SetTown{...}`
+- `\SetPhone{...}`
+- `\SetEmail{...}`
+- `\SetCitizenship{...}`
+- `\SetGithub{...}`
+- `\SetLinkedIn{...}`
+- `\SetXing{...}`
+- `\SetHomepage{...}`
+
+`SetTown`, `SetPhone`, `SetEmail`, `SetCitizenship`, `SetGithub`, `SetLinkedIn`, `SetXing`, and `SetHomepage` are also added to the CV header details table automatically.
+
+For `\SetHomepage`, pass a bare host/path such as `www.example.com`; the class prepends `https://`.
+
+### Section and content commands
+
+Both classes provide:
+
+- `\cvsection{Title}{...}`
+- `\cvitemize{ ... }`
+- `\cvsectionlist{ ... }`
+- `\cvpara{ ... }`
+- `\cvitem{label}{value}`
+
+### `\cventry` interface
+
+The current `\cventry` command uses key-value arguments:
+
+```tex
+\cventry[
+  dates    = {2022 - 2024},
+  title    = {Role Title},
+  org      = {Organization},
+  location = {City, Country},
+  url      = {https://example.com}
+]{...}
+```
+
+Supported keys:
+
+- `dates`
+- `title`
+- `org`
+- `location`
+- `url`
+
+If `url` is provided, the title is rendered as a hyperlink.
+
+### Deprecated commands
+
+The following older commands still exist for compatibility, but the newer commands above are the current API:
+
+- `\cventrylegacy`
+- `\cvpadlessentry` in `andre-cv.cls`
+- `\cvlistitem`
+
+Prefer:
+
+- `\cventry[...]{...}` style key-value entries
+- `\cvitem{...}{...}` for label/value rows
+
+## CV-Specific Commands
+
+`andre-cv.cls` additionally provides:
+
+- `\DisplayHeader{subtitle}{image-path}`
+- `\DisplaySignature{signature-image-path}{location}`
+- `\ResizeTabular{width}`
+- `\HeaderImageSizeCm{number}`
+
+Notes:
+
+- Pass an empty second argument to `\DisplayHeader` if you do not want a photo.
+- `\HeaderImageSizeCm{...}` overrides the automatically computed square image size in centimeters.
+
+## Resume-Specific Commands
+
+`andre-resume.cls` additionally provides:
+
+- `\MakeHeader{line1}{line2}{line3}`
+- `\SetBadge{scale}{image-path}`
+
+`MakeHeader` sets the running header content used by the resume layout.
+
+## Cover Letters
+
+Both classes provide:
+
+```tex
+\MakeCoverLetter
+  {sender name}
+  {sender address block}
+  {recipient name}
+  {recipient address block}
+  {subject line}
+  {greeting}
+  {body}
+  {salutation}
+  {signature-image-path}
+```
+
+To omit the signature image, pass an empty final argument.
+
+The resume and CV classes format cover letters differently to match their respective layouts.
+
+## Samples
+
+The most reliable documentation for current usage is in:
+
+- `sample-CV.tex`
+- `sample-resume.tex`
+
+Those files reflect the current macro names and calling conventions in the repository.
+
+## License
+
+This project is distributed under the LaTeX Project Public License (LPPL) version 1.3c. See `LICENSE.txt` for the full license text.
+
+Files not explicitly listed in `manifest.txt` are not part of the distributable project unless permission is provided elsewhere.
 
 ## Inspiration
-  This project borrowed ideas from and was inspired by the following CV classes/templates, however this project was written from scratch.
-  * [Awesome-CV](https://github.com/posquit0/Awesome-CV)
-  * [Latex CV and Resume Collection](https://github.com/jankapunkt/latexcv)
+
+This project was inspired by:
+
+- [Awesome-CV](https://github.com/posquit0/Awesome-CV)
+- [Latex CV and Resume Collection](https://github.com/jankapunkt/latexcv)

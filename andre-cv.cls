@@ -133,6 +133,7 @@
 % CV Production Commands
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\DisplayName}{}
 \newcommand{\tabularColumnWidth}{2.4cm}
 \newcommand{\ResizeTabular}[1]{\renewcommand{\tabularColumnWidth}{#1}}
 \newcommand{\picturewidth}{}
@@ -173,9 +174,8 @@
 	}
 }
 
-\newcommand*{\cventry}[5]{
+\newcommand*{\@cventrycore}[5]{%
 	\begin{minipage}{\textwidth}
-	\vspace{4mm}
 	\setlength\tabcolsep{0pt}
 	\setlength{\extrarowheight}{0pt}
 	\begin{tabularx}{\textwidth}{ l X }
@@ -187,19 +187,28 @@
 	\end{minipage}
 }
 
-\newcommand*{\cvpadlessentry}[5]{
-  \begin{minipage}{\textwidth}
-  \setlength\tabcolsep{0pt}
-  \setlength{\extrarowheight}{0pt}
-  \begin{tabularx}{\textwidth}{ l X }
-  \multirow[t]{2}{\tabularColumnWidth}{{#1}~\hspace{3mm}} & {\textbf{#2}} \hfill {\small #4}\\
-  & \textsc{#3} \\
-  & #5
-  \end{tabularx}
-  \vspace{-4mm}
-  \end{minipage}
+% Key-value interface: \cventry[dates=, title=, org=, location=, url=]{body}
+\newcommand*{\cventry}[2][]{%
+	\def\cv@entry@dates{}\def\cv@entry@title{}\def\cv@entry@org{}%
+	\def\cv@entry@location{}\def\cv@entry@url{}%
+	\setkeys{cventry}{#1}%
+	\vspace{4mm}%
+	\@cventrycore{\cv@entry@dates}%
+		{\ifthenelse{\equal{\cv@entry@url}{}}%
+			{\cv@entry@title}%
+			{\href{\cv@entry@url}{\cv@entry@title}}}%
+		{\cv@entry@org}%
+		{\cv@entry@location}%
+		{#2}%
 }
 
+% Deprecated: old five-argument positional interface
+\newcommand*{\cventrylegacy}[5]{\vspace{4mm}\@cventrycore{#1}{#2}{#3}{#4}{#5}}
+
+% Deprecated: pad-less positional variant
+\newcommand*{\cvpadlessentry}[5]{\@cventrycore{#1}{#2}{#3}{#4}{#5}}
+
+% Deprecated: use \cvitem instead
 \newcommand*{\cvlistitem}[3]{
 	\vspace{1.5mm}
 	\setlength\tabcolsep{0pt}
@@ -212,11 +221,21 @@
 	\end{tabularx}\\
 }
 
+% Lightweight label-value pair; replaces \cvlistitem
+\newcommand*{\cvitem}[2]{%
+	\vspace{1.5mm}%
+	\setlength\tabcolsep{0pt}%
+	\setlength{\extrarowheight}{0pt}%
+	\begin{tabularx}{\textwidth}{p{\tabularColumnWidth} X}%
+		\raggedright\textbf{#1} & #2 \\
+	\end{tabularx}%
+}
+
 \newcommand*{\DisplaySignature}[2]
 		{
 			\bigskip
 			\begin{minipage}{.5\textwidth}
-				\hspace{0cm}
+				\hfill
 			\end{minipage}
 			\begin{minipage}{.5\textwidth}
 				\includegraphics[width=5cm]{#1} \\
