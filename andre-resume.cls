@@ -110,11 +110,33 @@
 % CV/Resume Production Commands
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newcommand*{\cventry}[5]{
+% Key-value interface: \cventry[dates=, title=, org=, location=, url=]{body}
+\newcommand*{\cventry}[2][]{%
+	\def\cv@entry@dates{}\def\cv@entry@title{}\def\cv@entry@org{}%
+	\def\cv@entry@location{}\def\cv@entry@url{}%
+	\setkeys{cventry}{#1}%
 	\begin{minipage}{\textwidth}
-	\vspace{4mm}
-	\setlength\tabcolsep{0pt}
-	\setlength{\extrarowheight}{0pt}
+	\vspace{4mm}%
+	\setlength\tabcolsep{0pt}%
+	\setlength{\extrarowheight}{0pt}%
+	\begin{tabularx}{\textwidth}{X r}
+		\large{\textbf{%
+			\ifthenelse{\equal{\cv@entry@url}{}}%
+				{\cv@entry@title}%
+				{\href{\cv@entry@url}{\cv@entry@title}}%
+		}} & \color{accentColor}\cv@entry@dates \\
+		\textsc{\cv@entry@org} & {\small \cv@entry@location}
+	\end{tabularx}
+	#2
+	\end{minipage}
+}
+
+% Deprecated: old five-argument positional interface
+\newcommand*{\cventrylegacy}[5]{%
+	\begin{minipage}{\textwidth}
+	\vspace{4mm}%
+	\setlength\tabcolsep{0pt}%
+	\setlength{\extrarowheight}{0pt}%
 	\begin{tabularx}{\textwidth}{X r}
 		\large{\textbf{#2}} & \color{accentColor}#1 \\
 		\textsc{#3} & {\small #4}
@@ -123,6 +145,7 @@
 	\end{minipage}
 }
 
+% Deprecated: use \cvitem instead
 \newcommand*{\cvlistitem}[3]{
 	\vspace{1.5mm}
 	\setlength\tabcolsep{0pt}
@@ -133,4 +156,14 @@
 			{\href{#3}{\textbf{#1}}}
 			& \hspace{0.3cm} & #2 \\
 	\end{tabularx}\\
+}
+
+% Lightweight label-value pair; replaces \cvlistitem
+\newcommand*{\cvitem}[2]{%
+	\vspace{1.5mm}%
+	\setlength\tabcolsep{0pt}%
+	\setlength{\extrarowheight}{0pt}%
+	\begin{tabularx}{\textwidth}{l l X}%
+		\textbf{#1} & \hspace{0.3cm} & #2 \\
+	\end{tabularx}%
 }

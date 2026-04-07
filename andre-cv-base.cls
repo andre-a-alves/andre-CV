@@ -36,6 +36,7 @@
 \RequirePackage{multirow}
 \RequirePackage{wrapfig}
 \RequirePackage{luacode} % for use of Lua code
+\RequirePackage{pgfkeys}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
@@ -186,6 +187,17 @@
 % CV/Resume Production Commands
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Key-value family for \cventry (keyval strips whitespace from key names,
+% avoiding the pgfkeys path-prepend-before-strip bug with optional arguments).
+\define@key{cventry}{dates}   {\def\cv@entry@dates{#1}}
+\define@key{cventry}{title}   {\def\cv@entry@title{#1}}
+\define@key{cventry}{org}     {\def\cv@entry@org{#1}}
+\define@key{cventry}{location}{\def\cv@entry@location{#1}}
+\define@key{cventry}{url}     {\def\cv@entry@url{#1}}
+% Default values (also reset at the start of every \cventry call)
+\def\cv@entry@dates{}\def\cv@entry@title{}\def\cv@entry@org{}
+\def\cv@entry@location{}\def\cv@entry@url{}
 \newcommand*{\cvsection}[2]{
 \vspace{2mm}
 {\Large \color{accentColor} \textbf{#1}}

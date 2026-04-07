@@ -187,10 +187,28 @@
 	\end{minipage}
 }
 
-\newcommand*{\cventry}[5]{\vspace{4mm}\@cventrycore{#1}{#2}{#3}{#4}{#5}}
+% Key-value interface: \cventry[dates=, title=, org=, location=, url=]{body}
+\newcommand*{\cventry}[2][]{%
+	\def\cv@entry@dates{}\def\cv@entry@title{}\def\cv@entry@org{}%
+	\def\cv@entry@location{}\def\cv@entry@url{}%
+	\setkeys{cventry}{#1}%
+	\vspace{4mm}%
+	\@cventrycore{\cv@entry@dates}%
+		{\ifthenelse{\equal{\cv@entry@url}{}}%
+			{\cv@entry@title}%
+			{\href{\cv@entry@url}{\cv@entry@title}}}%
+		{\cv@entry@org}%
+		{\cv@entry@location}%
+		{#2}%
+}
 
+% Deprecated: old five-argument positional interface
+\newcommand*{\cventrylegacy}[5]{\vspace{4mm}\@cventrycore{#1}{#2}{#3}{#4}{#5}}
+
+% Deprecated: pad-less positional variant
 \newcommand*{\cvpadlessentry}[5]{\@cventrycore{#1}{#2}{#3}{#4}{#5}}
 
+% Deprecated: use \cvitem instead
 \newcommand*{\cvlistitem}[3]{
 	\vspace{1.5mm}
 	\setlength\tabcolsep{0pt}
@@ -201,6 +219,16 @@
 			{\href{#3}{\textbf{#1}}}
 			& #2 \\
 	\end{tabularx}\\
+}
+
+% Lightweight label-value pair; replaces \cvlistitem
+\newcommand*{\cvitem}[2]{%
+	\vspace{1.5mm}%
+	\setlength\tabcolsep{0pt}%
+	\setlength{\extrarowheight}{0pt}%
+	\begin{tabularx}{\textwidth}{p{\tabularColumnWidth} X}%
+		\raggedright\textbf{#1} & #2 \\
+	\end{tabularx}%
 }
 
 \newcommand*{\DisplaySignature}[2]
