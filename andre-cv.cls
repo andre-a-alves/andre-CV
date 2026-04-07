@@ -133,6 +133,7 @@
 % CV Production Commands
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\DisplayName}{}
 \newcommand{\tabularColumnWidth}{2.4cm}
 \newcommand{\ResizeTabular}[1]{\renewcommand{\tabularColumnWidth}{#1}}
 \newcommand{\picturewidth}{}
@@ -173,9 +174,8 @@
 	}
 }
 
-\newcommand*{\cventry}[5]{
+\newcommand*{\@cventrycore}[5]{%
 	\begin{minipage}{\textwidth}
-	\vspace{4mm}
 	\setlength\tabcolsep{0pt}
 	\setlength{\extrarowheight}{0pt}
 	\begin{tabularx}{\textwidth}{ l X }
@@ -187,18 +187,9 @@
 	\end{minipage}
 }
 
-\newcommand*{\cvpadlessentry}[5]{
-  \begin{minipage}{\textwidth}
-  \setlength\tabcolsep{0pt}
-  \setlength{\extrarowheight}{0pt}
-  \begin{tabularx}{\textwidth}{ l X }
-  \multirow[t]{2}{\tabularColumnWidth}{{#1}~\hspace{3mm}} & {\textbf{#2}} \hfill {\small #4}\\
-  & \textsc{#3} \\
-  & #5
-  \end{tabularx}
-  \vspace{-4mm}
-  \end{minipage}
-}
+\newcommand*{\cventry}[5]{\vspace{4mm}\@cventrycore{#1}{#2}{#3}{#4}{#5}}
+
+\newcommand*{\cvpadlessentry}[5]{\@cventrycore{#1}{#2}{#3}{#4}{#5}}
 
 \newcommand*{\cvlistitem}[3]{
 	\vspace{1.5mm}
@@ -216,7 +207,7 @@
 		{
 			\bigskip
 			\begin{minipage}{.5\textwidth}
-				\hspace{0cm}
+				\hfill
 			\end{minipage}
 			\begin{minipage}{.5\textwidth}
 				\includegraphics[width=5cm]{#1} \\

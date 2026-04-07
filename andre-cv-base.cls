@@ -3,7 +3,7 @@
 %! Date = 2/18/24
 
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{andre-cv-base}[andre's Document Class]
+\ProvidesClass{andre-cv-base}[andre's Document Class]
 
 % Font Size
 \DeclareOption{10pt}{\def\ChosenFontSize{10pt}}
@@ -17,8 +17,7 @@
 \relax
 \LoadClass{article}
 
-\RequirePackage[T1]{fontenc}    % better font encoding
-\RequirePackage[english]{babel} % standard language: British English
+\RequirePackage[english]{babel} % standard language: English
 \RequirePackage{fontspec}
 \RequirePackage{ifthen}
 \RequirePackage{hyperref}
@@ -31,7 +30,6 @@
 \RequirePackage{tabularx}
 \RequirePackage{graphicx}
 \RequirePackage{enumitem}
-\RequirePackage{lipsum}
 \RequirePackage[totpages,lastpage,user]{zref}
 \RequirePackage{fontawesome}
 \RequirePackage{calc}
@@ -104,7 +102,6 @@
     }
 }
 \newcommand*{\SetGithub}[1]{
-    \def\DisplayGithubIcon{\faGithub\href{https://github.com/#1}{~#1}}
     \def\DisplayGithub{\href{https://github.com/#1}{~#1}}
     \directlua{
         personalDetails[personalDetailsIndex] = {
@@ -115,7 +112,6 @@
     }
 }
 \newcommand*{\SetLinkedIn}[1]{
-    \def\DisplayLinkedInIcon{\faLinkedin\href{https://linkedin.com/in/#1}{~#1}}
     \def\DisplayLinkedIn{\href{https://linkedin.com/in/#1}{~#1}}
     \directlua{
         personalDetails[personalDetailsIndex] = {
@@ -126,7 +122,6 @@
     }
 }
 \newcommand*{\SetXing}[1]{
-    \def\DisplayXingIcon{\faXing\href{https://www.xing.com/profile/#1}{~#1}}
     \def\DisplayXing{\href{https://www.xing.com/profile/#1}{~#1}}
     \directlua{
         personalDetails[personalDetailsIndex] = {
@@ -136,8 +131,9 @@
         personalDetailsIndex = personalDetailsIndex + 1
     }
 }
+% NOTE: #1 must be a bare domain/path with no scheme (e.g. "www.example.com"),
+% as https:// is prepended automatically.
 \newcommand*{\SetHomepage}[1]{
-    \def\DisplayHomepageIcon{\faLaptop\href{https://#1}{~#1}}
     \def\DisplayHomepage{\href{https://#1}{~#1}}
     \directlua{
         personalDetails[personalDetailsIndex] = {

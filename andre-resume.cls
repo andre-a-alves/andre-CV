@@ -22,6 +22,7 @@
 % Declare booleans
 \newbool{FontChosen}
 \newbool{BadgeToggled}
+\newcommand{\InsertHeader}{}
 
 % Font Size
 \DeclareOption{10pt}{\def\ChosenFontSize{10pt}}
@@ -67,29 +68,10 @@
 \pagestyle{fancy}
 \fancypagestyle{letter}{\fancyhf{}}
 \chead{\InsertHeader}
-\rhead{\ifbool{BadgeToggled}{\InsertBadge}}
-\lfoot{\FooterGrayColor\today}
+\rhead{\ifbool{BadgeToggled}{\InsertBadge}{}}
+\lfoot{\FooterGrayColor{\today}}
 \geometry{includehead, headsep=0.2in, footskip=0.25in}
 \fancypagestyle{noheader}{\fancyhead{}}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-% Color-Related
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\RequirePackage{xcolor}		% define colors
-% Color names and codes obtained from https://coolors.co/
-\definecolor{UltramarineBlue}{HTML}{2E5EFF}
-\definecolor{YellowGreen}{HTML}{36AB00}
-\definecolor{Fuchsia}{HTML}{F500E4}
-\definecolor{Tangerine}{HTML}{F58B00}
-\definecolor{ElectricViolet}{HTML}{8B00F5}
-\definecolor{Coquelicot}{HTML}{F53900}
-\definecolor{Rose}{HTML}{FF0F80}
-\definecolor{gray}{HTML}{999999}
-\definecolor{light_gray}{RGB}{185,185,185}
-\colorlet{accentColor}{UltramarineBlue}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
