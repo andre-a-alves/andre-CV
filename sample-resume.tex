@@ -40,22 +40,22 @@
 	{\DisplayEmail~$\cdot$~\DisplayPhone}
 
 \begin{document}
-\MakeCoverLetter
-	{\DisplayName}
-	{\DisplayAddressOne\\\DisplayAddressTwo\\\DisplayPhone\\\DisplayEmail}
-	{Matawan Borough}
-	{201 Broad St\\Matawan, NJ 07747}
-	{Application for Job Posting 123456}	
-	{Dear recruiting manager,}
-	{\lipsum[1] \\
+\begin{coverletter}[
+	to-name    = {Matawan Borough},
+	to-address = {201 Broad St\\Matawan, NJ 07747},
+	subject    = {Application for Job Posting 123456},
+	opening    = {Dear recruiting manager,},
+	closing    = {Sincerely yours},
+	signature  = {./img/DALLE-indy-sig.png},
+]
+\lipsum[1] \\
 
-		\lipsum[2] \\
+\lipsum[2] \\
 
-		\lipsum[3]\\
+\lipsum[3]\\
 
-		\lipsum[4][1-3]}
-	{Sincerely yours}
-	{./img/DALLE-indy-sig.png}
+\lipsum[4][1-3]
+\end{coverletter}
 
 \section{Experience}
 \cventry[
