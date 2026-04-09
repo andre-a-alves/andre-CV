@@ -92,40 +92,61 @@
 % Letter Production Commands
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newcommand{\MakeCoverLetter}[9]{
-	\thispagestyle{letter}
-	\newgeometry{top=2cm, right=2cm, left=2.5cm, bottom=2cm}
+
+\newcommand{\cv@renderletter@begin}{%
+	\thispagestyle{letter}%
+	\newgeometry{top=2cm, right=2cm, left=2.5cm, bottom=2cm}%
 	\begin{flushright}
-	{\Large \textsc{#1}}\\
-	#2\\
+	{\Large \textsc{\DisplayName}}\\
+	\@ifundefined{DisplayAddressOne}{}{\DisplayAddressOne\\}%
+	\@ifundefined{DisplayAddressTwo}{}{\DisplayAddressTwo\\}%
+	\@ifundefined{DisplayAddressThree}{}{\DisplayAddressThree\\}%
+	\@ifundefined{DisplayPhone}{}{\DisplayPhone\\}%
+	\@ifundefined{DisplayEmail}{}{\DisplayEmail\\}%
 	\end{flushright}
 
-	\vspace{2\baselineskip} % skip three lines
+	\vspace{2\baselineskip}
 
-	\textsc{#3}\\
-	#4\\[\baselineskip] % skip three lines
+	\textsc{\cv@letter@toname}\\
+	\cv@letter@toaddress\\[\baselineskip]
 
 	\begin{flushright}
 		\today
 	\end{flushright}
 
-	\vspace{\baselineskip} % skip two lines
+	\vspace{\baselineskip}
 
-	\textbf{#5}\\[\baselineskip] % skip two lines
+	\textbf{\cv@letter@subject}\\[\baselineskip]
 
-	#6\\ % greeting
+	\cv@letter@opening\\
 
-	#7\\ % body
+}
 
-	#8,\\ % salutation
+\newcommand{\cv@renderletter@end}{%
+	\par
+	\cv@letter@closing,\\
 
-	% Signature if included
-	\ifthenelse{\equal{#9}{}}
-		{\\[3\baselineskip]}
-		{\includegraphics[height=3\baselineskip]{#9}\\}
-	#1 % name
+	\ifthenelse{\equal{\cv@letter@signature}{}}%
+		{\\[3\baselineskip]}%
+		{\includegraphics[height=3\baselineskip]{\cv@letter@signature}\\}%
+	\DisplayName
 	\newpage
-	\setcounter{page}{1}
+	\setcounter{page}{1}%
+}
+
+% Deprecated: use the coverletter environment instead.
+\newcommand{\MakeCoverLetter}[9]{%
+	\ClassWarning{andre-cv}{\noexpand\MakeCoverLetter is deprecated; use the coverletter environment instead}%
+	\begin{coverletter}[%
+		to-name    = {#3},%
+		to-address = {#4},%
+		subject    = {#5},%
+		opening    = {#6},%
+		closing    = {#8},%
+		signature  = {#9}%
+	]%
+	#7%
+	\end{coverletter}%
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

@@ -79,30 +79,51 @@
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\newcommand{\MakeCoverLetter}[9]{
-	\thispagestyle{letter}
-	\newgeometry{margin=0.75in}
-	{\Large {\fontseries{m}\selectfont \textsc{#1}}}\\
-	#2\\
+\newcommand{\cv@renderletter@begin}{%
+	\thispagestyle{letter}%
+	\newgeometry{margin=0.75in}%
+	{\Large {\fontseries{m}\selectfont \textsc{\DisplayName}}}\\
+	\@ifundefined{DisplayAddressOne}{}{\DisplayAddressOne\\}%
+	\@ifundefined{DisplayAddressTwo}{}{\DisplayAddressTwo\\}%
+	\@ifundefined{DisplayAddressThree}{}{\DisplayAddressThree\\}%
+	\@ifundefined{DisplayPhone}{}{\DisplayPhone\\}%
+	\@ifundefined{DisplayEmail}{}{\DisplayEmail\\}%
 
 	\today\\
-	
-	\textsc{#3}\\
-	#4\\
 
-	\textbf{#5}\\
+	\textsc{\cv@letter@toname}\\
+	\cv@letter@toaddress\\
 
-	#6\\
+	\textbf{\cv@letter@subject}\\
 
-	#7\\
+	\cv@letter@opening\\
 
-	#8,\\
-	\ifthenelse{\equal{#9}{}}
-		{\\[3\baselineskip]}
-		{\includegraphics[height=3\baselineskip]{#9}\\}
-	#1
+}
+
+\newcommand{\cv@renderletter@end}{%
+	\par
+	\cv@letter@closing,\\
+	\ifthenelse{\equal{\cv@letter@signature}{}}%
+		{\\[3\baselineskip]}%
+		{\includegraphics[height=3\baselineskip]{\cv@letter@signature}\\}%
+	\DisplayName
 	\restoregeometry
-	\setcounter{page}{1}
+	\setcounter{page}{1}%
+}
+
+% Deprecated: use the coverletter environment instead.
+\newcommand{\MakeCoverLetter}[9]{%
+	\ClassWarning{andre-resume}{\noexpand\MakeCoverLetter is deprecated; use the coverletter environment instead}%
+	\begin{coverletter}[%
+		to-name    = {#3},%
+		to-address = {#4},%
+		subject    = {#5},%
+		opening    = {#6},%
+		closing    = {#8},%
+		signature  = {#9}%
+	]%
+	#7%
+	\end{coverletter}%
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

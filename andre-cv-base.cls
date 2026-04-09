@@ -211,3 +211,38 @@
 #1
 \end{itemize}
 }
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Cover Letter Keys and Environment
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% pgfkeys declarations: establishes the /cv/letter namespace and storage macros.
+\pgfkeys{
+  /cv/letter/.cd,
+  to-name/.store in     = \cv@letter@toname,
+  to-address/.store in  = \cv@letter@toaddress,
+  subject/.store in     = \cv@letter@subject,
+  opening/.store in     = \cv@letter@opening,
+  closing/.store in     = \cv@letter@closing,
+  signature/.store in   = \cv@letter@signature,
+  signature/.initial    = {},
+}
+
+% keyval keys used by the coverletter environment for argument parsing.
+% pgfkeys' space-stripping is unreliable with multiline optional arguments
+% in LuaTeX; \setkeys (keyval) handles this correctly (same as cventry).
+\define@key{cvcoverletter}{to-name}   {\def\cv@letter@toname{#1}}
+\define@key{cvcoverletter}{to-address}{\def\cv@letter@toaddress{#1}}
+\define@key{cvcoverletter}{subject}   {\def\cv@letter@subject{#1}}
+\define@key{cvcoverletter}{opening}   {\def\cv@letter@opening{#1}}
+\define@key{cvcoverletter}{closing}   {\def\cv@letter@closing{#1}}
+\define@key{cvcoverletter}{signature} {\def\cv@letter@signature{#1}}
+
+\newenvironment{coverletter}[1][]{%
+  \setkeys{cvcoverletter}{#1}%
+  \cv@renderletter@begin
+}{%
+  \cv@renderletter@end
+}

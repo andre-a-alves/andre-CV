@@ -16,6 +16,7 @@
 % This work consists of all files listed in manifest.txt.
 \documentclass[10pt]{andre-cv}
 
+\usepackage{lipsum}
 \usepackage[backend=biber,  style=chicago-authordate]{biblatex}
 \addbibresource{sample-papers.bib}
 \nocite{duality}
@@ -40,26 +41,24 @@
 %\HeaderImageSizeCm{3.6}
 
 \begin{document}
-%	\MakeCoverLetter
-%	{\DisplayName}
-%	{\DisplayAddressOne\\\DisplayAddressTwo\\\DisplayAddressThree\\\DisplayPhone\\\DisplayEmail}
-%	{Global Institute of Archaeology}
-%	{123 Explorer's Way\\
-%	Heritage City, HC 45678\\
-%	USA}
-%	{Application for Professor of Archaeology and Director of Ancient Studies}
-%	{Dear recruiting manager,}
-%	{\lipsum[1] \\
-%
-%	\lipsum[2] \\
-%
-%	\lipsum[3]\\
-%
-%	\lipsum[4]\\
-%
-%	\lipsum[5][1-2]}
-%	{Sincerely yours}
-%	{./img/DALLE-indy-sig.png}
+	\begin{coverletter}[
+		to-name    = {Global Institute of Archaeology},
+		to-address = {123 Explorer's Way\\Heritage City, HC 45678\\USA},
+		subject    = {Application for Professor of Archaeology and Director of Ancient Studies},
+		opening    = {Dear recruiting manager,},
+		closing    = {Sincerely yours},
+		signature  = {./img/DALLE-indy-sig.png},
+	]
+	\lipsum[1] \\
+
+	\lipsum[2] \\
+
+	\lipsum[3]\\
+
+	\lipsum[4]\\
+
+	\lipsum[5][1-2]
+	\end{coverletter}
 
 	\DisplayHeader{Archaeologist}{./img/DALLE_adventurer.png}
 
