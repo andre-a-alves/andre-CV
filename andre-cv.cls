@@ -146,27 +146,25 @@
 		tex.sprint("\\renewcommand{\\picturewidth}{" .. pictureWidth .. "cm}")
 	}
 	\thispagestyle{noheader}
-	\ifthenelse{\equal{}{#2}}
-		{
-			\ZeroPictureWidth
-		}
-		{
-			\begin{wrapfigure}{r}{\picturewidth}
-			\vspace{-1.5em}
-			\raggedleft
-			\includegraphics[height=\picturewidth, width=\picturewidth]{#2}
-			\end{wrapfigure}
-		}
+	\ifthenelse{\equal{}{#2}}{\ZeroPictureWidth}{}%
+	\noindent
 	\begin{minipage}[t]{\textwidth-\picturewidth}
 	{\HUGE \textsc{\DisplayName}}\\
 	\vspace{4mm}{\Large \color{gray} \textbf{#1}}
 
-	\cvsection{Personal Details}
-	{\cvpara{
-		\IncludeCVHeaderTable
-	 	\vspace{3mm}}
-	}
-	\end{minipage}
+	\section{Personal Details}
+	\IncludeCVHeaderTable
+	\vspace{3mm}
+	\end{minipage}%
+	\ifthenelse{\equal{}{#2}}{}{%
+		\hfill
+		\begin{minipage}[t]{\picturewidth}
+		\vspace{-1.5em}
+		\raggedleft
+		\includegraphics[height=\picturewidth, width=\picturewidth]{#2}
+		\end{minipage}%
+	}%
+	\par
 }
 \newcommand{\IncludeCVHeaderTable}{
 	\directlua{

@@ -55,16 +55,15 @@ For a CV:
 \begin{document}
 \DisplayHeader{Archaeologist}{./img/DALLE_adventurer.png}
 
-\cvsection{Experience}{
-  \cventry[
-    dates    = {1936 - Present},
-    title    = {Professor of Archaeology},
-    org      = {Marshall College},
-    location = {Bedford, Connecticut, USA},
-  ]{
-    \cvitemize{
-      \item Example bullet
-    }
+\section{Experience}
+\cventry[
+  dates    = {1936 - Present},
+  title    = {Professor of Archaeology},
+  org      = {Marshall College},
+  location = {Bedford, Connecticut, USA},
+]{
+  \cvitemize{
+    \item Example bullet
   }
 }
 \end{document}
@@ -93,16 +92,15 @@ For a resume:
   {\DisplayEmail~$\cdot$~\DisplayPhone}
 
 \begin{document}
-\cvsection{Experience}{
-  \cventry[
-    dates    = {1936 - Present},
-    title    = {Professor of Archaeology},
-    org      = {Marshall College},
-    location = {Bedford, Connecticut},
-  ]{
-    \cvitemize{
-      \item Example bullet
-    }
+\section{Experience}
+\cventry[
+  dates    = {1936 - Present},
+  title    = {Professor of Archaeology},
+  org      = {Marshall College},
+  location = {Bedford, Connecticut},
+]{
+  \cvitemize{
+    \item Example bullet
   }
 }
 \end{document}
@@ -157,10 +155,8 @@ For `\SetHomepage`, pass a bare host/path such as `www.example.com`; the class p
 
 Both classes provide:
 
-- `\cvsection{Title}{...}`
+- `\section{Title}`
 - `\cvitemize{ ... }`
-- `\cvsectionlist{ ... }`
-- `\cvpara{ ... }`
 - `\cvitem{label}{value}`
 
 ### `\cventry` interface

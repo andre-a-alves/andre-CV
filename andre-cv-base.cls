@@ -182,6 +182,12 @@
 \definecolor{light_gray}{RGB}{185,185,185}
 \colorlet{accentColor}{UltramarineBlue}
 
+\setcounter{secnumdepth}{0}
+\renewcommand*{\section}[2][]{%
+  \vspace{4mm}%
+  \noindent{\Large\bfseries\color{accentColor}#2} \textcolor{light_gray}{\hrulefill}\par%
+}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 % CV/Resume Production Commands
@@ -198,15 +204,6 @@
 % Default values (also reset at the start of every \cventry call)
 \def\cv@entry@dates{}\def\cv@entry@title{}\def\cv@entry@org{}
 \def\cv@entry@location{}\def\cv@entry@url{}
-\newcommand*{\cvsection}[2]{
-\vspace{2mm}
-{\Large \color{accentColor} \textbf{#1}}
-{\textcolor{light_gray}\hrulefill}
-\vspace{-2mm}
-\begin{cventries}
-#2
-\end{cventries}
-}
 
 \newcommand*{\cvitemize}[1]{
 \vspace{-2.0mm}
@@ -214,10 +211,3 @@
 #1
 \end{itemize}
 }
-
-\newenvironment{cventries}
-{\vspace{-1mm}\begin{flushleft}}
-{\end{flushleft}}
-
-\newcommand*{\cvpara}[1]{\vspace{3mm}#1}
-\newcommand*{\cvsectionlist}[1]{\vspace{1.5mm}#1}
