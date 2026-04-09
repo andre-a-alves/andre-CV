@@ -1,7 +1,3 @@
-## Specific individual files:
-yoha-resume-template.tex
-yoha-resume-template.pdf
-
 ## Core latex/pdflatex auxiliary files:
 *.aux
 *.lof
@@ -278,3 +274,6 @@ TSWLatexianTemp*
 
 # Generated Files
 /out/
+
+#JetBrains
+/.idea/
