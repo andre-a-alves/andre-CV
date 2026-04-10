@@ -1,21 +1,21 @@
-  %% andre-cv.cls
-  %% Copyright 2024 Andre A Alves
-  %
-  % This work may be distributed and/or modified under the
-  % conditions of the LaTeX Project Public License, either version 1.3
-  % of this license or (at your option) any later version.
-  % The latest version of this license is in
-  %   http://www.latex-project.org/lppl.txt
-  % and version 1.3 or later is part of all distributions of LaTeX
-  % version 2005/12/01 or later.
-  %
-  % This work has the LPPL maintenance status `maintained'.
-  %
-  % The Current Maintainer of this work is Andre A Alves.
-  %
-  % This work consists of all files listed in manifest.txt.
+%% andre-cv.cls
+%% Copyright 2024 Andre A Alves
+%
+% This work may be distributed and/or modified under the
+% conditions of the LaTeX Project Public License, either version 1.3
+% of this license or (at your option) any later version.
+% The latest version of this license is in
+%   http://www.latex-project.org/lppl.txt
+% and version 1.3 or later is part of all distributions of LaTeX
+% version 2005/12/01 or later.
+%
+% This work has the LPPL maintenance status `maintained'.
+%
+% The Current Maintainer of this work is Andre A Alves.
+%
+% This work consists of all files listed in manifest.txt.
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{andre-cv}[2024-03-19]
+\ProvidesClass{andre-cv}[2026-04-10]
 
 \RequirePackage{etoolbox}
 
@@ -24,257 +24,50 @@
 \DeclareOption{11pt}{\def\ChosenFontSize{11pt}}
 \DeclareOption{12pt}{\def\ChosenFontSize{12pt}}
 
+% Theme selection
+\def\cv@theme{us-resume}
+\def\cv@handleoption#1=#2=#3\@nil{%
+  \def\cv@optionname{#1}%
+  \def\cv@optionvalue{#2}%
+  \ifdefstring{\cv@optionname}{theme}{%
+    \ifdefstring{\cv@optionvalue}{german-cv}{%
+      \def\cv@theme{german-cv}%
+    }{%
+      \ifdefstring{\cv@optionvalue}{us-resume}{%
+        \def\cv@theme{us-resume}%
+      }{%
+        \ClassError{andre-cv}{Unknown theme '\cv@optionvalue'}%
+          {Supported themes are 'german-cv' and 'us-resume'.}%
+      }%
+    }%
+  }{%
+    \PassOptionsToClass{\CurrentOption}{andre-cv-base}%
+  }%
+}
+
 % Forward unknown options (paper size, language, etc.) to the base class.
-\DeclareOption*{\PassOptionsToClass{\CurrentOption}{andre-cv-base}}
+\DeclareOption*{%
+  \edef\cv@currentoption{\CurrentOption}%
+  \expandafter\cv@handleoption\cv@currentoption=\@nil
+}
 \ExecuteOptions{10pt}
 \ProcessOptions\relax
 \PassOptionsToClass{\ChosenFontSize}{andre-cv-base}
-% Default paper/language for andre-cv (overridden by user options processed
-% inside the base class).
-\def\cv@papersize{a4paper}
+
+% Theme defaults for paper/language; user options processed in the base class
+% can still override these values.
+\ifdefstring{\cv@theme}{german-cv}{%
+  \def\cv@papersize{a4paper}%
+}{%
+  \ifdefstring{\cv@theme}{us-resume}{%
+    \def\cv@papersize{letterpaper}%
+  }{%
+    \ClassError{andre-cv}{Unknown theme '\cv@theme'}%
+      {Supported themes are 'german-cv' and 'us-resume'.}%
+  }%
+}
 \def\cv@language{english}
 \def\cv@babellang{english}
 \LoadClass{andre-cv-base}
 
-\RequirePackage{datetime2}
-\RequirePackage[\cv@papersize, vmargin=16.9mm, hmargin=24.1mm]{geometry}
-
-\setlength{\parindent}{0pt}
-
-\DTMsetdatestyle{iso}
-
-\begin{luacode}
-	-- Sort personal-details entries by their sortKey so the rendered order
-	-- is deterministic regardless of the order in which the user called
-	-- the Set commands. Stable sort: equal sortKeys preserve insertion order.
-	function sortPersonalDetails(arr)
-		table.sort(arr, function(a, b)
-			return (a.sortKey or 0) < (b.sortKey or 0)
-		end)
-	end
-
-	function printTwoColumnTableFromArray(arr)
-		sortPersonalDetails(arr)
-
-		function printLineWithTwoItems(index, middleIndex)
-			tex.sprint(arr[index]["icon"] .. "&" .. arr[index]["value"] .. "& \\hspace{2.5em}" .. arr[middleIndex + index]["icon"] .. "&" .. arr[middleIndex + index]["value"] .. "\\\\" )
-		end
-
-		local length = #arr
-		local middle = math.ceil(length / 2)
-		local i = 1
-
-		tex.sprint("\\begin{tabular}{c l c l}")
-
-		while i < middle do
-			printLineWithTwoItems(i, middle)
-			i = i + 1
-		end
-		if length % 2 == 1 then
-			tex.sprint(arr[i]["icon"] .. "&" .. arr[i]["value"] .. "\\\\" )
-		else
-			printLineWithTwoItems(i, middle)
-		end
-
-		tex.sprint("\\end{tabular}")
-	end
-
-	function getPictureWidthFromArray(arr)
-		if setPictureWidth == 0 then
-			return 3 + math.ceil(#arr / 2) * 0.3
-		else
-			return setPictureWidth
-		end
-	end
-
-	function setSetPictureWidth(value)
-		setPictureWidth = value
-	end
-\end{luacode}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-% Headers and Footers
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\pagestyle{fancy}
-\fancypagestyle{letter}{\fancyhf{}}
-\rhead{\large \textbf{\textsc{\DisplayName}}}
-\geometry{vmargin=16.9mm, hmargin=24.1mm, footskip=0.6cm}
-\fancypagestyle{noheader}{\fancyhead{}}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-% Letter Production Commands
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\newcommand{\cv@renderletter@begin}{%
-	\thispagestyle{letter}%
-	\newgeometry{top=2cm, right=2cm, left=2.5cm, bottom=2cm}%
-	\begin{flushright}
-	{\Large \textsc{\DisplayName}}\\
-	\@ifundefined{DisplayAddressOne}{}{\DisplayAddressOne\\}%
-	\@ifundefined{DisplayAddressTwo}{}{\DisplayAddressTwo\\}%
-	\@ifundefined{DisplayAddressThree}{}{\DisplayAddressThree\\}%
-	\@ifundefined{DisplayPhone}{}{\DisplayPhone\\}%
-	\@ifundefined{DisplayEmail}{}{\DisplayEmail\\}%
-	\end{flushright}
-
-	\vspace{2\baselineskip}
-
-	\textsc{\cv@letter@toname}\\
-	\cv@letter@toaddress\\[\baselineskip]
-
-	\begin{flushright}
-		\today
-	\end{flushright}
-
-	\vspace{\baselineskip}
-
-	\textbf{\cv@letter@subject}\\[\baselineskip]
-
-	\cv@letter@opening\\
-
-}
-
-\newcommand{\cv@renderletter@end}{%
-	\par
-	\cv@letter@closing,\\
-
-	\ifthenelse{\equal{\cv@letter@signature}{}}%
-		{\\[3\baselineskip]}%
-		{\includegraphics[height=3\baselineskip]{\cv@letter@signature}\\}%
-	\DisplayName
-	\newpage
-	\setcounter{page}{1}%
-}
-
-% Deprecated: use the coverletter environment instead.
-\newcommand{\MakeCoverLetter}[9]{%
-	\ClassWarning{andre-cv}{\noexpand\MakeCoverLetter is deprecated; use the coverletter environment instead}%
-	\begin{coverletter}[%
-		to-name    = {#3},%
-		to-address = {#4},%
-		subject    = {#5},%
-		opening    = {#6},%
-		closing    = {#8},%
-		signature  = {#9}%
-	]%
-	#7%
-	\end{coverletter}%
-}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-% CV Production Commands
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newcommand{\DisplayName}{}
-\newcommand{\tabularColumnWidth}{2.4cm}
-\newcommand{\ResizeTabular}[1]{\renewcommand{\tabularColumnWidth}{#1}}
-\newcommand{\picturewidth}{}
-\newcommand{\ZeroPictureWidth}{\renewcommand{\picturewidth}{0mm}}
-\newcommand{\HeaderImageSizeCm}[1]{\directlua{setSetPictureWidth(#1)}}
-
-\newcommand*{\DisplayHeader}[2]{
-	\directlua{
-		local pictureWidth = getPictureWidthFromArray(personalDetails)
-		tex.sprint("\\renewcommand{\\picturewidth}{" .. pictureWidth .. "cm}")
-	}
-	\thispagestyle{noheader}
-	\ifthenelse{\equal{}{#2}}{\ZeroPictureWidth}{}%
-	\noindent
-	\begin{minipage}[t]{\textwidth-\picturewidth}
-	{\HUGE \textsc{\DisplayName}}\\
-	\vspace{4mm}{\Large \color{gray} \textbf{#1}}
-
-	\section{Personal Details}
-	\IncludeCVHeaderTable
-	\vspace{3mm}
-	\end{minipage}%
-	\ifthenelse{\equal{}{#2}}{}{%
-		\hfill
-		\begin{minipage}[t]{\picturewidth}
-		\vspace{-1.5em}
-		\raggedleft
-		\includegraphics[height=\picturewidth, width=\picturewidth]{#2}
-		\end{minipage}%
-	}%
-	\par
-}
-\newcommand{\IncludeCVHeaderTable}{
-	\directlua{
-			printTwoColumnTableFromArray(personalDetails)
-	}
-}
-
-\newcommand*{\@cventrycore}[5]{%
-	\begin{minipage}{\textwidth}
-	\setlength\tabcolsep{0pt}
-	\setlength{\extrarowheight}{0pt}
-	\begin{tabularx}{\textwidth}{ l X }
-	\multirow[t]{2}{\tabularColumnWidth}{{#1}~\hspace{3mm}} & {\textbf{#2}} \hfill {\small #4}\\
-	& \textsc{#3} \\
-	& #5
-	\end{tabularx}
-	\vspace{-4mm}
-	\end{minipage}
-}
-
-% Key-value interface: \cventry[dates=, title=, org=, location=, url=]{body}
-\newcommand*{\cventry}[2][]{%
-	\def\cv@entry@dates{}\def\cv@entry@title{}\def\cv@entry@org{}%
-	\def\cv@entry@location{}\def\cv@entry@url{}%
-	\setkeys{cventry}{#1}%
-	\vspace{4mm}%
-	\@cventrycore{\cv@entry@dates}%
-		{\ifthenelse{\equal{\cv@entry@url}{}}%
-			{\cv@entry@title}%
-			{\href{\cv@entry@url}{\cv@entry@title}}}%
-		{\cv@entry@org}%
-		{\cv@entry@location}%
-		{#2}%
-}
-
-% Deprecated: old five-argument positional interface
-\newcommand*{\cventrylegacy}[5]{\vspace{4mm}\@cventrycore{#1}{#2}{#3}{#4}{#5}}
-
-% Deprecated: pad-less positional variant
-\newcommand*{\cvpadlessentry}[5]{\@cventrycore{#1}{#2}{#3}{#4}{#5}}
-
-% Deprecated: use \cvitem instead
-\newcommand*{\cvlistitem}[3]{
-	\vspace{1.5mm}
-	\setlength\tabcolsep{0pt}
-	\setlength{\extrarowheight}{0pt}
-	\begin{tabularx}{\textwidth}{p{\tabularColumnWidth} X}
-		\raggedright \ifthenelse{\equal{#3}{}}
-			{\textbf{#1}}
-			{\href{#3}{\textbf{#1}}}
-			& #2 \\
-	\end{tabularx}\\
-}
-
-% Lightweight label-value pair; replaces \cvlistitem
-\newcommand*{\cvitem}[2]{%
-	\vspace{1.5mm}%
-	\setlength\tabcolsep{0pt}%
-	\setlength{\extrarowheight}{0pt}%
-	\begin{tabularx}{\textwidth}{p{\tabularColumnWidth} X}%
-		\raggedright\textbf{#1} & #2 \\
-	\end{tabularx}%
-}
-
-\newcommand*{\DisplaySignature}[2]
-		{
-			\bigskip
-			\begin{minipage}{.5\textwidth}
-				\hfill
-			\end{minipage}
-			\begin{minipage}{.5\textwidth}
-				\includegraphics[width=5cm]{#1} \\
-				#2 \\
-				\today
-			\end{minipage}
-		}
+\RequirePackage{themes/\cv@theme}
