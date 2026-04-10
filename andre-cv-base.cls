@@ -10,14 +10,25 @@
 \DeclareOption{11pt}{\def\ChosenFontSize{11pt}}
 \DeclareOption{12pt}{\def\ChosenFontSize{12pt}}
 
+% Paper Size (child classes set their own default; user may override)
+\DeclareOption{a4paper}{\def\cv@papersize{a4paper}}
+\DeclareOption{letterpaper}{\def\cv@papersize{letterpaper}}
+
+% Language (child classes set their own default; user may override)
+\DeclareOption{english}{\def\cv@language{english}\def\cv@babellang{english}}
+\DeclareOption{german}{\def\cv@language{german}\def\cv@babellang{ngerman}}
+
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{article}}
 \ExecuteOptions{11pt}
-\ProcessOptions
+\ProcessOptions\relax
 \PassOptionsToClass{\ChosenFontSize}{article}
-\relax
+% Fall-back defaults if no child class set them and no user option supplied one
+\providecommand{\cv@papersize}{a4paper}
+\providecommand{\cv@language}{english}
+\providecommand{\cv@babellang}{english}
 \LoadClass{article}
 
-\RequirePackage[english]{babel} % standard language: English
+\RequirePackage[\cv@babellang]{babel}
 \RequirePackage{fontspec}
 \RequirePackage{ifthen}
 \RequirePackage{hyperref}
@@ -62,12 +73,16 @@
 \newcommand*{\SetAddressOne}[1]{\def\DisplayAddressOne{#1}}
 \newcommand*{\SetAddressTwo}[1]{\def\DisplayAddressTwo{#1}}
 \newcommand*{\SetAddressThree}[1]{\def\DisplayAddressThree{#1}}
+% Personal-details sortKeys: lower is rendered first. The categories (in
+% order) are location, phone, email, links. The keys are sparse so new
+% fields can slot in without renumbering.
 \newcommand*{\SetTown}[1]{
     \def\DisplayTown{#1}
     \directlua{
         personalDetails[personalDetailsIndex] = {
             value = "\\DisplayTown",
             icon = "\\faMapMarker",
+            sortKey = 10,
         }
         personalDetailsIndex = personalDetailsIndex + 1
     }
@@ -78,6 +93,7 @@
         personalDetails[personalDetailsIndex] = {
             value = "\\DisplayPhone",
             icon = "\\faMobile",
+            sortKey = 30,
         }
         personalDetailsIndex = personalDetailsIndex + 1
     }
@@ -88,6 +104,7 @@
         personalDetails[personalDetailsIndex] = {
             value = "\\DisplayEmail",
             icon = "\\faEnvelope",
+            sortKey = 40,
         }
         personalDetailsIndex = personalDetailsIndex + 1
     }
@@ -98,6 +115,7 @@
             personalDetails[personalDetailsIndex] = {
                 value = "\\DisplayCitizenship",
                 icon = "\\faFlag",
+                sortKey = 20,
             }
         personalDetailsIndex = personalDetailsIndex + 1
     }
@@ -108,6 +126,7 @@
         personalDetails[personalDetailsIndex] = {
             value = "\\DisplayGithub",
             icon = "\\faGithub",
+            sortKey = 50,
         }
         personalDetailsIndex = personalDetailsIndex + 1
     }
@@ -118,6 +137,7 @@
         personalDetails[personalDetailsIndex] = {
             value = "\\DisplayLinkedIn",
             icon = "\\faLinkedin",
+            sortKey = 60,
         }
         personalDetailsIndex = personalDetailsIndex + 1
     }
@@ -128,6 +148,7 @@
         personalDetails[personalDetailsIndex] = {
             value = "\\DisplayXing",
             icon = "\\faXing",
+            sortKey = 70,
         }
         personalDetailsIndex = personalDetailsIndex + 1
     }
@@ -140,6 +161,7 @@
         personalDetails[personalDetailsIndex] = {
             value = "\\DisplayHomepage",
             icon = "\\faLaptop",
+            sortKey = 80,
         }
         personalDetailsIndex = personalDetailsIndex + 1
     }
@@ -181,6 +203,9 @@
 \definecolor{gray}{HTML}{999999}
 \definecolor{light_gray}{RGB}{185,185,185}
 \colorlet{accentColor}{UltramarineBlue}
+
+% User-facing convenience: override the accent color (e.g. \SetAccentColor{Tangerine}).
+\newcommand*{\SetAccentColor}[1]{\colorlet{accentColor}{#1}}
 
 \setcounter{secnumdepth}{0}
 \renewcommand*{\section}[2][]{%

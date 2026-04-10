@@ -29,14 +29,19 @@
 \DeclareOption{11pt}{\def\ChosenFontSize{11pt}}
 \DeclareOption{12pt}{\def\ChosenFontSize{12pt}}
 
-\DeclareOption*{\PassOptionsToClass{\CurrentOption}{article}}
+% Forward unknown options (paper size, language, etc.) to the base class.
+\DeclareOption*{\PassOptionsToClass{\CurrentOption}{andre-cv-base}}
 \ExecuteOptions{10pt}
-\ProcessOptions
+\ProcessOptions\relax
 \PassOptionsToClass{\ChosenFontSize}{andre-cv-base}
-\relax
+% Default paper/language for andre-resume (overridden by user options
+% processed inside the base class).
+\def\cv@papersize{letterpaper}
+\def\cv@language{english}
+\def\cv@babellang{english}
 \LoadClass{andre-cv-base}
 
-\RequirePackage[letterpaper, margin=0.75in]{geometry}
+\RequirePackage[\cv@papersize, margin=0.75in]{geometry}
 \RequirePackage[en-US, useregional]{datetime2}
 
 \setlength{\parindent}{0pt}

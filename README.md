@@ -128,6 +128,20 @@ lualatex sample-resume.tex
 
 If you are not using `biblatex`, you can skip the `biber` step.
 
+## Class Options
+
+Both classes accept the following options on `\documentclass[...]`:
+
+- `10pt`, `11pt`, `12pt` — base font size.
+- `a4paper`, `letterpaper` — paper size. `andre-cv` defaults to `a4paper`; `andre-resume` defaults to `letterpaper`. Pass the other to override.
+- `english`, `german` — document language. Sets `babel` to `english` or `ngerman` respectively. Both classes default to `english`.
+
+For example, to render a CV on US letter paper in German:
+
+```tex
+\documentclass[10pt, letterpaper, german]{andre-cv}
+```
+
 ## Current Document API
 
 ### Shared personal-detail commands
@@ -147,9 +161,13 @@ These commands are defined in `andre-cv-base.cls` and are used by both classes:
 - `\SetXing{...}`
 - `\SetHomepage{...}`
 
-`SetTown`, `SetPhone`, `SetEmail`, `SetCitizenship`, `SetGithub`, `SetLinkedIn`, `SetXing`, and `SetHomepage` are also added to the CV header details table automatically.
+`SetTown`, `SetPhone`, `SetEmail`, `SetCitizenship`, `SetGithub`, `SetLinkedIn`, `SetXing`, and `SetHomepage` are also added to the CV header details table automatically. They are rendered in a deterministic category order (location, phone, email, links) regardless of the order in which the `\Set*` commands were called.
 
 For `\SetHomepage`, pass a bare host/path such as `www.example.com`; the class prepends `https://`.
+
+### Theming
+
+- `\SetAccentColor{ColorName}` — override the accent color used for section headings, dates, and links. Accepts any color name known to `xcolor`. Pre-defined colors include `UltramarineBlue` (default), `YellowGreen`, `Fuchsia`, `Tangerine`, `ElectricViolet`, `Coquelicot`, and `Rose`. Place this in the preamble before `\begin{document}`.
 
 ### Section and content commands
 
