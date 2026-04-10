@@ -24,22 +24,38 @@
 \DeclareOption{11pt}{\def\ChosenFontSize{11pt}}
 \DeclareOption{12pt}{\def\ChosenFontSize{12pt}}
 
-\DeclareOption*{\PassOptionsToClass{\CurrentOption}{article}}
+% Forward unknown options (paper size, language, etc.) to the base class.
+\DeclareOption*{\PassOptionsToClass{\CurrentOption}{andre-cv-base}}
 \ExecuteOptions{10pt}
-\ProcessOptions
+\ProcessOptions\relax
 \PassOptionsToClass{\ChosenFontSize}{andre-cv-base}
-\relax
+% Default paper/language for andre-cv (overridden by user options processed
+% inside the base class).
+\def\cv@papersize{a4paper}
+\def\cv@language{english}
+\def\cv@babellang{english}
 \LoadClass{andre-cv-base}
 
 \RequirePackage{datetime2}
-\RequirePackage[a4paper, vmargin=16.9mm, hmargin=24.1mm]{geometry}
+\RequirePackage[\cv@papersize, vmargin=16.9mm, hmargin=24.1mm]{geometry}
 
 \setlength{\parindent}{0pt}
 
 \DTMsetdatestyle{iso}
 
 \begin{luacode}
+	-- Sort personal-details entries by their sortKey so the rendered order
+	-- is deterministic regardless of the order in which the user called
+	-- the Set commands. Stable sort: equal sortKeys preserve insertion order.
+	function sortPersonalDetails(arr)
+		table.sort(arr, function(a, b)
+			return (a.sortKey or 0) < (b.sortKey or 0)
+		end)
+	end
+
 	function printTwoColumnTableFromArray(arr)
+		sortPersonalDetails(arr)
+
 		function printLineWithTwoItems(index, middleIndex)
 			tex.sprint(arr[index]["icon"] .. "&" .. arr[index]["value"] .. "& \\hspace{2.5em}" .. arr[middleIndex + index]["icon"] .. "&" .. arr[middleIndex + index]["value"] .. "\\\\" )
 		end
