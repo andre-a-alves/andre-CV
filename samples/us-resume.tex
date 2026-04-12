@@ -13,12 +13,18 @@
 %
 % The Current Maintainer of this work is A. A. Alves.
 %
-% This work consists of all files listed in manifest.txt.
+% This work consists of all files listed in latex/manifest.txt.
+%
+% Compile from the samples/ directory with TEXINPUTS pointing at latex/:
+%   TEXINPUTS=../latex//: lualatex us-resume.tex
+%   biber us-resume
+%   TEXINPUTS=../latex//: lualatex us-resume.tex
+%   TEXINPUTS=../latex//: lualatex us-resume.tex
 \documentclass[theme=us-resume,10pt]{andre-cv}
 
 \usepackage{lipsum}
 \usepackage[backend=biber, style=chicago-authordate]{biblatex}
-\addbibresource{sample-papers.bib}
+\addbibresource{papers.bib}
 \nocite{duality}
 \nocite{methods}
 

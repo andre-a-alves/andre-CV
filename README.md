@@ -1,41 +1,54 @@
 # andre-CV
 
-A LaTeX document-class package for building:
+A polyglot monorepo containing:
 
-- German-style CVs with optional cover letters
-- US-style resumes with optional cover letters
+- A LaTeX document-class package for building German-style CVs and US-style resumes with optional cover letters
+- Rust libraries and CLI tooling for generating LaTeX from structured YAML data
 
-The package now uses a single class entrypoint, `andre-cv.cls`, plus theme
-packages in `themes/`.
+## Repository Layout
+
+```
+andre-cv/
+├── latex/          LaTeX classes and themes (self-contained, copy-and-use)
+│   ├── andre-cv.cls
+│   ├── andre-cv-base.cls
+│   └── themes/
+│       ├── german-cv.sty
+│       └── us-resume.sty
+├── libs/
+│   └── andre-cv-core/  Core Rust library (schema, parsing, validation, rendering)
+├── tools/
+│   └── cli/            Command-line interface
+├── samples/        Reference .tex files and supporting assets
+└── schema/         YAML resume schema
+```
 
 ## Current Status
 
 This project is still marked beta. The document API may change, and backward
 compatibility is not guaranteed between revisions.
 
-## What Is In This Repository
+## LaTeX Quick Start
 
-- `andre-cv.cls`: unified class entrypoint
-- `andre-cv-base.cls`: shared commands, parsing, and rendering hooks
-- `themes/german-cv.sty`: German CV theme
-- `themes/us-resume.sty`: US resume theme
-- `sample-german-cv.tex`: CV example using `theme=german-cv`
-- `sample-us-resume.tex`: resume example using `theme=us-resume`
-- `sample-papers.bib`: bibliography sample used by both example documents
+Copy the `latex/` directory somewhere on your `TEXINPUTS` path and use the
+class directly:
 
-## Requirements
+```tex
+\documentclass[theme=german-cv,10pt]{andre-cv}
+```
 
-This project uses:
+or
 
-- `fontspec`
-- `luacode`
-- `biblatex` with `biber` in the samples
+```tex
+\documentclass[theme=us-resume,10pt]{andre-cv}
+```
 
-Compile with `lualatex`, not `pdflatex`.
+### Requirements
 
-## Quick Start
+- `fontspec`, `luacode`, `biblatex` / `biber` (for bibliography support in samples)
+- Compile with `lualatex`, not `pdflatex`
 
-For a German-style CV:
+### Example — German-style CV
 
 ```tex
 \documentclass[theme=german-cv,10pt]{andre-cv}
@@ -51,7 +64,7 @@ For a German-style CV:
 \SetCitizenship{USA}
 
 \begin{document}
-\DisplayHeader{Archaeologist}{./img/DALLE_adventurer.png}
+\DisplayHeader{Archaeologist}{./img/photo.png}
 
 \section{Experience}
 \cventry[
@@ -65,7 +78,7 @@ For a German-style CV:
 \end{document}
 ```
 
-For a US-style resume:
+### Example — US-style resume
 
 ```tex
 \documentclass[theme=us-resume,10pt]{andre-cv}
@@ -97,29 +110,30 @@ For a US-style resume:
 \end{document}
 ```
 
-## Building
+### Building the Samples
 
-If your document uses bibliography support, build with:
-
-```bash
-lualatex sample-german-cv.tex
-biber sample-german-cv
-lualatex sample-german-cv.tex
-lualatex sample-german-cv.tex
-```
-
-Or for the resume:
+The classes live in `latex/`, so set `TEXINPUTS` when calling lualatex.
+Compile from `samples/` so that relative image paths resolve correctly:
 
 ```bash
-lualatex sample-us-resume.tex
-biber sample-us-resume
-lualatex sample-us-resume.tex
-lualatex sample-us-resume.tex
+cd samples
+TEXINPUTS=../latex//: lualatex german-cv.tex
+biber german-cv
+TEXINPUTS=../latex//: lualatex german-cv.tex
+TEXINPUTS=../latex//: lualatex german-cv.tex
 ```
 
-If you are not using `biblatex`, you can skip the `biber` step.
+```bash
+cd samples
+TEXINPUTS=../latex//: lualatex us-resume.tex
+biber us-resume
+TEXINPUTS=../latex//: lualatex us-resume.tex
+TEXINPUTS=../latex//: lualatex us-resume.tex
+```
 
-## Class Options
+If you are not using `biblatex`, skip the `biber` step.
+
+### Class Options
 
 The unified class accepts:
 
@@ -139,14 +153,12 @@ Paper and language can still be overridden explicitly:
 \documentclass[theme=german-cv,10pt,letterpaper,german]{andre-cv}
 ```
 
-## Current Document API
+### Document API
 
-### Shared personal-detail commands
+#### Shared personal-detail commands
 
 - `\SetName{...}`
-- `\SetAddressOne{...}`
-- `\SetAddressTwo{...}`
-- `\SetAddressThree{...}`
+- `\SetAddressOne{...}`, `\SetAddressTwo{...}`, `\SetAddressThree{...}`
 - `\SetTown{...}`
 - `\SetPhone{...}`
 - `\SetEmail{...}`
@@ -163,62 +175,59 @@ category order in the German CV header.
 For `\SetHomepage`, pass a bare host/path such as `www.example.com`; the
 class prepends `https://`.
 
-### Theming
+#### Theming
 
 - `\SetAccentColor{ColorName}` overrides the accent color.
 
-Built-in color names include `UltramarineBlue`, `YellowGreen`, `Fuchsia`,
-`Tangerine`, `ElectricViolet`, `Coquelicot`, and `Rose`.
+Built-in color names: `UltramarineBlue`, `YellowGreen`, `Fuchsia`,
+`Tangerine`, `ElectricViolet`, `Coquelicot`, `Rose`.
 
-### Shared section and content commands
+#### Shared section and content commands
 
 - `\section{Title}`
 - `\cvitemize{ ... }`
 - `\cvitem{label}{value}`
 - `\cventry[dates=..., title=..., org=..., location=..., url=...]{...}`
-- `coverletter`
+- `coverletter` environment
 
 If `url` is provided, the entry title is rendered as a hyperlink.
 
-### Deprecated commands
+#### Theme-specific commands
 
-The following compatibility commands still exist:
-
-- `\cventrylegacy`
-- `\cvlistitem`
-
-`theme=german-cv` additionally provides:
-
-- `\cvpadlessentry`
-
-### Theme-specific helper commands
-
-`theme=german-cv` provides:
+`theme=german-cv`:
 
 - `\DisplayHeader{subtitle}{image-path}`
 - `\DisplaySignature{signature-image-path}{location}`
 - `\ResizeTabular{width}`
 - `\HeaderImageSizeCm{number}`
 
-`theme=us-resume` provides:
+`theme=us-resume`:
 
 - `\MakeHeader{line1}{line2}{line3}`
 - `\SetBadge{scale}{image-path}`
 
-## Cover Letters
+#### Deprecated commands
 
-Both themes provide the `coverletter` environment and the deprecated
-`\MakeCoverLetter` helper. Cover letters are formatted according to the active
-theme.
+- `\cventrylegacy`, `\cvlistitem`
+- `\cvpadlessentry` (german-cv only)
 
-## Samples
+## Licenses
 
-The most reliable usage examples are:
+This repository uses two licenses depending on the component:
 
-- `sample-german-cv.tex`
-- `sample-us-resume.tex`
+| Component | License | File |
+|-----------|---------|------|
+| `latex/` — LaTeX classes and themes | LaTeX Project Public License 1.3c | `latex/LICENSE.txt` |
+| `libs/`, `tools/` — Rust source code | Apache License 2.0 | `LICENSE.txt` |
 
-## License
+The LaTeX classes (`latex/`) are distributed under the LPPL 1.3c because that
+is the standard license for LaTeX packages and is expected by CTAN. The LPPL
+requires that the files constituting the Work are listed; see
+`latex/manifest.txt`.
 
-This project is distributed under the LaTeX Project Public License 1.3c or
-later. See `LICENSE.txt`.
+The Rust libraries and CLI (`libs/`, `tools/`) are distributed under the
+Apache License 2.0, which is the conventional open-source license for Rust
+crates and provides an explicit patent grant.
+
+The sample files in `samples/` are part of the LaTeX Work and are covered by
+the LPPL 1.3c.
