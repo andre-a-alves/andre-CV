@@ -112,20 +112,23 @@ or
 
 ### Building the Samples
 
+The classes live in `latex/`, so set `TEXINPUTS` when calling lualatex.
+Compile from `samples/` so that relative image paths resolve correctly:
+
 ```bash
 cd samples
-lualatex german-cv.tex
+TEXINPUTS=../latex//: lualatex german-cv.tex
 biber german-cv
-lualatex german-cv.tex
-lualatex german-cv.tex
+TEXINPUTS=../latex//: lualatex german-cv.tex
+TEXINPUTS=../latex//: lualatex german-cv.tex
 ```
 
 ```bash
 cd samples
-lualatex us-resume.tex
+TEXINPUTS=../latex//: lualatex us-resume.tex
 biber us-resume
-lualatex us-resume.tex
-lualatex us-resume.tex
+TEXINPUTS=../latex//: lualatex us-resume.tex
+TEXINPUTS=../latex//: lualatex us-resume.tex
 ```
 
 If you are not using `biblatex`, skip the `biber` step.
