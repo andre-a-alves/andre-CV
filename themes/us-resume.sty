@@ -1,0 +1,122 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{themes/us-resume}[2026-04-10 US resume theme]
+
+\RequirePackage[\cv@papersize, margin=0.75in]{geometry}
+\RequirePackage[en-US, useregional]{datetime2}
+\RequirePackage{tikz}
+
+\newbool{FontChosen}
+\newbool{BadgeToggled}
+\newcommand{\InsertHeader}{}
+
+\setlength{\parindent}{0pt}
+\DTMsetstyle{en-US}
+
+\pagestyle{fancy}
+\fancypagestyle{letter}{\fancyhf{}}
+\chead{\InsertHeader}
+\rhead{\ifbool{BadgeToggled}{\InsertBadge}{}}
+\lfoot{\FooterGrayColor{\today}}
+\geometry{includehead, headsep=0.2in, footskip=0.25in}
+\fancypagestyle{noheader}{\fancyhead{}}
+
+\newcommand*{\MakeHeader}[3]{%
+	\def\InsertHeader{%
+		\HUGE \textsc{#1}\\
+		\small #2 \\
+		#3%
+	}%
+}
+
+\newcommand*{\SetBadge}[2]{%
+	\booltrue{BadgeToggled}%
+	\def\InsertBadge{\includegraphics[scale=#1]{#2}}%
+}
+
+\renewcommand*{\cv@render@entry}[1]{%
+	\begin{minipage}{\textwidth}
+	\vspace{4mm}%
+	\setlength\tabcolsep{0pt}%
+	\setlength{\extrarowheight}{0pt}%
+	\begin{tabularx}{\textwidth}{X r}
+		\large{\textbf{\cv@entry@linktitle}} & \color{accentColor}\cv@entry@dates \\
+		\textsc{\cv@entry@org} & {\small \cv@entry@location}
+	\end{tabularx}
+	#1
+	\end{minipage}%
+}
+
+\renewcommand*{\cv@render@item}[2]{%
+	\vspace{1.5mm}%
+	\setlength\tabcolsep{0pt}%
+	\setlength{\extrarowheight}{0pt}%
+	\begin{tabularx}{\textwidth}{l l X}%
+		\textbf{#1} & \hspace{0.3cm} & #2 \\
+	\end{tabularx}%
+}
+
+\renewcommand{\cv@renderletter@begin}{%
+	\thispagestyle{letter}%
+	\newgeometry{margin=0.75in}%
+	{\Large {\fontseries{m}\selectfont \textsc{\DisplayName}}}\\
+	\@ifundefined{DisplayAddressOne}{}{\DisplayAddressOne\\}%
+	\@ifundefined{DisplayAddressTwo}{}{\DisplayAddressTwo\\}%
+	\@ifundefined{DisplayAddressThree}{}{\DisplayAddressThree\\}%
+	\@ifundefined{DisplayPhone}{}{\DisplayPhone\\}%
+	\@ifundefined{DisplayEmail}{}{\DisplayEmail\\}%
+
+	\today\\
+
+	\textsc{\cv@letter@toname}\\
+	\cv@letter@toaddress\\
+
+	\textbf{\cv@letter@subject}\\
+
+	\cv@letter@opening\\
+}
+
+\renewcommand{\cv@renderletter@end}{%
+	\par
+	\cv@letter@closing,\\
+	\ifthenelse{\equal{\cv@letter@signature}{}}%
+		{\\[3\baselineskip]}%
+		{\includegraphics[height=3\baselineskip]{\cv@letter@signature}\\}%
+	\DisplayName
+	\restoregeometry
+	\setcounter{page}{1}%
+}
+
+\newcommand{\MakeCoverLetter}[9]{%
+	\PackageWarning{themes/us-resume}{\noexpand\MakeCoverLetter is deprecated; use the coverletter environment instead}%
+	\begin{coverletter}[%
+		to-name    = {#3},%
+		to-address = {#4},%
+		subject    = {#5},%
+		opening    = {#6},%
+		closing    = {#8},%
+		signature  = {#9}%
+	]%
+	#7%
+	\end{coverletter}%
+}
+
+\newcommand*{\cventrylegacy}[5]{%
+	\def\cv@entry@dates{#1}%
+	\def\cv@entry@title{#2}%
+	\def\cv@entry@org{#3}%
+	\def\cv@entry@location{#4}%
+	\def\cv@entry@url{}%
+	\cv@render@entry{#5}%
+}
+
+\newcommand*{\cvlistitem}[3]{%
+	\vspace{1.5mm}%
+	\setlength\tabcolsep{0pt}%
+	\setlength{\extrarowheight}{0pt}%
+	\begin{tabularx}{\textwidth}{l l X}%
+		\ifthenelse{\equal{#3}{}}%
+			{\textbf{#1}}%
+			{\href{#3}{\textbf{#1}}}%
+			& \hspace{0.3cm} & #2 \\
+	\end{tabularx}\\%
+}

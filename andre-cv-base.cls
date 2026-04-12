@@ -69,6 +69,7 @@
 \end{luacode}
 
 \newcommand{\FooterGrayColor}[1]{\color{gray} #1}
+\newcommand{\DisplayName}{}
 \newcommand*{\SetName}[1]{\def\DisplayName{#1}}
 \newcommand*{\SetAddressOne}[1]{\def\DisplayAddressOne{#1}}
 \newcommand*{\SetAddressTwo}[1]{\def\DisplayAddressTwo{#1}}
@@ -208,9 +209,32 @@
 \newcommand*{\SetAccentColor}[1]{\colorlet{accentColor}{#1}}
 
 \setcounter{secnumdepth}{0}
-\renewcommand*{\section}[2][]{%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Theme Rendering Hooks
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand*{\cv@entry@linktitle}{%
+  \ifthenelse{\equal{\cv@entry@url}{}}%
+    {\cv@entry@title}%
+    {\href{\cv@entry@url}{\cv@entry@title}}%
+}
+
+\newcommand*{\cv@render@sectionheading}[1]{%
   \vspace{4mm}%
-  \noindent{\Large\bfseries\color{accentColor}#2} \textcolor{light_gray}{\hrulefill}\par%
+  \noindent{\Large\bfseries\color{accentColor}#1} \textcolor{light_gray}{\hrulefill}\par%
+}
+
+\newcommand*{\cv@render@entry}[1]{#1}
+\newcommand*{\cv@render@item}[2]{#1 #2\par}
+\newcommand*{\cv@render@header}{}
+\newcommand*{\cv@renderletter@begin}{}
+\newcommand*{\cv@renderletter@end}{}
+
+\renewcommand*{\section}[2][]{%
+  \cv@render@sectionheading{#2}%
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -235,6 +259,17 @@
 \begin{itemize}[noitemsep,topsep=0pt,parsep=1pt,partopsep=0pt, leftmargin=*]
 #1
 \end{itemize}
+}
+
+\newcommand*{\cventry}[2][]{%
+  \def\cv@entry@dates{}\def\cv@entry@title{}\def\cv@entry@org{}%
+  \def\cv@entry@location{}\def\cv@entry@url{}%
+  \setkeys{cventry}{#1}%
+  \cv@render@entry{#2}%
+}
+
+\newcommand*{\cvitem}[2]{%
+  \cv@render@item{#1}{#2}%
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

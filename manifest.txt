@@ -1,7 +1,8 @@
 andre-cv.cls
 andre-cv-base.cls
-andre-resume.cls
-sample-CV.tex
+themes/german-cv.sty
+themes/us-resume.sty
+sample-german-cv.tex
 sample-papers.bib
-sample-resume.tex
+sample-us-resume.tex
 README.md

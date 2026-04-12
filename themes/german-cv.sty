@@ -1,0 +1,227 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{themes/german-cv}[2026-04-10 German CV theme]
+
+\RequirePackage{datetime2}
+\RequirePackage[\cv@papersize, vmargin=16.9mm, hmargin=24.1mm]{geometry}
+
+\setlength{\parindent}{0pt}
+\DTMsetdatestyle{iso}
+
+\begin{luacode}
+	function sortPersonalDetails(arr)
+		table.sort(arr, function(a, b)
+			return (a.sortKey or 0) < (b.sortKey or 0)
+		end)
+	end
+
+	function printTwoColumnTableFromArray(arr)
+		sortPersonalDetails(arr)
+
+		function printLineWithTwoItems(index, middleIndex)
+			tex.sprint(arr[index]["icon"] .. "&" .. arr[index]["value"] .. "& \\hspace{2.5em}" .. arr[middleIndex + index]["icon"] .. "&" .. arr[middleIndex + index]["value"] .. "\\\\")
+		end
+
+		local length = #arr
+		local middle = math.ceil(length / 2)
+		local i = 1
+
+		tex.sprint("\\begin{tabular}{c l c l}")
+
+		while i < middle do
+			printLineWithTwoItems(i, middle)
+			i = i + 1
+		end
+		if length % 2 == 1 then
+			tex.sprint(arr[i]["icon"] .. "&" .. arr[i]["value"] .. "\\\\")
+		else
+			printLineWithTwoItems(i, middle)
+		end
+
+		tex.sprint("\\end{tabular}")
+	end
+
+	function getPictureWidthFromArray(arr)
+		if setPictureWidth == 0 then
+			return 3 + math.ceil(#arr / 2) * 0.3
+		else
+			return setPictureWidth
+		end
+	end
+
+	function setSetPictureWidth(value)
+		setPictureWidth = value
+	end
+\end{luacode}
+
+\newcommand{\tabularColumnWidth}{2.4cm}
+\newcommand{\ResizeTabular}[1]{\renewcommand{\tabularColumnWidth}{#1}}
+\newcommand{\picturewidth}{}
+\newcommand{\ZeroPictureWidth}{\renewcommand{\picturewidth}{0mm}}
+\newcommand{\HeaderImageSizeCm}[1]{\directlua{setSetPictureWidth(#1)}}
+
+\pagestyle{fancy}
+\fancypagestyle{letter}{\fancyhf{}}
+\rhead{\large \textbf{\textsc{\DisplayName}}}
+\geometry{vmargin=16.9mm, hmargin=24.1mm, footskip=0.6cm}
+\fancypagestyle{noheader}{\fancyhead{}}
+
+\newcommand{\IncludeCVHeaderTable}{%
+	\directlua{
+		printTwoColumnTableFromArray(personalDetails)
+	}%
+}
+
+\newcommand*{\DisplayHeader}[2]{%
+	\directlua{
+		local pictureWidth = getPictureWidthFromArray(personalDetails)
+		tex.sprint("\\renewcommand{\\picturewidth}{" .. pictureWidth .. "cm}")
+	}%
+	\thispagestyle{noheader}%
+	\ifthenelse{\equal{}{#2}}{\ZeroPictureWidth}{}%
+	\noindent
+	\begin{minipage}[t]{\textwidth-\picturewidth}
+	{\HUGE \textsc{\DisplayName}}\\
+	\vspace{4mm}{\Large \color{gray} \textbf{#1}}
+
+	\section{Personal Details}
+	\IncludeCVHeaderTable
+	\vspace{3mm}
+	\end{minipage}%
+	\ifthenelse{\equal{}{#2}}{}{%
+		\hfill
+		\begin{minipage}[t]{\picturewidth}
+		\vspace{-1.5em}
+		\raggedleft
+		\includegraphics[height=\picturewidth, width=\picturewidth]{#2}
+		\end{minipage}%
+	}%
+	\par
+}
+
+\renewcommand*{\cv@render@entry}[1]{%
+	\vspace{4mm}%
+	\begin{minipage}{\textwidth}
+	\setlength\tabcolsep{0pt}%
+	\setlength{\extrarowheight}{0pt}%
+	\begin{tabularx}{\textwidth}{ l X }
+	\multirow[t]{2}{\tabularColumnWidth}{{\cv@entry@dates}~\hspace{3mm}} & {\textbf{\cv@entry@linktitle}} \hfill {\small \cv@entry@location}\\
+	& \textsc{\cv@entry@org} \\
+	& #1
+	\end{tabularx}
+	\vspace{-4mm}%
+	\end{minipage}%
+}
+
+\renewcommand*{\cv@render@item}[2]{%
+	\vspace{1.5mm}%
+	\setlength\tabcolsep{0pt}%
+	\setlength{\extrarowheight}{0pt}%
+	\begin{tabularx}{\textwidth}{p{\tabularColumnWidth} X}%
+		\raggedright\textbf{#1} & #2 \\
+	\end{tabularx}%
+}
+
+\renewcommand{\cv@renderletter@begin}{%
+	\thispagestyle{letter}%
+	\newgeometry{top=2cm, right=2cm, left=2.5cm, bottom=2cm}%
+	\begin{flushright}
+	{\Large \textsc{\DisplayName}}\\
+	\@ifundefined{DisplayAddressOne}{}{\DisplayAddressOne\\}%
+	\@ifundefined{DisplayAddressTwo}{}{\DisplayAddressTwo\\}%
+	\@ifundefined{DisplayAddressThree}{}{\DisplayAddressThree\\}%
+	\@ifundefined{DisplayPhone}{}{\DisplayPhone\\}%
+	\@ifundefined{DisplayEmail}{}{\DisplayEmail\\}%
+	\end{flushright}
+
+	\vspace{2\baselineskip}
+
+	\textsc{\cv@letter@toname}\\
+	\cv@letter@toaddress\\[\baselineskip]
+
+	\begin{flushright}
+		\today
+	\end{flushright}
+
+	\vspace{\baselineskip}
+
+	\textbf{\cv@letter@subject}\\[\baselineskip]
+
+	\cv@letter@opening\\
+}
+
+\renewcommand{\cv@renderletter@end}{%
+	\par
+	\cv@letter@closing,\\
+
+	\ifthenelse{\equal{\cv@letter@signature}{}}%
+		{\\[3\baselineskip]}%
+		{\includegraphics[height=3\baselineskip]{\cv@letter@signature}\\}%
+	\DisplayName
+	\newpage
+	\setcounter{page}{1}%
+}
+
+\newcommand{\MakeCoverLetter}[9]{%
+	\PackageWarning{themes/german-cv}{\noexpand\MakeCoverLetter is deprecated; use the coverletter environment instead}%
+	\begin{coverletter}[%
+		to-name    = {#3},%
+		to-address = {#4},%
+		subject    = {#5},%
+		opening    = {#6},%
+		closing    = {#8},%
+		signature  = {#9}%
+	]%
+	#7%
+	\end{coverletter}%
+}
+
+\newcommand*{\cventrylegacy}[5]{%
+	\def\cv@entry@dates{#1}%
+	\def\cv@entry@title{#2}%
+	\def\cv@entry@org{#3}%
+	\def\cv@entry@location{#4}%
+	\def\cv@entry@url{}%
+	\cv@render@entry{#5}%
+}
+
+\newcommand*{\cvpadlessentry}[5]{%
+	\def\cv@entry@dates{#1}%
+	\def\cv@entry@title{#2}%
+	\def\cv@entry@org{#3}%
+	\def\cv@entry@location{#4}%
+	\def\cv@entry@url{}%
+	\begin{minipage}{\textwidth}
+	\setlength\tabcolsep{0pt}%
+	\setlength{\extrarowheight}{0pt}%
+	\begin{tabularx}{\textwidth}{ l X }
+	\multirow[t]{2}{\tabularColumnWidth}{{\cv@entry@dates}~\hspace{3mm}} & {\textbf{\cv@entry@title}} \hfill {\small \cv@entry@location}\\
+	& \textsc{\cv@entry@org} \\
+	& #5
+	\end{tabularx}
+	\vspace{-4mm}%
+	\end{minipage}%
+}
+
+\newcommand*{\cvlistitem}[3]{%
+	\vspace{1.5mm}%
+	\setlength\tabcolsep{0pt}%
+	\setlength{\extrarowheight}{0pt}%
+	\begin{tabularx}{\textwidth}{p{\tabularColumnWidth} X}%
+		\raggedright \ifthenelse{\equal{#3}{}}%
+			{\textbf{#1}}%
+			{\href{#3}{\textbf{#1}}}%
+			& #2 \\
+	\end{tabularx}\\%
+}
+
+\newcommand*{\DisplaySignature}[2]{%
+	\bigskip
+	\begin{minipage}{.5\textwidth}
+		\hfill
+	\end{minipage}
+	\begin{minipage}{.5\textwidth}
+		\includegraphics[width=5cm]{#1} \\
+		#2 \\
+		\today
+	\end{minipage}
+}

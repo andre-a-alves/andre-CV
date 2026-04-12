@@ -1,23 +1,26 @@
 # andre-CV
 
-A LaTeX document-class set for building:
+A LaTeX document-class package for building:
 
 - German-style CVs with optional cover letters
 - US-style resumes with optional cover letters
 
-The repository already includes working examples in `sample-CV.tex` and `sample-resume.tex`.
+The package now uses a single class entrypoint, `andre-cv.cls`, plus theme
+packages in `themes/`.
 
 ## Current Status
 
-This project is still marked beta. The document API may change, and backward compatibility is not guaranteed between revisions.
+This project is still marked beta. The document API may change, and backward
+compatibility is not guaranteed between revisions.
 
 ## What Is In This Repository
 
-- `andre-cv.cls`: CV class tuned for A4 output
-- `andre-resume.cls`: resume class tuned for US letter output
-- `andre-cv-base.cls`: shared commands, colors, and layout primitives
-- `sample-CV.tex`: current CV example
-- `sample-resume.tex`: current resume example
+- `andre-cv.cls`: unified class entrypoint
+- `andre-cv-base.cls`: shared commands, parsing, and rendering hooks
+- `themes/german-cv.sty`: German CV theme
+- `themes/us-resume.sty`: US resume theme
+- `sample-german-cv.tex`: CV example using `theme=german-cv`
+- `sample-us-resume.tex`: resume example using `theme=us-resume`
 - `sample-papers.bib`: bibliography sample used by both example documents
 
 ## Requirements
@@ -28,25 +31,20 @@ This project uses:
 - `luacode`
 - `biblatex` with `biber` in the samples
 
-That means you should compile with `lualatex`, not `pdflatex`.
+Compile with `lualatex`, not `pdflatex`.
 
 ## Quick Start
 
-Use one of the sample files as your starting point.
-
-For a CV:
+For a German-style CV:
 
 ```tex
-\documentclass[10pt]{andre-cv}
+\documentclass[theme=german-cv,10pt]{andre-cv}
 
 \setmainfont{Source Sans 3}
 \setsansfont{Source Sans 3}
 \setmonofont{Source Sans 3}
 
 \SetName{Dr. Henry Jones, Jr.}
-\SetAddressOne{123 Artifact Lane}
-\SetAddressTwo{Marshall College, Bedford, Connecticut}
-\SetAddressThree{USA}
 \SetTown{Bedford, Connecticut, USA}
 \SetPhone{+1 203 555 0198}
 \SetEmail{indyjones@marshall.edu}
@@ -61,30 +59,25 @@ For a CV:
   title    = {Professor of Archaeology},
   org      = {Marshall College},
   location = {Bedford, Connecticut, USA},
-]{
-  \cvitemize{
-    \item Example bullet
-  }
-}
+]{\cvitemize{
+  \item Example bullet
+}}
 \end{document}
 ```
 
-For a resume:
+For a US-style resume:
 
 ```tex
-\documentclass[10pt]{andre-resume}
+\documentclass[theme=us-resume,10pt]{andre-cv}
 
 \setmainfont{Source Sans 3}
 \setsansfont{Source Sans 3}
 \setmonofont{Source Sans 3}
 
 \SetName{Dr. Henry Jones, Jr.}
-\SetAddressOne{123 Artifact Lane}
-\SetAddressTwo{Marshall College, Bedford, Connecticut}
 \SetTown{Bedford, Connecticut}
 \SetPhone{203 555 0198}
 \SetEmail{indyjones@marshall.edu}
-\SetLinkedIn{indy-jones}
 
 \MakeHeader
   {\DisplayName}
@@ -98,11 +91,9 @@ For a resume:
   title    = {Professor of Archaeology},
   org      = {Marshall College},
   location = {Bedford, Connecticut},
-]{
-  \cvitemize{
-    \item Example bullet
-  }
-}
+]{\cvitemize{
+  \item Example bullet
+}}
 \end{document}
 ```
 
@@ -111,42 +102,46 @@ For a resume:
 If your document uses bibliography support, build with:
 
 ```bash
-lualatex sample-CV.tex
-biber sample-CV
-lualatex sample-CV.tex
-lualatex sample-CV.tex
+lualatex sample-german-cv.tex
+biber sample-german-cv
+lualatex sample-german-cv.tex
+lualatex sample-german-cv.tex
 ```
 
 Or for the resume:
 
 ```bash
-lualatex sample-resume.tex
-biber sample-resume
-lualatex sample-resume.tex
-lualatex sample-resume.tex
+lualatex sample-us-resume.tex
+biber sample-us-resume
+lualatex sample-us-resume.tex
+lualatex sample-us-resume.tex
 ```
 
 If you are not using `biblatex`, you can skip the `biber` step.
 
 ## Class Options
 
-Both classes accept the following options on `\documentclass[...]`:
+The unified class accepts:
 
-- `10pt`, `11pt`, `12pt` — base font size.
-- `a4paper`, `letterpaper` — paper size. `andre-cv` defaults to `a4paper`; `andre-resume` defaults to `letterpaper`. Pass the other to override.
-- `english`, `german` — document language. Sets `babel` to `english` or `ngerman` respectively. Both classes default to `english`.
+- `theme=us-resume` or `theme=german-cv`
+- `10pt`, `11pt`, `12pt`
+- `a4paper`, `letterpaper`
+- `english`, `german`
 
-For example, to render a CV on US letter paper in German:
+Theme defaults:
+
+- `theme=german-cv` defaults to `a4paper`
+- `theme=us-resume` defaults to `letterpaper`
+
+Paper and language can still be overridden explicitly:
 
 ```tex
-\documentclass[10pt, letterpaper, german]{andre-cv}
+\documentclass[theme=german-cv,10pt,letterpaper,german]{andre-cv}
 ```
 
 ## Current Document API
 
 ### Shared personal-detail commands
-
-These commands are defined in `andre-cv-base.cls` and are used by both classes:
 
 - `\SetName{...}`
 - `\SetAddressOne{...}`
@@ -161,121 +156,69 @@ These commands are defined in `andre-cv-base.cls` and are used by both classes:
 - `\SetXing{...}`
 - `\SetHomepage{...}`
 
-`SetTown`, `SetPhone`, `SetEmail`, `SetCitizenship`, `SetGithub`, `SetLinkedIn`, `SetXing`, and `SetHomepage` are also added to the CV header details table automatically. They are rendered in a deterministic category order (location, phone, email, links) regardless of the order in which the `\Set*` commands were called.
+`SetTown`, `SetPhone`, `SetEmail`, `SetCitizenship`, `SetGithub`,
+`SetLinkedIn`, `SetXing`, and `SetHomepage` are rendered in a deterministic
+category order in the German CV header.
 
-For `\SetHomepage`, pass a bare host/path such as `www.example.com`; the class prepends `https://`.
+For `\SetHomepage`, pass a bare host/path such as `www.example.com`; the
+class prepends `https://`.
 
 ### Theming
 
-- `\SetAccentColor{ColorName}` — override the accent color used for section headings, dates, and links. Accepts any color name known to `xcolor`. Pre-defined colors include `UltramarineBlue` (default), `YellowGreen`, `Fuchsia`, `Tangerine`, `ElectricViolet`, `Coquelicot`, and `Rose`. Place this in the preamble before `\begin{document}`.
+- `\SetAccentColor{ColorName}` overrides the accent color.
 
-### Section and content commands
+Built-in color names include `UltramarineBlue`, `YellowGreen`, `Fuchsia`,
+`Tangerine`, `ElectricViolet`, `Coquelicot`, and `Rose`.
 
-Both classes provide:
+### Shared section and content commands
 
 - `\section{Title}`
 - `\cvitemize{ ... }`
 - `\cvitem{label}{value}`
+- `\cventry[dates=..., title=..., org=..., location=..., url=...]{...}`
+- `coverletter`
 
-### `\cventry` interface
-
-The current `\cventry` command uses key-value arguments:
-
-```tex
-\cventry[
-  dates    = {2022 - 2024},
-  title    = {Role Title},
-  org      = {Organization},
-  location = {City, Country},
-  url      = {https://example.com}
-]{...}
-```
-
-Supported keys:
-
-- `dates`
-- `title`
-- `org`
-- `location`
-- `url`
-
-If `url` is provided, the title is rendered as a hyperlink.
+If `url` is provided, the entry title is rendered as a hyperlink.
 
 ### Deprecated commands
 
-The following older commands still exist for compatibility, but the newer commands above are the current API:
+The following compatibility commands still exist:
 
 - `\cventrylegacy`
-- `\cvpadlessentry` in `andre-cv.cls`
 - `\cvlistitem`
 
-Prefer:
+`theme=german-cv` additionally provides:
 
-- `\cventry[...]{...}` style key-value entries
-- `\cvitem{...}{...}` for label/value rows
+- `\cvpadlessentry`
 
-## CV-Specific Commands
+### Theme-specific helper commands
 
-`andre-cv.cls` additionally provides:
+`theme=german-cv` provides:
 
 - `\DisplayHeader{subtitle}{image-path}`
 - `\DisplaySignature{signature-image-path}{location}`
 - `\ResizeTabular{width}`
 - `\HeaderImageSizeCm{number}`
 
-Notes:
-
-- Pass an empty second argument to `\DisplayHeader` if you do not want a photo.
-- `\HeaderImageSizeCm{...}` overrides the automatically computed square image size in centimeters.
-
-## Resume-Specific Commands
-
-`andre-resume.cls` additionally provides:
+`theme=us-resume` provides:
 
 - `\MakeHeader{line1}{line2}{line3}`
 - `\SetBadge{scale}{image-path}`
 
-`MakeHeader` sets the running header content used by the resume layout.
-
 ## Cover Letters
 
-Both classes provide:
-
-```tex
-\MakeCoverLetter
-  {sender name}
-  {sender address block}
-  {recipient name}
-  {recipient address block}
-  {subject line}
-  {greeting}
-  {body}
-  {salutation}
-  {signature-image-path}
-```
-
-To omit the signature image, pass an empty final argument.
-
-The resume and CV classes format cover letters differently to match their respective layouts.
+Both themes provide the `coverletter` environment and the deprecated
+`\MakeCoverLetter` helper. Cover letters are formatted according to the active
+theme.
 
 ## Samples
 
-The most reliable documentation for current usage is in:
+The most reliable usage examples are:
 
-- `sample-CV.tex`
-- `sample-resume.tex`
-
-Those files reflect the current macro names and calling conventions in the repository.
+- `sample-german-cv.tex`
+- `sample-us-resume.tex`
 
 ## License
 
-This project is distributed under the LaTeX Project Public License (LPPL) version 1.3c. See `LICENSE.txt` for the full license text.
-
-Files not explicitly listed in `manifest.txt` are not part of the distributable project unless permission is provided elsewhere.
-
-## Inspiration
-
-This project was inspired by:
-
-- [Awesome-CV](https://github.com/posquit0/Awesome-CV)
-- [Latex CV and Resume Collection](https://github.com/jankapunkt/latexcv)
+This project is distributed under the LaTeX Project Public License 1.3c or
+later. See `LICENSE.txt`.
