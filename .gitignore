@@ -277,3 +277,9 @@ TSWLatexianTemp*
 
 #JetBrains
 /.idea/
+
+# Rust build artifacts
+/target/
+
+# Generated PDFs in samples
+/samples/*.pdf

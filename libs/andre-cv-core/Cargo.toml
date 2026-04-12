@@ -1,0 +1,5 @@
+[package]
+name = "andre-cv-core"
+version = "0.1.0"
+edition = "2021"
+license.workspace = true

@@ -1,0 +1,9 @@
+[workspace]
+members = [
+    "libs/andre-cv-core",
+    "tools/cli",
+]
+resolver = "2"
+
+[workspace.package]
+license = "Apache-2.0"

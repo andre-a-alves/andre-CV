@@ -1,0 +1,8 @@
+[package]
+name = "andre-cv-cli"
+version = "0.1.0"
+edition = "2021"
+license.workspace = true
+
+[dependencies]
+andre-cv-core = { path = "../../libs/andre-cv-core" }

@@ -1,8 +1,0 @@
-andre-cv.cls
-andre-cv-base.cls
-themes/german-cv.sty
-themes/us-resume.sty
-sample-german-cv.tex
-sample-papers.bib
-sample-us-resume.tex
-README.md
