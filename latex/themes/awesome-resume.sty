@@ -1,0 +1,200 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{themes/awesome-resume}[2026-04-13 Awesome resume theme]
+
+\RequirePackage[\cv@papersize, margin=0.75in]{geometry}
+\RequirePackage[en-US, useregional]{datetime2}
+
+\setlength{\parindent}{0pt}
+\DTMsetstyle{en-US}
+
+\pagestyle{fancy}
+\fancyhead{}
+\fancypagestyle{noheader}{\fancyhead{}}
+\geometry{footskip=0.25in}
+\lfoot{\FooterGrayColor{\today}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Lua helpers
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{luacode}
+  -- Sort personal details by sortKey (ascending).
+  local function awesomeSortPersonalDetails(arr)
+    table.sort(arr, function(a, b)
+      return (a.sortKey or 0) < (b.sortKey or 0)
+    end)
+  end
+
+  -- Render personal details as a single horizontal row:
+  --   icon value | icon value | ...
+  -- Town (sortKey 10) is excluded — it is shown on its own line above.
+  function printContactsOneLiner(arr)
+    awesomeSortPersonalDetails(arr)
+    local parts = {}
+    for _, entry in ipairs(arr) do
+      if entry.sortKey ~= 10 then
+        table.insert(parts, entry.icon .. "~" .. entry.value)
+      end
+    end
+    tex.sprint(table.concat(parts, " \\quad|\\quad "))
+  end
+
+  -- Two-tone section heading: first word in accentColor bold, rest in
+  -- document-color bold.  Single-word headings get full accent color.
+  function twoToneHeading(str)
+    local first, rest = str:match("^(%S+)%s*(.*)")
+    if rest and rest ~= "" then
+      tex.sprint(
+        "\\textcolor{accentColor}{\\bfseries " .. first .. "}"
+        .. " {\\bfseries " .. rest .. "}"
+      )
+    else
+      tex.sprint("\\textcolor{accentColor}{\\bfseries " .. (first or str) .. "}")
+    end
+  end
+
+  -- Render the name with first name in regular weight and the
+  -- remaining tokens (last name) in bold.
+  function printModernName(str)
+    local first, rest = str:match("^(%S+)%s*(.*)")
+    if rest and rest ~= "" then
+      tex.sprint("{\\LARGE " .. first .. "~\\textbf{" .. rest .. "}}")
+    else
+      tex.sprint("{\\LARGE\\bfseries " .. (first or str) .. "}")
+    end
+  end
+\end{luacode}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Section heading
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\renewcommand*{\cv@render@sectionheading}[1]{%
+  \vspace{4mm}%
+  \noindent{\Large\directlua{twoToneHeading(\luastring{#1})}}%
+  ~\textcolor{light_gray}{\hrulefill}\par%
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% CV entry
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\renewcommand*{\cv@render@entry}[1]{%
+  \begin{minipage}{\textwidth}
+  \vspace{4mm}%
+  \setlength\tabcolsep{0pt}%
+  \setlength{\extrarowheight}{0pt}%
+  \begin{tabularx}{\textwidth}{X r}
+    \textbf{\cv@entry@org} & {\small \cv@entry@location} \\
+    \textit{\cv@entry@linktitle} & \textcolor{accentColor}{\cv@entry@dates}
+  \end{tabularx}
+  #1
+  \end{minipage}%
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% CV item
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\renewcommand*{\cv@render@item}[2]{%
+  \vspace{1.5mm}%
+  \setlength\tabcolsep{0pt}%
+  \setlength{\extrarowheight}{0pt}%
+  \begin{tabularx}{\textwidth}{l l X}%
+    \textbf{#1} & \hspace{0.3cm} & #2 \\
+  \end{tabularx}%
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Header command
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% \DisplayModernHeader{roles}{quote}
+%
+%   roles  — role labels, e.g. "DevOps Engineer \textbullet\ Software Architect"
+%   quote  — short italic quote, e.g. "Fortune and glory, kid."
+%
+% Personal details (phone, email, links) are auto-built from the
+% \SetPhone, \SetEmail, \SetGithub, etc. commands.  \SetTown is shown
+% on its own line directly beneath the role labels.
+\newcommand*{\DisplayModernHeader}[2]{%
+  \thispagestyle{noheader}%
+  \begin{center}
+    \directlua{printModernName(\luastring{\DisplayName})}\\[2pt]
+    {\large\color{accentColor} #1}\\[2pt]
+    \@ifundefined{DisplayTown}{}{{\small \DisplayTown}\\[4pt]}%
+    {\small \directlua{printContactsOneLiner(personalDetails)}}\\[4pt]
+    \textit{#2}%
+  \end{center}\par%
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Cover letter
+%
+% TODO: Design a themed cover letter layout matching the awesome-resume
+% aesthetic (styled sender block, recipient block, accent rule, etc.)
+% mirroring the header style of \DisplayModernHeader.
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\fancypagestyle{letter}{\fancyhf{}}
+
+\renewcommand{\cv@renderletter@begin}{%
+  \thispagestyle{letter}%
+  \newgeometry{margin=0.75in}%
+  {\Large\bfseries \DisplayName}\\
+  \@ifundefined{DisplayPhone}{}{\DisplayPhone\\}%
+  \@ifundefined{DisplayEmail}{}{\DisplayEmail\\}%
+  \today\\[1\baselineskip]
+  \textsc{\cv@letter@toname}\\
+  \cv@letter@toaddress\\[1\baselineskip]
+  \textbf{\cv@letter@subject}\\[0.5\baselineskip]
+  \cv@letter@opening\\
+}
+
+\renewcommand{\cv@renderletter@end}{%
+  \par
+  \cv@letter@closing,\\
+  \ifthenelse{\equal{\cv@letter@signature}{}}%
+    {\\[3\baselineskip]}%
+    {\includegraphics[height=3\baselineskip]{\cv@letter@signature}\\}%
+  \DisplayName
+  \restoregeometry
+  \setcounter{page}{1}%
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Publications / bibliography
+%
+% TODO: Add a \cvpublication (or biblatex driver) command that renders a
+% publication entry in the awesome-resume style — bold title, italic venue,
+% authors, and accent-colored year — consistent with \cv@render@entry.
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Legacy compatibility shims
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand*{\cventrylegacy}[5]{%
+  \def\cv@entry@dates{#1}%
+  \def\cv@entry@title{#2}%
+  \def\cv@entry@org{#3}%
+  \def\cv@entry@location{#4}%
+  \def\cv@entry@url{}%
+  \cv@render@entry{#5}%
+}
