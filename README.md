@@ -34,7 +34,7 @@ compatibility is not guaranteed between revisions.
 <tr>
 <td align="center"><b>german-cv</b><br><img src="samples/previews/german-cv.png" width="340"></td>
 <td align="center"><b>us-resume</b><br><img src="samples/previews/us-resume.png" width="340"></td>
-<td align="center"><b>modern</b><br>Modern resume theme</td>
+<td align="center"><b>modern</b><br><img src="samples/previews/modern.png" width="340"></td>
 </tr>
 </table>
 
