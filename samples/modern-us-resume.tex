@@ -1,0 +1,121 @@
+%% modern-us-resume.tex
+%% Copyright 2026 Andre A Alves
+%
+% This work may be distributed and/or modified under the
+% conditions of the LaTeX Project Public License, either version 1.3
+% of this license or (at your option) any later version.
+% The latest version of this license is in
+%   http://www.latex-project.org/lppl.txt
+% and version 1.3 or later is part of all distributions of LaTeX
+% version 2005/12/01 or later.
+%
+% This work has the LPPL maintenance status `maintained'.
+%
+% The Current Maintainer of this work is Andre A Alves.
+%
+% This work consists of all files listed in latex/manifest.txt.
+%
+% Compile from the samples/ directory with TEXINPUTS pointing at latex/:
+%   TEXINPUTS=../latex//: lualatex modern-us-resume.tex
+%   biber modern-us-resume
+%   TEXINPUTS=../latex//: lualatex modern-us-resume.tex
+%   TEXINPUTS=../latex//: lualatex modern-us-resume.tex
+\documentclass[theme=modern-us-resume,10pt]{andre-cv}
+
+\usepackage{lipsum}
+\usepackage[backend=biber, style=chicago-authordate]{biblatex}
+\addbibresource{papers.bib}
+\nocite{duality}
+\nocite{methods}
+
+\setmainfont{Source Sans 3}
+\setsansfont{Source Sans 3}
+\setmonofont{Source Sans 3}
+
+\SetName{Dr. Henry Jones, Jr.}
+\SetAddressOne{123 Artifact Lane}
+\SetAddressTwo{Marshall College, Bedford, Connecticut}
+\SetPhone{203 555 0198}
+\SetEmail{indyjones@marshall.edu}
+\SetLinkedIn{indy-jones}
+\SetTown{Bedford, Connecticut}
+
+\MakeHeader
+	{\DisplayName}
+	{\DisplayTown}
+	{\DisplayEmail~$\cdot$~\DisplayPhone}
+
+\begin{document}
+\begin{coverletter}[
+	to-name    = {Matawan Borough},
+	to-address = {201 Broad St\\Matawan, NJ 07747},
+	subject    = {Application for Job Posting 123456},
+	opening    = {Dear recruiting manager,},
+	closing    = {Sincerely yours},
+	signature  = {./img/DALLE-indy-sig.png},
+]
+\lipsum[1] \\
+
+\lipsum[2] \\
+
+\lipsum[3]\\
+
+\lipsum[4][1-3]
+\end{coverletter}
+
+\section{Experience}
+\cventry[
+	dates    = {1936 - Present},
+	title    = {Professor of Archaeology},
+	org      = {Marshall College},
+	location = {Bedford, Connecticut},
+]{\cvitemize{
+	\item Lectures on theories of archaeology, methods of excavation, and history of ancient civilizations.
+	\item Supervises graduate students in their fieldwork and thesis preparation.
+	\item Conducts and publishes research on various archaeological finds and their implications on historical knowledge.
+	\item Organizes and leads summer archaeological expeditions for students and researchers.
+}}
+\cventry[
+	dates    = {1920 - Present},
+	title    = {Archaeologist and Explorer},
+	org      = {Freelance},
+	location = {Global},
+]{\cvitemize{
+	\item Conducted numerous archaeological expeditions around the world, including in South America, Asia, Africa, and Europe.
+	\item Recovered and preserved iconic artifacts such as the Ark of the Covenant and the Holy Grail.
+	\item Collaborated with museums worldwide to ensure safe and ethical display of artifacts.
+	\item Navigated complex political and environmental terrains to access and excavate sites.
+}}
+
+\section{Education}
+\cventry[
+	dates    = {1922},
+	title    = {Ph.D. in Archaeology},
+	org      = {University of Chicago},
+	location = {Chicago, Illinois},
+]{\cvitemize{
+	\item Dissertation on \emph{The Influence of Ritualistic Symbolism in Ancient Mayan Artifacts.}.
+	\item Conducted extensive field research in Central America as part of doctoral studies.
+}}
+\cventry[
+	dates    = {1916},
+	title    = {Bachelor of Arts in European History},
+	org      = {Princeton University},
+	location = {Princeton, New Jersey},
+]{\cvitemize{
+	\item Graduated with honors, focusing on ancient European civilizations and their languages.
+}}
+
+\section{Skills}
+\cvitem{Languages}{English, German, Ancient Greek, Latin, Arabic}
+\cvitem{Expertise}{Field excavation, artifact authentication, ancient languages, archival research}
+\cvitem{Other}{Whip proficiency, motorcycle operation, combat archaeology}
+
+\section{Professional Affiliations}
+\cvitem{Member}{American Society of Archaeologists}
+\cvitem{Founding Member}{International Council of Ancient Monument Preservation}
+
+\section{Relevant Publications}
+\printbibliography[heading=none]
+
+\end{document}
