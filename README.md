@@ -11,7 +11,6 @@ A polyglot monorepo containing:
 andre-cv/
 ├── latex/          LaTeX classes and themes (self-contained, copy-and-use)
 │   ├── andre-cv.cls
-│   ├── andre-cv-base.cls
 │   └── themes/
 │       ├── german-cv.sty
 │       ├── us-resume.sty

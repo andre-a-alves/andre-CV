@@ -1,5 +1,4 @@
 latex/andre-cv.cls
-latex/andre-cv-base.cls
 latex/themes/german-cv.sty
 latex/themes/us-resume.sty
 latex/themes/awesome-resume.sty
