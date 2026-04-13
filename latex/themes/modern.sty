@@ -1,0 +1,212 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{themes/modern}[2026-04-14 Modern resume theme]
+% Layout derived from themes/us-resume.sty. Modernizes visual style only:
+% no small caps, quieter accent, gray secondary metadata, tighter typography.
+
+\RequirePackage[\cv@papersize, margin=0.75in]{geometry}
+\RequirePackage[en-US, useregional]{datetime2}
+
+\newbool{BadgeToggled}
+\newcommand{\InsertHeader}{}
+
+\setlength{\parindent}{0pt}
+\DTMsetstyle{en-US}
+
+\pagestyle{fancy}
+\fancypagestyle{letter}{\fancyhf{}}
+\chead{\InsertHeader}
+\rhead{\ifbool{BadgeToggled}{\InsertBadge}{}}
+\lfoot{\FooterGrayColor{\today}}
+\geometry{includehead, headsep=0.2in, footskip=0.25in}
+\fancypagestyle{noheader}{\fancyhead{}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Colors
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Muted slate blue — professional and restrained vs the default bright blue.
+\definecolor{ModernAccent}{HTML}{4A6FA5}
+\colorlet{accentColor}{ModernAccent}
+
+% Medium gray for all secondary metadata (dates, org, location).
+\definecolor{ModernGray}{HTML}{666666}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Header
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{luacode}
+  function printModernHeaderPersonalDetails(arr)
+    local items = {}
+    for _, detail in ipairs(arr) do
+      items[#items + 1] = detail
+    end
+    table.sort(items, function(a, b)
+      return (a.sortKey or 0) < (b.sortKey or 0)
+    end)
+
+    local texItems = {}
+    for _, detail in ipairs(items) do
+      if (detail.sortKey or 0) >= 50 then
+        texItems[#texItems + 1] = "\\mbox{" .. detail.icon .. detail.value .. "}"
+      else
+        texItems[#texItems + 1] = "\\mbox{" .. detail.value .. "}"
+      end
+    end
+
+    tex.sprint(table.concat(texItems, "\\,{\\textbullet}\\,"))
+  end
+\end{luacode}
+
+\newcommand*{\RenderPersonalDetails}{%
+  \directlua{printModernHeaderPersonalDetails(personalDetails)}%
+}
+
+% \MakeHeader{name}{subtitle}{contact-line}
+%
+%   #1  name        — bold, most prominent
+%   #2  subtitle    — professional identity; gray, slightly smaller than name
+%   #3  contact     — ignored; contact details render from personalDetails
+%
+% Tighten inter-line gaps to zero: the size difference alone carries the
+% hierarchy without needing extra vertical distance between the lines.
+\newcommand*{\MakeHeader}[3]{%
+  \def\InsertHeader{%
+    {\LARGE\bfseries #1}\\[0pt]%
+    {\small\color{ModernGray} #2}\\[0pt]%
+    {\footnotesize\color{ModernGray}\RenderPersonalDetails}%
+  }%
+}
+
+\newcommand*{\SetBadge}[2]{%
+  \booltrue{BadgeToggled}%
+  \def\InsertBadge{\includegraphics[scale=#1]{#2}}%
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Section headings
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% \large (12 pt at 10 pt base) instead of \Large (14.4 pt): readable but
+% quieter. Accent color + rule provides the visual landmark; the label
+% does not need to shout.
+\renewcommand*{\cv@render@sectionheading}[1]{%
+  \vspace{6mm}%
+  \noindent{\large\bfseries\color{accentColor}#1}%
+  ~\textcolor{light_gray}{\hrulefill}\par%
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% CV entry
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Title: bold at body size — weight alone distinguishes it from bullets.
+% Dates, org, location: \small gray — secondary info reads quietly without
+% accent color or small caps.
+\renewcommand*{\cv@render@entry}[1]{%
+  \begin{minipage}{\textwidth}
+  \vspace{3mm}%
+  \setlength\tabcolsep{0pt}%
+  \setlength{\extrarowheight}{0pt}%
+  \begin{tabularx}{\textwidth}{X r}
+    \begin{minipage}[t]{\linewidth}
+      \textbf{\cv@entry@linktitle}\\[-2pt]%
+      {\footnotesize\color{ModernGray}\cv@entry@org}%
+    \end{minipage}
+    &
+    \begin{tabular}[t]{@{}r@{}}
+      {\footnotesize\color{ModernGray}\cv@entry@dates}\\[-2pt]
+      {\footnotesize\color{ModernGray}\cv@entry@location}
+    \end{tabular}
+  \end{tabularx}
+  \vspace{0.5mm}%
+  #1
+  \end{minipage}%
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% CV item
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newlength{\cv@item@labelwidth}
+\setlength{\cv@item@labelwidth}{3cm}
+
+\newcommand*{\cv@render@itemrow}[2]{%
+  \par\vspace{0.3mm}%
+  {\hangindent=\dimexpr\cv@item@labelwidth+0.3cm\relax
+   \hangafter=1
+   \noindent\makebox[\cv@item@labelwidth][l]{\strut#1}\hspace{0.3cm}#2\strut\par}%
+  \vspace{0.3mm}%
+}
+
+\renewcommand*{\cv@render@item}[2]{%
+  \cv@render@itemrow{\textbf{#1}}{#2}%
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Cover letter
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\fancypagestyle{letter}{\fancyhf{}}
+
+\renewcommand{\cv@renderletter@begin}{%
+  \thispagestyle{letter}%
+  \newgeometry{margin=0.75in}%
+  {\Large\bfseries \DisplayName}\\
+  \@ifundefined{DisplayAddressOne}{}{\DisplayAddressOne\\}%
+  \@ifundefined{DisplayAddressTwo}{}{\DisplayAddressTwo\\}%
+  \@ifundefined{DisplayAddressThree}{}{\DisplayAddressThree\\}%
+  \@ifundefined{DisplayPhone}{}{\DisplayPhone\\}%
+  \@ifundefined{DisplayEmail}{}{\DisplayEmail\\}%
+  \today\\[1\baselineskip]
+  \cv@letter@toname\\
+  \cv@letter@toaddress\\[1\baselineskip]
+  \textbf{\cv@letter@subject}\\[0.5\baselineskip]
+  \cv@letter@opening\\
+}
+
+\renewcommand{\cv@renderletter@end}{%
+  \par
+  \cv@letter@closing,\\
+  \ifthenelse{\equal{\cv@letter@signature}{}}%
+    {\\[3\baselineskip]}%
+    {\includegraphics[height=3\baselineskip]{\cv@letter@signature}\\}%
+  \DisplayName
+  \restoregeometry
+  \setcounter{page}{1}%
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Deprecated shims
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand*{\cventrylegacy}[5]{%
+  \def\cv@entry@dates{#1}%
+  \def\cv@entry@title{#2}%
+  \def\cv@entry@org{#3}%
+  \def\cv@entry@location{#4}%
+  \def\cv@entry@url{}%
+  \cv@render@entry{#5}%
+}
+
+\newcommand*{\cvlistitem}[3]{%
+  \cv@render@itemrow{%
+    \ifthenelse{\equal{#3}{}}%
+      {\textbf{#1}}%
+      {\href{#3}{\textbf{#1}}}%
+  }{#2}%
+}

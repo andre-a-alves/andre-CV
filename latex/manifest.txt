@@ -1,14 +1,11 @@
 latex/andre-cv.cls
-latex/andre-cv-base.cls
 latex/themes/german-cv.sty
 latex/themes/us-resume.sty
-latex/themes/awesome-resume.sty
-latex/themes/classic-resume.sty
+latex/themes/modern.sty
 latex/manifest.txt
 samples/german-cv.tex
 samples/us-resume.tex
-samples/awesome-resume.tex
-samples/classic-resume.tex
+samples/modern.tex
 samples/papers.bib
 samples/img/DALLE_adventurer.png
 samples/img/DALLE-indy-sig.png

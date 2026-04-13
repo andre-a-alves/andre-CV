@@ -2,7 +2,7 @@
 
 A polyglot monorepo containing:
 
-- A LaTeX document-class package for building German-style CVs, US-style resumes, modern centered resumes, and classic resumes with optional cover letters
+- A LaTeX document-class package for building German-style CVs and US-style resumes with optional cover letters
 - Rust libraries and CLI tooling for generating LaTeX from structured YAML data
 
 ## Repository Layout
@@ -11,12 +11,10 @@ A polyglot monorepo containing:
 andre-cv/
 ├── latex/          LaTeX classes and themes (self-contained, copy-and-use)
 │   ├── andre-cv.cls
-│   ├── andre-cv-base.cls
 │   └── themes/
 │       ├── german-cv.sty
 │       ├── us-resume.sty
-│       ├── awesome-resume.sty
-│       └── classic-resume.sty
+│       └── modern.sty
 ├── libs/
 │   └── andre-cv-core/  Core Rust library (schema, parsing, validation, rendering)
 ├── tools/
@@ -30,21 +28,13 @@ andre-cv/
 This project is still marked beta. The document API may change, and backward
 compatibility is not guaranteed between revisions.
 
-**Known gaps:**
-
-- `theme=awesome-resume` — cover letter not yet implemented
-- `theme=classic-resume` — cover letter not yet implemented
-
 ## Themes
 
 <table>
 <tr>
 <td align="center"><b>german-cv</b><br><img src="samples/previews/german-cv.png" width="340"></td>
 <td align="center"><b>us-resume</b><br><img src="samples/previews/us-resume.png" width="340"></td>
-</tr>
-<tr>
-<td align="center"><b>awesome-resume</b><br><img src="samples/previews/awesome-resume.png" width="340"></td>
-<td align="center"><b>classic-resume</b><br><img src="samples/previews/classic-resume.png" width="340"></td>
+<td align="center"><b>modern</b><br><img src="samples/previews/modern.png" width="340"></td>
 </tr>
 </table>
 
@@ -66,13 +56,7 @@ or
 or
 
 ```tex
-\documentclass[theme=awesome-resume,10pt]{andre-cv}
-```
-
-or
-
-```tex
-\documentclass[theme=classic-resume,10pt]{andre-cv}
+\documentclass[theme=modern,10pt]{andre-cv}
 ```
 
 ### Requirements
@@ -165,12 +149,10 @@ TEXINPUTS=../latex//: lualatex us-resume.tex
 
 ```bash
 cd samples
-TEXINPUTS=../latex//: lualatex awesome-resume.tex
-```
-
-```bash
-cd samples
-TEXINPUTS=../latex//: lualatex classic-resume.tex
+TEXINPUTS=../latex//: lualatex modern.tex
+biber modern
+TEXINPUTS=../latex//: lualatex modern.tex
+TEXINPUTS=../latex//: lualatex modern.tex
 ```
 
 If you are not using `biblatex`, skip the `biber` step.
@@ -179,17 +161,15 @@ If you are not using `biblatex`, skip the `biber` step.
 
 The unified class accepts:
 
-- `theme=us-resume`, `theme=german-cv`, `theme=awesome-resume`, or `theme=classic-resume`
+- `theme=german-cv`, `theme=us-resume`, or `theme=modern`
 - `10pt`, `11pt`, `12pt`
 - `a4paper`, `letterpaper`
 - `english`, `german`
 
 Theme defaults:
 
-- `theme=german-cv` defaults to `a4paper`
+- `theme=german-cv` and `theme=modern` default to `a4paper`
 - `theme=us-resume` defaults to `letterpaper`
-- `theme=awesome-resume` defaults to `letterpaper`
-- `theme=classic-resume` defaults to `a4paper`
 
 Paper and language can still be overridden explicitly:
 
@@ -214,7 +194,11 @@ Paper and language can still be overridden explicitly:
 
 `SetTown`, `SetPhone`, `SetEmail`, `SetCitizenship`, `SetGithub`,
 `SetLinkedIn`, `SetXing`, and `SetHomepage` are rendered in a deterministic
-category order in the German CV header.
+category order in the German CV header and the modern resume header.
+
+The `modern` header renders a single contact line from those
+personal details. Location, phone, and email are plain text; platform links
+such as GitHub, LinkedIn, Xing, and homepage keep their icons.
 
 For `\SetHomepage`, pass a bare host/path such as `www.example.com`; the
 class prepends `https://`.
@@ -250,25 +234,17 @@ If `url` is provided, the entry title is rendered as a hyperlink.
 - `\MakeHeader{line1}{line2}{line3}`
 - `\SetBadge{scale}{image-path}`
 
-`theme=awesome-resume`:
+`theme=modern`:
 
-- `\DisplayModernHeader{roles}{quote}` — renders the header block inline at the top of the document body. `roles` is a string of role labels (e.g., `Engineer \textbullet\ Architect`); `quote` is a short italic tagline. Contact details are auto-assembled from `\SetPhone`, `\SetEmail`, `\SetGithub`, etc.
-
-`theme=classic-resume`:
-
-- `\DisplayClassicHeader{document-label}{subtitle}`
-- `\ClassicMeta{right}{left}`
-- `\ClassicMetaRule`
+- `\MakeHeader{name}{subtitle}{contact-line}`; the third argument is accepted
+  for compatibility, but contact details render automatically from the
+  `\SetTown`, `\SetPhone`, `\SetEmail`, and platform-link commands.
+- `\SetBadge{scale}{image-path}`
 
 #### Deprecated commands
 
 - `\cventrylegacy`, `\cvlistitem`
 - `\cvpadlessentry` (german-cv only)
-
-## Acknowledgements
-
-- `theme=classic-resume` — layout inspired by [Jan Küster's latexcv](https://github.com/jankapunkt/latexcv)
-- `theme=awesome-resume` — layout inspired by [posquit0's Awesome-CV](https://github.com/posquit0/Awesome-CV)
 
 ## Licenses
 
