@@ -36,8 +36,16 @@
       \ifdefstring{\cv@optionvalue}{us-resume}{%
         \def\cv@theme{us-resume}%
       }{%
-        \ClassError{andre-cv}{Unknown theme '\cv@optionvalue'}%
-          {Supported themes are 'german-cv' and 'us-resume'.}%
+        \ifdefstring{\cv@optionvalue}{awesome-resume}{%
+          \def\cv@theme{awesome-resume}%
+        }{%
+          \ifdefstring{\cv@optionvalue}{classic-resume}{%
+            \def\cv@theme{classic-resume}%
+          }{%
+            \ClassError{andre-cv}{Unknown theme '\cv@optionvalue'}%
+              {Supported themes are 'german-cv', 'us-resume', 'awesome-resume', and 'classic-resume'.}%
+          }%
+        }%
       }%
     }%
   }{%
@@ -62,8 +70,16 @@
   \ifdefstring{\cv@theme}{us-resume}{%
     \def\cv@papersize{letterpaper}%
   }{%
-    \ClassError{andre-cv}{Unknown theme '\cv@theme'}%
-      {Supported themes are 'german-cv' and 'us-resume'.}%
+    \ifdefstring{\cv@theme}{awesome-resume}{%
+      \def\cv@papersize{letterpaper}%
+    }{%
+      \ifdefstring{\cv@theme}{classic-resume}{%
+        \def\cv@papersize{a4paper}%
+      }{%
+        \ClassError{andre-cv}{Unknown theme '\cv@theme'}%
+          {Supported themes are 'german-cv', 'us-resume', 'awesome-resume', and 'classic-resume'.}%
+      }%
+    }%
   }%
 }
 \def\cv@language{english}
