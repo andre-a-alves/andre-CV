@@ -44,11 +44,11 @@
       \ifdefstring{\cv@optionvalue}{us-resume}{%
         \def\cv@theme{us-resume}%
       }{%
-        \ifdefstring{\cv@optionvalue}{modern-us-resume}{%
-          \def\cv@theme{modern-us-resume}%
+        \ifdefstring{\cv@optionvalue}{modern}{%
+          \def\cv@theme{modern}%
         }{%
           \ClassError{andre-cv}{Unknown theme '\cv@optionvalue'}%
-            {Supported themes are 'german-cv', 'us-resume', and 'modern-us-resume'.}%
+            {Supported themes are 'german-cv', 'us-resume', and 'modern'.}%
         }%
       }%
     }%
@@ -74,11 +74,11 @@
     \ifdefstring{\cv@theme}{us-resume}{%
       \def\cv@papersize{letterpaper}%
     }{%
-      \ifdefstring{\cv@theme}{modern-us-resume}{%
-        \def\cv@papersize{letterpaper}%
+      \ifdefstring{\cv@theme}{modern}{%
+        \def\cv@papersize{a4paper}%
       }{%
         \ClassError{andre-cv}{Unknown theme '\cv@theme'}%
-          {Supported themes are 'german-cv', 'us-resume', and 'modern-us-resume'.}%
+          {Supported themes are 'german-cv', 'us-resume', and 'modern'.}%
       }%
     }%
   }%
@@ -96,9 +96,9 @@
 \RequirePackage{hyperref}
 \hypersetup{
     colorlinks=true,  % activate colours
-    linkcolor=black,  % for internal links use black
-    citecolor=black,  % for citations to reference list use black
-    urlcolor=black    % for external links use black
+    linkcolor=.,  % inherit current text color
+    citecolor=.,  % inherit current text color
+    urlcolor=.    % inherit current text color
 }
 \RequirePackage{tabularx}
 \RequirePackage{graphicx}

@@ -1,5 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{themes/modern-us-resume}[2026-04-14 Modern US resume theme]
+\ProvidesPackage{themes/modern}[2026-04-14 Modern resume theme]
 % Layout derived from themes/us-resume.sty. Modernizes visual style only:
 % no small caps, quieter accent, gray secondary metadata, tighter typography.
 
@@ -39,15 +39,46 @@
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\begin{luacode}
+  function printModernHeaderPersonalDetails(arr)
+    local items = {}
+    for _, detail in ipairs(arr) do
+      items[#items + 1] = detail
+    end
+    table.sort(items, function(a, b)
+      return (a.sortKey or 0) < (b.sortKey or 0)
+    end)
+
+    local texItems = {}
+    for _, detail in ipairs(items) do
+      if (detail.sortKey or 0) >= 50 then
+        texItems[#texItems + 1] = "\\mbox{" .. detail.icon .. detail.value .. "}"
+      else
+        texItems[#texItems + 1] = "\\mbox{" .. detail.value .. "}"
+      end
+    end
+
+    tex.sprint(table.concat(texItems, "\\,{\\textbullet}\\,"))
+  end
+\end{luacode}
+
+\newcommand*{\RenderPersonalDetails}{%
+  \directlua{printModernHeaderPersonalDetails(personalDetails)}%
+}
+
 % \MakeHeader{name}{subtitle}{contact-line}
 %
-% Name is bold at \LARGE — prominent but not academic-oversized.
-% No \textsc anywhere; sans-serif weight carries the hierarchy.
+%   #1  name        — bold, most prominent
+%   #2  subtitle    — professional identity; gray, slightly smaller than name
+%   #3  contact     — ignored; contact details render from personalDetails
+%
+% Tighten inter-line gaps to zero: the size difference alone carries the
+% hierarchy without needing extra vertical distance between the lines.
 \newcommand*{\MakeHeader}[3]{%
   \def\InsertHeader{%
-    {\LARGE\bfseries #1}\\[1pt]%
-    {\small #2}\\[1pt]%
-    {\small #3}%
+    {\LARGE\bfseries #1}\\[0pt]%
+    {\small\color{ModernGray} #2}\\[0pt]%
+    {\footnotesize\color{ModernGray}\RenderPersonalDetails}%
   }%
 }
 
@@ -66,7 +97,7 @@
 % quieter. Accent color + rule provides the visual landmark; the label
 % does not need to shout.
 \renewcommand*{\cv@render@sectionheading}[1]{%
-  \vspace{4mm}%
+  \vspace{6mm}%
   \noindent{\large\bfseries\color{accentColor}#1}%
   ~\textcolor{light_gray}{\hrulefill}\par%
 }
@@ -82,13 +113,21 @@
 % accent color or small caps.
 \renewcommand*{\cv@render@entry}[1]{%
   \begin{minipage}{\textwidth}
-  \vspace{4mm}%
+  \vspace{3mm}%
   \setlength\tabcolsep{0pt}%
   \setlength{\extrarowheight}{0pt}%
   \begin{tabularx}{\textwidth}{X r}
-    \textbf{\cv@entry@linktitle} & {\small\color{ModernGray}\cv@entry@dates} \\
-    {\small\color{ModernGray}\cv@entry@org} & {\small\color{ModernGray}\cv@entry@location}
+    \begin{minipage}[t]{\linewidth}
+      \textbf{\cv@entry@linktitle}\\[-2pt]%
+      {\footnotesize\color{ModernGray}\cv@entry@org}%
+    \end{minipage}
+    &
+    \begin{tabular}[t]{@{}r@{}}
+      {\footnotesize\color{ModernGray}\cv@entry@dates}\\[-2pt]
+      {\footnotesize\color{ModernGray}\cv@entry@location}
+    \end{tabular}
   \end{tabularx}
+  \vspace{0.5mm}%
   #1
   \end{minipage}%
 }
@@ -99,13 +138,19 @@
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\newlength{\cv@item@labelwidth}
+\setlength{\cv@item@labelwidth}{3cm}
+
+\newcommand*{\cv@render@itemrow}[2]{%
+  \par\vspace{0.3mm}%
+  {\hangindent=\dimexpr\cv@item@labelwidth+0.3cm\relax
+   \hangafter=1
+   \noindent\makebox[\cv@item@labelwidth][l]{\strut#1}\hspace{0.3cm}#2\strut\par}%
+  \vspace{0.3mm}%
+}
+
 \renewcommand*{\cv@render@item}[2]{%
-  \vspace{1.5mm}%
-  \setlength\tabcolsep{0pt}%
-  \setlength{\extrarowheight}{0pt}%
-  \begin{tabularx}{\textwidth}{l l X}%
-    \textbf{#1} & \hspace{0.3cm} & #2 \\
-  \end{tabularx}%
+  \cv@render@itemrow{\textbf{#1}}{#2}%
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -159,13 +204,9 @@
 }
 
 \newcommand*{\cvlistitem}[3]{%
-  \vspace{1.5mm}%
-  \setlength\tabcolsep{0pt}%
-  \setlength{\extrarowheight}{0pt}%
-  \begin{tabularx}{\textwidth}{l l X}%
+  \cv@render@itemrow{%
     \ifthenelse{\equal{#3}{}}%
       {\textbf{#1}}%
       {\href{#3}{\textbf{#1}}}%
-      & \hspace{0.3cm} & #2 \\
-  \end{tabularx}\\%
+  }{#2}%
 }

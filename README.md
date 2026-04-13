@@ -13,7 +13,8 @@ andre-cv/
 │   ├── andre-cv.cls
 │   └── themes/
 │       ├── german-cv.sty
-│       └── us-resume.sty
+│       ├── us-resume.sty
+│       └── modern.sty
 ├── libs/
 │   └── andre-cv-core/  Core Rust library (schema, parsing, validation, rendering)
 ├── tools/
@@ -33,6 +34,7 @@ compatibility is not guaranteed between revisions.
 <tr>
 <td align="center"><b>german-cv</b><br><img src="samples/previews/german-cv.png" width="340"></td>
 <td align="center"><b>us-resume</b><br><img src="samples/previews/us-resume.png" width="340"></td>
+<td align="center"><b>modern</b><br>Modern resume theme</td>
 </tr>
 </table>
 
@@ -49,6 +51,12 @@ or
 
 ```tex
 \documentclass[theme=us-resume,10pt]{andre-cv}
+```
+
+or
+
+```tex
+\documentclass[theme=modern,10pt]{andre-cv}
 ```
 
 ### Requirements
@@ -139,20 +147,28 @@ TEXINPUTS=../latex//: lualatex us-resume.tex
 TEXINPUTS=../latex//: lualatex us-resume.tex
 ```
 
+```bash
+cd samples
+TEXINPUTS=../latex//: lualatex modern.tex
+biber modern
+TEXINPUTS=../latex//: lualatex modern.tex
+TEXINPUTS=../latex//: lualatex modern.tex
+```
+
 If you are not using `biblatex`, skip the `biber` step.
 
 ### Class Options
 
 The unified class accepts:
 
-- `theme=us-resume` or `theme=german-cv`
+- `theme=german-cv`, `theme=us-resume`, or `theme=modern`
 - `10pt`, `11pt`, `12pt`
 - `a4paper`, `letterpaper`
 - `english`, `german`
 
 Theme defaults:
 
-- `theme=german-cv` defaults to `a4paper`
+- `theme=german-cv` and `theme=modern` default to `a4paper`
 - `theme=us-resume` defaults to `letterpaper`
 
 Paper and language can still be overridden explicitly:
@@ -178,7 +194,11 @@ Paper and language can still be overridden explicitly:
 
 `SetTown`, `SetPhone`, `SetEmail`, `SetCitizenship`, `SetGithub`,
 `SetLinkedIn`, `SetXing`, and `SetHomepage` are rendered in a deterministic
-category order in the German CV header.
+category order in the German CV header and the modern resume header.
+
+The `modern` header renders a single contact line from those
+personal details. Location, phone, and email are plain text; platform links
+such as GitHub, LinkedIn, Xing, and homepage keep their icons.
 
 For `\SetHomepage`, pass a bare host/path such as `www.example.com`; the
 class prepends `https://`.
@@ -212,6 +232,13 @@ If `url` is provided, the entry title is rendered as a hyperlink.
 `theme=us-resume`:
 
 - `\MakeHeader{line1}{line2}{line3}`
+- `\SetBadge{scale}{image-path}`
+
+`theme=modern`:
+
+- `\MakeHeader{name}{subtitle}{contact-line}`; the third argument is accepted
+  for compatibility, but contact details render automatically from the
+  `\SetTown`, `\SetPhone`, `\SetEmail`, and platform-link commands.
 - `\SetBadge{scale}{image-path}`
 
 #### Deprecated commands
