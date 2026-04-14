@@ -12,12 +12,15 @@
 \setlength{\parindent}{0pt}
 \DTMsetstyle{en-US}
 
+% Disable hyphenation so words never break across lines.
+\hyphenpenalty=10000
+\exhyphenpenalty=10000
+
 \pagestyle{fancy}
-\fancypagestyle{letter}{\fancyhf{}}
 \chead{\InsertHeader}
 \rhead{\ifbool{BadgeToggled}{\InsertBadge}{}}
 \lfoot{\FooterGrayColor{\today}}
-\geometry{includehead, headsep=0.2in, footskip=0.25in}
+\geometry{includehead, headsep=0.1in, footskip=0.25in}
 \fancypagestyle{noheader}{\fancyhead{}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -99,7 +102,7 @@
 \renewcommand*{\cv@render@sectionheading}[1]{%
   \vspace{6mm}%
   \noindent{\large\bfseries\color{accentColor}#1}%
-  ~\textcolor{light_gray}{\hrulefill}\par%
+  ~{\color{light_gray}\leavevmode\leaders\hrule height 0.2pt\hfill\kern0pt}\par%
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -114,21 +117,13 @@
 \renewcommand*{\cv@render@entry}[1]{%
   \begin{minipage}{\textwidth}
   \vspace{3mm}%
-  \setlength\tabcolsep{0pt}%
-  \setlength{\extrarowheight}{0pt}%
-  \begin{tabularx}{\textwidth}{X r}
-    \begin{minipage}[t]{\linewidth}
-      \textbf{\cv@entry@linktitle}\\[-2pt]%
-      {\footnotesize\color{ModernGray}\cv@entry@org}%
-    \end{minipage}
-    &
-    \begin{tabular}[t]{@{}r@{}}
-      {\footnotesize\color{ModernGray}\cv@entry@dates}\\[-2pt]
-      {\footnotesize\color{ModernGray}\cv@entry@location}
-    \end{tabular}
-  \end{tabularx}
-  \vspace{0.5mm}%
-  #1
+  % Use \hfill in paragraph mode so every row shares a natural baseline —
+  % no tabular vtop gymnastics needed.
+  {\parfillskip=0pt\relax
+   \noindent\textbf{\cv@entry@linktitle}\hfill{\footnotesize\color{ModernGray}\cv@entry@dates}\\[-2pt]
+   {\footnotesize\color{ModernGray}\cv@entry@org}\hfill{\footnotesize\color{ModernGray}\cv@entry@location}\par}%
+  \vspace{2mm}%
+  {\fontsize{9.5}{11.5}\selectfont #1}%
   \end{minipage}%
 }
 
@@ -143,7 +138,8 @@
 
 \newcommand*{\cv@render@itemrow}[2]{%
   \par\vspace{0.3mm}%
-  {\hangindent=\dimexpr\cv@item@labelwidth+0.3cm\relax
+  {\fontsize{9.5}{11.5}\selectfont
+   \hangindent=\dimexpr\cv@item@labelwidth+0.3cm\relax
    \hangafter=1
    \noindent\makebox[\cv@item@labelwidth][l]{\strut#1}\hspace{0.3cm}#2\strut\par}%
   \vspace{0.3mm}%
@@ -151,41 +147,6 @@
 
 \renewcommand*{\cv@render@item}[2]{%
   \cv@render@itemrow{\textbf{#1}}{#2}%
-}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-% Cover letter
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\fancypagestyle{letter}{\fancyhf{}}
-
-\renewcommand{\cv@renderletter@begin}{%
-  \thispagestyle{letter}%
-  \newgeometry{margin=0.75in}%
-  {\Large\bfseries \DisplayName}\\
-  \@ifundefined{DisplayAddressOne}{}{\DisplayAddressOne\\}%
-  \@ifundefined{DisplayAddressTwo}{}{\DisplayAddressTwo\\}%
-  \@ifundefined{DisplayAddressThree}{}{\DisplayAddressThree\\}%
-  \@ifundefined{DisplayPhone}{}{\DisplayPhone\\}%
-  \@ifundefined{DisplayEmail}{}{\DisplayEmail\\}%
-  \today\\[1\baselineskip]
-  \cv@letter@toname\\
-  \cv@letter@toaddress\\[1\baselineskip]
-  \textbf{\cv@letter@subject}\\[0.5\baselineskip]
-  \cv@letter@opening\\
-}
-
-\renewcommand{\cv@renderletter@end}{%
-  \par
-  \cv@letter@closing,\\
-  \ifthenelse{\equal{\cv@letter@signature}{}}%
-    {\\[3\baselineskip]}%
-    {\includegraphics[height=3\baselineskip]{\cv@letter@signature}\\}%
-  \DisplayName
-  \restoregeometry
-  \setcounter{page}{1}%
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

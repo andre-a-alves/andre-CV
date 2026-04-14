@@ -60,7 +60,6 @@
 \newcommand{\HeaderImageSizeCm}[1]{\directlua{setSetPictureWidth(#1)}}
 
 \pagestyle{fancy}
-\fancypagestyle{letter}{\fancyhf{}}
 \rhead{\large \textbf{\textsc{\DisplayName}}}
 \geometry{vmargin=16.9mm, hmargin=24.1mm, footskip=0.6cm}
 \fancypagestyle{noheader}{\fancyhead{}}
@@ -119,60 +118,6 @@
 	\begin{tabularx}{\textwidth}{p{\tabularColumnWidth} X}%
 		\raggedright\textbf{#1} & #2 \\
 	\end{tabularx}%
-}
-
-\renewcommand{\cv@renderletter@begin}{%
-	\thispagestyle{letter}%
-	\newgeometry{top=2cm, right=2cm, left=2.5cm, bottom=2cm}%
-	\begin{flushright}
-	{\Large \textsc{\DisplayName}}\\
-	\@ifundefined{DisplayAddressOne}{}{\DisplayAddressOne\\}%
-	\@ifundefined{DisplayAddressTwo}{}{\DisplayAddressTwo\\}%
-	\@ifundefined{DisplayAddressThree}{}{\DisplayAddressThree\\}%
-	\@ifundefined{DisplayPhone}{}{\DisplayPhone\\}%
-	\@ifundefined{DisplayEmail}{}{\DisplayEmail\\}%
-	\end{flushright}
-
-	\vspace{2\baselineskip}
-
-	\textsc{\cv@letter@toname}\\
-	\cv@letter@toaddress\\[\baselineskip]
-
-	\begin{flushright}
-		\today
-	\end{flushright}
-
-	\vspace{\baselineskip}
-
-	\textbf{\cv@letter@subject}\\[\baselineskip]
-
-	\cv@letter@opening\\
-}
-
-\renewcommand{\cv@renderletter@end}{%
-	\par
-	\cv@letter@closing,\\
-
-	\ifthenelse{\equal{\cv@letter@signature}{}}%
-		{\\[3\baselineskip]}%
-		{\includegraphics[height=3\baselineskip]{\cv@letter@signature}\\}%
-	\DisplayName
-	\newpage
-	\setcounter{page}{1}%
-}
-
-\newcommand{\MakeCoverLetter}[9]{%
-	\PackageWarning{themes/german-cv}{\noexpand\MakeCoverLetter is deprecated; use the coverletter environment instead}%
-	\begin{coverletter}[%
-		to-name    = {#3},%
-		to-address = {#4},%
-		subject    = {#5},%
-		opening    = {#6},%
-		closing    = {#8},%
-		signature  = {#9}%
-	]%
-	#7%
-	\end{coverletter}%
 }
 
 \newcommand*{\cventrylegacy}[5]{%
