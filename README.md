@@ -11,10 +11,13 @@ A polyglot monorepo containing:
 andre-cv/
 ├── latex/          LaTeX classes and themes (self-contained, copy-and-use)
 │   ├── andre-cv.cls
-│   └── themes/
-│       ├── german-cv.sty
-│       ├── us-resume.sty
-│       └── modern.sty
+│   ├── themes/
+│   │   ├── german-cv.sty
+│   │   ├── us-resume.sty
+│   │   └── modern.sty
+│   └── letters/
+│       ├── german-din.sty   German DIN 5008 cover letter
+│       └── us-business.sty  US Business cover letter
 ├── libs/
 │   └── andre-cv-core/  Core Rust library (schema, parsing, validation, rendering)
 ├── tools/
@@ -162,6 +165,7 @@ If you are not using `biblatex`, skip the `biber` step.
 The unified class accepts:
 
 - `theme=german-cv`, `theme=us-resume`, or `theme=modern`
+- `letter=german-din`, `letter=us-business`, or `letter=none`
 - `10pt`, `11pt`, `12pt`
 - `a4paper`, `letterpaper`
 - `english`, `german`
@@ -171,10 +175,21 @@ Theme defaults:
 - `theme=german-cv` and `theme=modern` default to `a4paper`
 - `theme=us-resume` defaults to `letterpaper`
 
-Paper and language can still be overridden explicitly:
+Letter style defaults (applied automatically when `letter=` is not specified):
+
+- `theme=german-cv` defaults to `letter=german-din`
+- `theme=us-resume` and `theme=modern` default to `letter=us-business`
+
+Use `letter=none` to suppress the cover letter entirely:
 
 ```tex
-\documentclass[theme=german-cv,10pt,letterpaper,german]{andre-cv}
+\documentclass[theme=modern,letter=none,10pt]{andre-cv}
+```
+
+Paper, language, and letter style can all be overridden explicitly:
+
+```tex
+\documentclass[theme=german-cv,10pt,letterpaper,german,letter=us-business]{andre-cv}
 ```
 
 ### Document API
@@ -216,9 +231,30 @@ Built-in color names: `UltramarineBlue`, `YellowGreen`, `Fuchsia`,
 - `\cvitemize{ ... }`
 - `\cvitem{label}{value}`
 - `\cventry[dates=..., title=..., org=..., location=..., url=...]{...}`
-- `coverletter` environment
+- `coverletter` environment — renders a cover letter before the CV using the active letter style
 
 If `url` is provided, the entry title is rendered as a hyperlink.
+
+#### Cover letter
+
+The `coverletter` environment accepts key-value options:
+
+```tex
+\begin{coverletter}[
+  to-name    = {Dr. Marcus Brody},
+  to-address = {National Museum, Washington D.C.},
+  subject    = {Re: Ark of the Covenant},
+  opening    = {Dear Marcus},
+  closing    = {Sincerely},
+  signature  = {./img/signature.png},
+]
+Letter body goes here.
+\end{coverletter}
+```
+
+The letter is placed before `\begin{document}` content and the CV starts
+on a new page numbered from 1. The visual style (layout, fonts, header
+placement) is controlled by the active `letter=` option.
 
 #### Theme-specific commands
 

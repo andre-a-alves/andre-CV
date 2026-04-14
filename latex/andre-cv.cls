@@ -32,8 +32,9 @@
 \DeclareOption{english}{\def\cv@language{english}\def\cv@babellang{english}}
 \DeclareOption{german}{\def\cv@language{german}\def\cv@babellang{ngerman}}
 
-% Theme selection
+% Theme and letter-style selection
 \def\cv@theme{us-resume}
+\def\cv@letterstyle{auto}
 \def\cv@handleoption#1=#2=#3\@nil{%
   \def\cv@optionname{#1}%
   \def\cv@optionvalue{#2}%
@@ -53,7 +54,24 @@
       }%
     }%
   }{%
-    \PassOptionsToClass{\CurrentOption}{article}%
+    \ifdefstring{\cv@optionname}{letter}{%
+      \ifdefstring{\cv@optionvalue}{german-din}{%
+        \def\cv@letterstyle{german-din}%
+      }{%
+        \ifdefstring{\cv@optionvalue}{us-business}{%
+          \def\cv@letterstyle{us-business}%
+        }{%
+          \ifdefstring{\cv@optionvalue}{none}{%
+            \def\cv@letterstyle{none}%
+          }{%
+            \ClassError{andre-cv}{Unknown letter style '\cv@optionvalue'}%
+              {Supported letter styles are 'german-din', 'us-business', and 'none'.}%
+          }%
+        }%
+      }%
+    }{%
+      \PassOptionsToClass{\CurrentOption}{article}%
+    }%
   }%
 }
 
@@ -81,6 +99,14 @@
           {Supported themes are 'german-cv', 'us-resume', and 'modern'.}%
       }%
     }%
+  }%
+}{}
+% Resolve 'auto' letter style: pick the natural default for each theme
+\ifdefstring{\cv@letterstyle}{auto}{%
+  \ifdefstring{\cv@theme}{german-cv}{%
+    \def\cv@letterstyle{german-din}%
+  }{%
+    \def\cv@letterstyle{us-business}%
   }%
 }{}
 % Fall-back defaults if no user option supplied one
@@ -370,3 +396,6 @@
 }
 
 \RequirePackage{themes/\cv@theme}
+\ifdefstring{\cv@letterstyle}{none}{}{%
+  \RequirePackage{letters/\cv@letterstyle}%
+}

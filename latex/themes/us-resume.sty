@@ -13,7 +13,6 @@
 \DTMsetstyle{en-US}
 
 \pagestyle{fancy}
-\fancypagestyle{letter}{\fancyhf{}}
 \chead{\InsertHeader}
 \rhead{\ifbool{BadgeToggled}{\InsertBadge}{}}
 \lfoot{\FooterGrayColor{\today}}
@@ -53,51 +52,6 @@
 	\begin{tabularx}{\textwidth}{l l X}%
 		\textbf{#1} & \hspace{0.3cm} & #2 \\
 	\end{tabularx}%
-}
-
-\renewcommand{\cv@renderletter@begin}{%
-	\thispagestyle{letter}%
-	\newgeometry{margin=0.75in}%
-	{\Large {\fontseries{m}\selectfont \textsc{\DisplayName}}}\\
-	\@ifundefined{DisplayAddressOne}{}{\DisplayAddressOne\\}%
-	\@ifundefined{DisplayAddressTwo}{}{\DisplayAddressTwo\\}%
-	\@ifundefined{DisplayAddressThree}{}{\DisplayAddressThree\\}%
-	\@ifundefined{DisplayPhone}{}{\DisplayPhone\\}%
-	\@ifundefined{DisplayEmail}{}{\DisplayEmail\\}%
-
-	\today\\
-
-	\textsc{\cv@letter@toname}\\
-	\cv@letter@toaddress\\
-
-	\textbf{\cv@letter@subject}\\
-
-	\cv@letter@opening\\
-}
-
-\renewcommand{\cv@renderletter@end}{%
-	\par
-	\cv@letter@closing,\\
-	\ifthenelse{\equal{\cv@letter@signature}{}}%
-		{\\[3\baselineskip]}%
-		{\includegraphics[height=3\baselineskip]{\cv@letter@signature}\\}%
-	\DisplayName
-	\restoregeometry
-	\setcounter{page}{1}%
-}
-
-\newcommand{\MakeCoverLetter}[9]{%
-	\PackageWarning{themes/us-resume}{\noexpand\MakeCoverLetter is deprecated; use the coverletter environment instead}%
-	\begin{coverletter}[%
-		to-name    = {#3},%
-		to-address = {#4},%
-		subject    = {#5},%
-		opening    = {#6},%
-		closing    = {#8},%
-		signature  = {#9}%
-	]%
-	#7%
-	\end{coverletter}%
 }
 
 \newcommand*{\cventrylegacy}[5]{%

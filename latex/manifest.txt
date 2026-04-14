@@ -2,6 +2,8 @@ latex/andre-cv.cls
 latex/themes/german-cv.sty
 latex/themes/us-resume.sty
 latex/themes/modern.sty
+latex/letters/german-din.sty
+latex/letters/us-business.sty
 latex/manifest.txt
 samples/german-cv.tex
 samples/us-resume.tex
