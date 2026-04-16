@@ -69,15 +69,14 @@
   \directlua{printModernHeaderPersonalDetails(personalDetails)}%
 }
 
-% \MakeHeader{name}{subtitle}{contact-line}
+% \MakeHeader{name}{subtitle}
 %
 %   #1  name        — bold, most prominent
 %   #2  subtitle    — professional identity; gray, slightly smaller than name
-%   #3  contact     — ignored; contact details render from personalDetails
 %
 % Tighten inter-line gaps to zero: the size difference alone carries the
 % hierarchy without needing extra vertical distance between the lines.
-\newcommand*{\MakeHeader}[3]{%
+\newcommand*{\MakeHeader}[2]{%
   \def\InsertHeader{%
     {\LARGE\bfseries #1}\\[0pt]%
     {\small\color{ModernGray} #2}\\[0pt]%
@@ -147,27 +146,4 @@
 
 \renewcommand*{\cv@render@item}[2]{%
   \cv@render@itemrow{\textbf{#1}}{#2}%
-}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-% Deprecated shims
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\newcommand*{\cventrylegacy}[5]{%
-  \def\cv@entry@dates{#1}%
-  \def\cv@entry@title{#2}%
-  \def\cv@entry@org{#3}%
-  \def\cv@entry@location{#4}%
-  \def\cv@entry@url{}%
-  \cv@render@entry{#5}%
-}
-
-\newcommand*{\cvlistitem}[3]{%
-  \cv@render@itemrow{%
-    \ifthenelse{\equal{#3}{}}%
-      {\textbf{#1}}%
-      {\href{#3}{\textbf{#1}}}%
-  }{#2}%
 }
