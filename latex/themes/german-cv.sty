@@ -70,13 +70,14 @@
 	}%
 }
 
-\newcommand*{\DisplayHeader}[2]{%
+\NewDocumentCommand{\DisplayHeader}{m g}{%
+	\IfNoValueTF{#2}{\def\cv@header@image{}}{\def\cv@header@image{#2}}%
 	\directlua{
 		local pictureWidth = getPictureWidthFromArray(personalDetails)
 		tex.sprint("\\renewcommand{\\picturewidth}{" .. pictureWidth .. "cm}")
 	}%
 	\thispagestyle{noheader}%
-	\ifthenelse{\equal{}{#2}}{\ZeroPictureWidth}{}%
+	\ifthenelse{\equal{}{\cv@header@image}}{\ZeroPictureWidth}{}%
 	\noindent
 	\begin{minipage}[t]{\textwidth-\picturewidth}
 	{\HUGE \textsc{\DisplayName}}\\
@@ -86,12 +87,12 @@
 	\IncludeCVHeaderTable
 	\vspace{3mm}
 	\end{minipage}%
-	\ifthenelse{\equal{}{#2}}{}{%
+	\ifthenelse{\equal{}{\cv@header@image}}{}{%
 		\hfill
 		\begin{minipage}[t]{\picturewidth}
 		\vspace{-1.5em}
 		\raggedleft
-		\includegraphics[height=\picturewidth, width=\picturewidth]{#2}
+		\includegraphics[height=\picturewidth, width=\picturewidth]{\cv@header@image}
 		\end{minipage}%
 	}%
 	\par
@@ -118,45 +119,6 @@
 	\begin{tabularx}{\textwidth}{p{\tabularColumnWidth} X}%
 		\raggedright\textbf{#1} & #2 \\
 	\end{tabularx}%
-}
-
-\newcommand*{\cventrylegacy}[5]{%
-	\def\cv@entry@dates{#1}%
-	\def\cv@entry@title{#2}%
-	\def\cv@entry@org{#3}%
-	\def\cv@entry@location{#4}%
-	\def\cv@entry@url{}%
-	\cv@render@entry{#5}%
-}
-
-\newcommand*{\cvpadlessentry}[5]{%
-	\def\cv@entry@dates{#1}%
-	\def\cv@entry@title{#2}%
-	\def\cv@entry@org{#3}%
-	\def\cv@entry@location{#4}%
-	\def\cv@entry@url{}%
-	\begin{minipage}{\textwidth}
-	\setlength\tabcolsep{0pt}%
-	\setlength{\extrarowheight}{0pt}%
-	\begin{tabularx}{\textwidth}{ l X }
-	\multirow[t]{2}{\tabularColumnWidth}{{\cv@entry@dates}~\hspace{3mm}} & {\textbf{\cv@entry@title}} \hfill {\small \cv@entry@location}\\
-	& \textsc{\cv@entry@org} \\
-	& #5
-	\end{tabularx}
-	\vspace{-4mm}%
-	\end{minipage}%
-}
-
-\newcommand*{\cvlistitem}[3]{%
-	\vspace{1.5mm}%
-	\setlength\tabcolsep{0pt}%
-	\setlength{\extrarowheight}{0pt}%
-	\begin{tabularx}{\textwidth}{p{\tabularColumnWidth} X}%
-		\raggedright \ifthenelse{\equal{#3}{}}%
-			{\textbf{#1}}%
-			{\href{#3}{\textbf{#1}}}%
-			& #2 \\
-	\end{tabularx}\\%
 }
 
 \newcommand*{\DisplaySignature}[2]{%

@@ -260,7 +260,7 @@ placement) is controlled by the active `letter=` option.
 
 `theme=german-cv`:
 
-- `\DisplayHeader{subtitle}{image-path}`
+- `\DisplayHeader{subtitle}` or `\DisplayHeader{subtitle}{image-path}`
 - `\DisplaySignature{signature-image-path}{location}`
 - `\ResizeTabular{width}`
 - `\HeaderImageSizeCm{number}`
@@ -272,15 +272,9 @@ placement) is controlled by the active `letter=` option.
 
 `theme=modern`:
 
-- `\MakeHeader{name}{subtitle}{contact-line}`; the third argument is accepted
-  for compatibility, but contact details render automatically from the
-  `\SetTown`, `\SetPhone`, `\SetEmail`, and platform-link commands.
+- `\MakeHeader{name}{subtitle}`; contact details render automatically from
+  the `\SetTown`, `\SetPhone`, `\SetEmail`, and platform-link commands.
 - `\SetBadge{scale}{image-path}`
-
-#### Deprecated commands
-
-- `\cventrylegacy`, `\cvlistitem`
-- `\cvpadlessentry` (german-cv only)
 
 ## Licenses
 

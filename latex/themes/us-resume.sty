@@ -3,9 +3,7 @@
 
 \RequirePackage[\cv@papersize, margin=0.75in]{geometry}
 \RequirePackage[en-US, useregional]{datetime2}
-\RequirePackage{tikz}
 
-\newbool{FontChosen}
 \newbool{BadgeToggled}
 \newcommand{\InsertHeader}{}
 
@@ -52,25 +50,4 @@
 	\begin{tabularx}{\textwidth}{l l X}%
 		\textbf{#1} & \hspace{0.3cm} & #2 \\
 	\end{tabularx}%
-}
-
-\newcommand*{\cventrylegacy}[5]{%
-	\def\cv@entry@dates{#1}%
-	\def\cv@entry@title{#2}%
-	\def\cv@entry@org{#3}%
-	\def\cv@entry@location{#4}%
-	\def\cv@entry@url{}%
-	\cv@render@entry{#5}%
-}
-
-\newcommand*{\cvlistitem}[3]{%
-	\vspace{1.5mm}%
-	\setlength\tabcolsep{0pt}%
-	\setlength{\extrarowheight}{0pt}%
-	\begin{tabularx}{\textwidth}{l l X}%
-		\ifthenelse{\equal{#3}{}}%
-			{\textbf{#1}}%
-			{\href{#3}{\textbf{#1}}}%
-			& \hspace{0.3cm} & #2 \\
-	\end{tabularx}\\%
 }
