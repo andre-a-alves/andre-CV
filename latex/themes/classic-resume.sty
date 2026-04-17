@@ -1,10 +1,9 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{themes/us-resume}[2026-04-10 US resume theme]
+\ProvidesPackage{themes/classic-resume}[2026-04-10 Classic resume theme]
 
 \RequirePackage[\cv@papersize, margin=0.75in]{geometry}
 \RequirePackage[en-US, useregional]{datetime2}
 
-\newbool{BadgeToggled}
 \newcommand{\InsertHeader}{}
 
 \setlength{\parindent}{0pt}
@@ -12,7 +11,6 @@
 
 \pagestyle{fancy}
 \chead{\InsertHeader}
-\rhead{\ifbool{BadgeToggled}{\InsertBadge}{}}
 \lfoot{\FooterGrayColor{\today}}
 \geometry{includehead, headsep=0.2in, footskip=0.25in}
 \fancypagestyle{noheader}{\fancyhead{}}
@@ -23,11 +21,6 @@
 		\small #2 \\
 		#3%
 	}%
-}
-
-\newcommand*{\SetBadge}[2]{%
-	\booltrue{BadgeToggled}%
-	\def\InsertBadge{\includegraphics[scale=#1]{#2}}%
 }
 
 \renewcommand*{\cv@render@entry}[1]{%

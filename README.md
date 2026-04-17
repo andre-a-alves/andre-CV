@@ -2,7 +2,7 @@
 
 A polyglot monorepo containing:
 
-- A LaTeX document-class package for building German-style CVs and US-style resumes with optional cover letters
+- A LaTeX document-class package for building German-style CVs and classic resumes with optional cover letters
 - Rust libraries and CLI tooling for generating LaTeX from structured YAML data
 
 ## Repository Layout
@@ -13,8 +13,8 @@ andre-cv/
 │   ├── andre-cv.cls
 │   ├── themes/
 │   │   ├── german-cv.sty
-│   │   ├── us-resume.sty
-│   │   └── modern.sty
+│   │   ├── classic-resume.sty
+│   │   └── modern-resume.sty
 │   └── letters/
 │       ├── german-din.sty   German DIN 5008 cover letter
 │       └── us-business.sty  US Business cover letter
@@ -36,8 +36,8 @@ compatibility is not guaranteed between revisions.
 <table>
 <tr>
 <td align="center"><b>german-cv</b><br><img src="samples/previews/german-cv.png" width="340"></td>
-<td align="center"><b>us-resume</b><br><img src="samples/previews/us-resume.png" width="340"></td>
-<td align="center"><b>modern</b><br><img src="samples/previews/modern.png" width="340"></td>
+<td align="center"><b>classic-resume</b><br><img src="samples/previews/classic-resume.png" width="340"></td>
+<td align="center"><b>modern-resume</b><br><img src="samples/previews/modern-resume.png" width="340"></td>
 </tr>
 </table>
 
@@ -62,13 +62,13 @@ class directly:
 or
 
 ```tex
-\documentclass[theme=us-resume,10pt]{andre-cv}
+\documentclass[theme=classic-resume,10pt]{andre-cv}
 ```
 
 or
 
 ```tex
-\documentclass[theme=modern,10pt]{andre-cv}
+\documentclass[theme=modern-resume,10pt]{andre-cv}
 ```
 
 ### Requirements
@@ -106,10 +106,10 @@ or
 \end{document}
 ```
 
-### Example — US-style resume
+### Example — Classic resume
 
 ```tex
-\documentclass[theme=us-resume,10pt]{andre-cv}
+\documentclass[theme=classic-resume,10pt]{andre-cv}
 
 \setmainfont{Source Sans 3}
 \setsansfont{Source Sans 3}
@@ -153,18 +153,18 @@ TEXINPUTS=../latex//: lualatex german-cv.tex
 
 ```bash
 cd samples
-TEXINPUTS=../latex//: lualatex us-resume.tex
-biber us-resume
-TEXINPUTS=../latex//: lualatex us-resume.tex
-TEXINPUTS=../latex//: lualatex us-resume.tex
+TEXINPUTS=../latex//: lualatex classic-resume.tex
+biber classic-resume
+TEXINPUTS=../latex//: lualatex classic-resume.tex
+TEXINPUTS=../latex//: lualatex classic-resume.tex
 ```
 
 ```bash
 cd samples
-TEXINPUTS=../latex//: lualatex modern.tex
-biber modern
-TEXINPUTS=../latex//: lualatex modern.tex
-TEXINPUTS=../latex//: lualatex modern.tex
+TEXINPUTS=../latex//: lualatex modern-resume.tex
+biber modern-resume
+TEXINPUTS=../latex//: lualatex modern-resume.tex
+TEXINPUTS=../latex//: lualatex modern-resume.tex
 ```
 
 If you are not using `biblatex`, skip the `biber` step.
@@ -173,7 +173,7 @@ If you are not using `biblatex`, skip the `biber` step.
 
 The unified class accepts:
 
-- `theme=german-cv`, `theme=us-resume`, or `theme=modern`
+- `theme=german-cv`, `theme=classic-resume`, or `theme=modern-resume`
 - `letter=german-din`, `letter=us-business`, or `letter=none`
 - `10pt`, `11pt`, `12pt`
 - `a4paper`, `letterpaper`
@@ -181,18 +181,18 @@ The unified class accepts:
 
 Theme defaults:
 
-- `theme=german-cv` and `theme=modern` default to `a4paper`
-- `theme=us-resume` defaults to `letterpaper`
+- `theme=german-cv` and `theme=modern-resume` default to `a4paper`
+- `theme=classic-resume` defaults to `letterpaper`
 
 Letter style defaults (applied automatically when `letter=` is not specified):
 
 - `theme=german-cv` defaults to `letter=german-din`
-- `theme=us-resume` and `theme=modern` default to `letter=us-business`
+- `theme=classic-resume` and `theme=modern-resume` default to `letter=us-business`
 
 Use `letter=none` to suppress the cover letter entirely:
 
 ```tex
-\documentclass[theme=modern,letter=none,10pt]{andre-cv}
+\documentclass[theme=modern-resume,letter=none,10pt]{andre-cv}
 ```
 
 Paper, language, and letter style can all be overridden explicitly:
@@ -218,9 +218,9 @@ Paper, language, and letter style can all be overridden explicitly:
 
 `SetTown`, `SetPhone`, `SetEmail`, `SetCitizenship`, `SetGithub`,
 `SetLinkedIn`, `SetXing`, and `SetHomepage` are rendered in a deterministic
-category order in the German CV header and the modern resume header.
+category order in the German CV header and the `modern-resume` header.
 
-The `modern` header renders a single contact line from those
+The `modern-resume` header renders a single contact line from those
 personal details. Location, phone, and email are plain text; platform links
 such as GitHub, LinkedIn, Xing, and homepage keep their icons.
 
@@ -274,12 +274,12 @@ placement) is controlled by the active `letter=` option.
 - `\ResizeTabular{width}`
 - `\HeaderImageSizeCm{number}`
 
-`theme=us-resume`:
+`theme=classic-resume`:
 
 - `\MakeHeader{line1}{line2}{line3}`
 - `\SetBadge{scale}{image-path}`
 
-`theme=modern`:
+`theme=modern-resume`:
 
 - `\MakeHeader{name}{subtitle}`; contact details render automatically from
   the `\SetTown`, `\SetPhone`, `\SetEmail`, and platform-link commands.
