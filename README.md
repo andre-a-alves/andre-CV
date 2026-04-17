@@ -41,6 +41,15 @@ compatibility is not guaranteed between revisions.
 </tr>
 </table>
 
+## Cover Letter Styles
+
+<table>
+<tr>
+<td align="center"><b>german-din</b><br><img src="samples/previews/german-din-letter.png" width="340"></td>
+<td align="center"><b>us-business</b><br><img src="samples/previews/us-business-letter.png" width="340"></td>
+</tr>
+</table>
+
 ## LaTeX Quick Start
 
 Copy the `latex/` directory somewhere on your `TEXINPUTS` path and use the

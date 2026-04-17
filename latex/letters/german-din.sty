@@ -28,11 +28,12 @@
 
 	\textbf{\cv@letter@subject}\\[\baselineskip]
 
-	\cv@letter@opening\\
+	\cv@letter@opening\\[\baselineskip]
 }
 
 \renewcommand{\cv@renderletter@end}{%
 	\par
+	\vspace{\baselineskip}
 	\cv@letter@closing,\\
 
 	\ifthenelse{\equal{\cv@letter@signature}{}}%

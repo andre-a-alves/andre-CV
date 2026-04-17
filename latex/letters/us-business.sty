@@ -16,11 +16,12 @@
 	\cv@letter@toname\\
 	\cv@letter@toaddress\\[1\baselineskip]
 	\textbf{\cv@letter@subject}\\[0.5\baselineskip]
-	\cv@letter@opening\\
+	\cv@letter@opening\\[\baselineskip]
 }
 
 \renewcommand{\cv@renderletter@end}{%
 	\par
+	\vspace{\baselineskip}
 	\cv@letter@closing,\\
 	\ifthenelse{\equal{\cv@letter@signature}{}}%
 		{\\[3\baselineskip]}%
