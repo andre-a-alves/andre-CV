@@ -33,7 +33,7 @@
 \DeclareOption{german}{\def\cv@language{german}\def\cv@babellang{ngerman}}
 
 % Theme and letter-style selection
-\def\cv@theme{us-resume}
+\def\cv@theme{classic-resume}
 \def\cv@letterstyle{auto}
 \def\cv@handleoption#1=#2=#3\@nil{%
   \def\cv@optionname{#1}%
@@ -42,14 +42,14 @@
     \ifdefstring{\cv@optionvalue}{german-cv}{%
       \def\cv@theme{german-cv}%
     }{%
-      \ifdefstring{\cv@optionvalue}{us-resume}{%
-        \def\cv@theme{us-resume}%
+      \ifdefstring{\cv@optionvalue}{classic-resume}{%
+        \def\cv@theme{classic-resume}%
       }{%
-        \ifdefstring{\cv@optionvalue}{modern}{%
-          \def\cv@theme{modern}%
+        \ifdefstring{\cv@optionvalue}{modern-resume}{%
+          \def\cv@theme{modern-resume}%
         }{%
           \ClassError{andre-cv}{Unknown theme '\cv@optionvalue'}%
-            {Supported themes are 'german-cv', 'us-resume', and 'modern'.}%
+            {Supported themes are 'german-cv', 'classic-resume', and 'modern-resume'.}%
         }%
       }%
     }%
@@ -89,14 +89,14 @@
   \ifdefstring{\cv@theme}{german-cv}{%
     \def\cv@papersize{a4paper}%
   }{%
-    \ifdefstring{\cv@theme}{us-resume}{%
+    \ifdefstring{\cv@theme}{classic-resume}{%
       \def\cv@papersize{letterpaper}%
     }{%
-      \ifdefstring{\cv@theme}{modern}{%
+      \ifdefstring{\cv@theme}{modern-resume}{%
         \def\cv@papersize{a4paper}%
       }{%
         \ClassError{andre-cv}{Unknown theme '\cv@theme'}%
-          {Supported themes are 'german-cv', 'us-resume', and 'modern'.}%
+          {Supported themes are 'german-cv', 'classic-resume', and 'modern-resume'.}%
       }%
     }%
   }%

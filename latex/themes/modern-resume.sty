@@ -1,6 +1,6 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{themes/modern}[2026-04-14 Modern resume theme]
-% Layout derived from themes/us-resume.sty. Modernizes visual style only:
+\ProvidesPackage{themes/modern-resume}[2026-04-14 Modern resume theme]
+% Layout derived from themes/classic-resume.sty. Modernizes visual style only:
 % no small caps, quieter accent, gray secondary metadata, tighter typography.
 
 \RequirePackage[\cv@papersize, margin=0.75in]{geometry}
@@ -97,9 +97,9 @@
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\newlength{\cv@modern@sectionpostskip}
-\setlength{\cv@modern@sectionpostskip}{3mm}
-\newbool{cv@modern@aftersection}
+\newlength{\cv@modernresume@sectionpostskip}
+\setlength{\cv@modernresume@sectionpostskip}{3mm}
+\newbool{cv@modernresume@aftersection}
 
 % \large (12 pt at 10 pt base) instead of \Large (14.4 pt): readable but
 % quieter. Accent color + rule provides the visual landmark; the label
@@ -110,8 +110,8 @@
   \vspace{6mm}%
   \noindent{\large\bfseries\color{accentColor}#1}%
   ~{\color{light_gray}\leavevmode\leaders\hrule height 0.2pt\hfill\kern0pt}\par%
-  \nobreak\vspace{\cv@modern@sectionpostskip}%
-  \booltrue{cv@modern@aftersection}%
+  \nobreak\vspace{\cv@modernresume@sectionpostskip}%
+  \booltrue{cv@modernresume@aftersection}%
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -123,16 +123,16 @@
 % Title: bold at body size — weight alone distinguishes it from bullets.
 % Dates, org, location: \small gray — secondary info reads quietly without
 % accent color or small caps.
-\newcommand*{\cv@modern@entrytopspace}{%
-  \ifbool{cv@modern@aftersection}{%
-    \boolfalse{cv@modern@aftersection}%
+\newcommand*{\cv@modernresume@entrytopspace}{%
+  \ifbool{cv@modernresume@aftersection}{%
+    \boolfalse{cv@modernresume@aftersection}%
   }{%
     \vspace{3mm}%
   }%
 }
 
 \renewcommand*{\cv@render@entry}[1]{%
-  \cv@modern@entrytopspace%
+  \cv@modernresume@entrytopspace%
   \noindent\begin{minipage}{\textwidth}
   % Use \hfill in paragraph mode so every row shares a natural baseline —
   % no tabular vtop gymnastics needed.
@@ -178,9 +178,9 @@
     \setlength{\bibitemsep}{0.6\baselineskip}%
     \setlength{\bibparsep}{0pt}%
     \pretocmd{\printbibliography}{%
-      \ifbool{cv@modern@aftersection}{%
-        \vspace{-\cv@modern@sectionpostskip}%
-        \boolfalse{cv@modern@aftersection}%
+      \ifbool{cv@modernresume@aftersection}{%
+        \vspace{-\cv@modernresume@sectionpostskip}%
+        \boolfalse{cv@modernresume@aftersection}%
       }{}%
     }{}{}%
   }{}%
