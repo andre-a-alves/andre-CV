@@ -1,0 +1,31 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{letters/us-business}[2026-04-14 US Business cover letter style]
+
+\fancypagestyle{letter}{\fancyhf{}}
+
+\renewcommand{\cv@renderletter@begin}{%
+	\thispagestyle{letter}%
+	\newgeometry{margin=0.75in}%
+	{\Large\bfseries \DisplayName}\\
+	\@ifundefined{DisplayAddressOne}{}{\DisplayAddressOne\\}%
+	\@ifundefined{DisplayAddressTwo}{}{\DisplayAddressTwo\\}%
+	\@ifundefined{DisplayAddressThree}{}{\DisplayAddressThree\\}%
+	\@ifundefined{DisplayPhone}{}{\DisplayPhone\\}%
+	\@ifundefined{DisplayEmail}{}{\DisplayEmail\\}%
+	\today\\[1\baselineskip]
+	\cv@letter@toname\\
+	\cv@letter@toaddress\\[1\baselineskip]
+	\textbf{\cv@letter@subject}\\[0.5\baselineskip]
+	\cv@letter@opening\\
+}
+
+\renewcommand{\cv@renderletter@end}{%
+	\par
+	\cv@letter@closing,\\
+	\ifthenelse{\equal{\cv@letter@signature}{}}%
+		{\\[3\baselineskip]}%
+		{\includegraphics[height=3\baselineskip]{\cv@letter@signature}\\}%
+	\DisplayName
+	\restoregeometry
+	\setcounter{page}{1}%
+}

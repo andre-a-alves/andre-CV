@@ -1,0 +1,44 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{letters/german-din}[2026-04-14 German DIN 5008 cover letter style]
+
+\fancypagestyle{letter}{\fancyhf{}}
+
+\renewcommand{\cv@renderletter@begin}{%
+	\thispagestyle{letter}%
+	\newgeometry{top=2cm, right=2cm, left=2.5cm, bottom=2cm}%
+	\begin{flushright}
+	{\Large \textsc{\DisplayName}}\\
+	\@ifundefined{DisplayAddressOne}{}{\DisplayAddressOne\\}%
+	\@ifundefined{DisplayAddressTwo}{}{\DisplayAddressTwo\\}%
+	\@ifundefined{DisplayAddressThree}{}{\DisplayAddressThree\\}%
+	\@ifundefined{DisplayPhone}{}{\DisplayPhone\\}%
+	\@ifundefined{DisplayEmail}{}{\DisplayEmail\\}%
+	\end{flushright}
+
+	\vspace{2\baselineskip}
+
+	\textsc{\cv@letter@toname}\\
+	\cv@letter@toaddress\\[\baselineskip]
+
+	\begin{flushright}
+		\today
+	\end{flushright}
+
+	\vspace{\baselineskip}
+
+	\textbf{\cv@letter@subject}\\[\baselineskip]
+
+	\cv@letter@opening\\
+}
+
+\renewcommand{\cv@renderletter@end}{%
+	\par
+	\cv@letter@closing,\\
+
+	\ifthenelse{\equal{\cv@letter@signature}{}}%
+		{\\[3\baselineskip]}%
+		{\includegraphics[height=3\baselineskip]{\cv@letter@signature}\\}%
+	\DisplayName
+	\newpage
+	\setcounter{page}{1}%
+}
