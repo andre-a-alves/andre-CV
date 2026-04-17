@@ -132,8 +132,8 @@
 }
 
 \renewcommand*{\cv@render@entry}[1]{%
-  \begin{minipage}{\textwidth}
   \cv@modern@entrytopspace%
+  \noindent\begin{minipage}{\textwidth}
   % Use \hfill in paragraph mode so every row shares a natural baseline —
   % no tabular vtop gymnastics needed.
   {\parfillskip=0pt\relax
@@ -141,7 +141,7 @@
    {\footnotesize\color{ModernGray}\cv@entry@org}\hfill{\footnotesize\color{ModernGray}\cv@entry@location}\par}%
   \vspace{2mm}%
   {\fontsize{9.5}{11.5}\selectfont #1}%
-  \end{minipage}%
+  \end{minipage}\par%
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
