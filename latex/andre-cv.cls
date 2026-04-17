@@ -225,7 +225,7 @@
     \directlua{
         personalDetails[personalDetailsIndex] = {
             value = "\\DisplayLinkedIn",
-            icon = "\\faLinkedin",
+            icon = "\\faLinkedinSquare",
             sortKey = 60,
         }
         personalDetailsIndex = personalDetailsIndex + 1

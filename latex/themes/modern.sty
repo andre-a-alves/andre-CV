@@ -63,7 +63,7 @@
       end
     end
 
-    tex.sprint(table.concat(texItems, "\\,{\\textbullet}\\,"))
+    tex.sprint(table.concat(texItems, "\\hspace{0.45em}{\\textperiodcentered}\\hspace{0.45em}"))
   end
 \end{luacode}
 
@@ -82,7 +82,7 @@
   \def\InsertHeader{%
     {\LARGE\bfseries #1}\\[0pt]%
     {\small\color{ModernGray} #2}\\[0pt]%
-    {\footnotesize\color{ModernGray}\RenderPersonalDetails}%
+    {\fontsize{8.5}{10}\selectfont\color{ModernGray}\RenderPersonalDetails}%
   }%
 }
 
