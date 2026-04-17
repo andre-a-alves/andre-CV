@@ -5,6 +5,7 @@
 
 \RequirePackage[\cv@papersize, margin=0.75in]{geometry}
 \RequirePackage[en-US, useregional]{datetime2}
+\RequirePackage{ragged2e}
 
 \newbool{BadgeToggled}
 \newcommand{\InsertHeader}{}
@@ -15,6 +16,7 @@
 % Disable hyphenation so words never break across lines.
 \hyphenpenalty=10000
 \exhyphenpenalty=10000
+\emergencystretch=2em
 
 \pagestyle{fancy}
 \chead{\InsertHeader}
@@ -95,13 +97,21 @@
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\newlength{\cv@modern@sectionpostskip}
+\setlength{\cv@modern@sectionpostskip}{3mm}
+\newbool{cv@modern@aftersection}
+
 % \large (12 pt at 10 pt base) instead of \Large (14.4 pt): readable but
 % quieter. Accent color + rule provides the visual landmark; the label
 % does not need to shout.
 \renewcommand*{\cv@render@sectionheading}[1]{%
+  \par%
+  \RaggedRight%
   \vspace{6mm}%
   \noindent{\large\bfseries\color{accentColor}#1}%
   ~{\color{light_gray}\leavevmode\leaders\hrule height 0.2pt\hfill\kern0pt}\par%
+  \nobreak\vspace{\cv@modern@sectionpostskip}%
+  \booltrue{cv@modern@aftersection}%
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -113,9 +123,17 @@
 % Title: bold at body size — weight alone distinguishes it from bullets.
 % Dates, org, location: \small gray — secondary info reads quietly without
 % accent color or small caps.
+\newcommand*{\cv@modern@entrytopspace}{%
+  \ifbool{cv@modern@aftersection}{%
+    \boolfalse{cv@modern@aftersection}%
+  }{%
+    \vspace{3mm}%
+  }%
+}
+
 \renewcommand*{\cv@render@entry}[1]{%
   \begin{minipage}{\textwidth}
-  \vspace{3mm}%
+  \cv@modern@entrytopspace%
   % Use \hfill in paragraph mode so every row shares a natural baseline —
   % no tabular vtop gymnastics needed.
   {\parfillskip=0pt\relax
@@ -146,4 +164,24 @@
 
 \renewcommand*{\cv@render@item}[2]{%
   \cv@render@itemrow{\textbf{#1}}{#2}%
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Bibliography
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\AtBeginDocument{%
+  \@ifpackageloaded{biblatex}{%
+    \renewcommand*{\bibfont}{\fontsize{9.5}{11.5}\selectfont\RaggedRight}%
+    \setlength{\bibitemsep}{0.6\baselineskip}%
+    \setlength{\bibparsep}{0pt}%
+    \pretocmd{\printbibliography}{%
+      \ifbool{cv@modern@aftersection}{%
+        \vspace{-\cv@modern@sectionpostskip}%
+        \boolfalse{cv@modern@aftersection}%
+      }{}%
+    }{}{}%
+  }{}%
 }
