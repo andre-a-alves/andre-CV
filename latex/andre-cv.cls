@@ -39,8 +39,8 @@
   \def\cv@optionname{#1}%
   \def\cv@optionvalue{#2}%
   \ifdefstring{\cv@optionname}{theme}{%
-    \ifdefstring{\cv@optionvalue}{german-cv}{%
-      \def\cv@theme{german-cv}%
+    \ifdefstring{\cv@optionvalue}{tabular-cv}{%
+      \def\cv@theme{tabular-cv}%
     }{%
       \ifdefstring{\cv@optionvalue}{classic-resume}{%
         \def\cv@theme{classic-resume}%
@@ -49,7 +49,7 @@
           \def\cv@theme{modern-resume}%
         }{%
           \ClassError{andre-cv}{Unknown theme '\cv@optionvalue'}%
-            {Supported themes are 'german-cv', 'classic-resume', and 'modern-resume'.}%
+            {Supported themes are 'tabular-cv', 'classic-resume', and 'modern-resume'.}%
         }%
       }%
     }%
@@ -86,7 +86,7 @@
 % Theme paper-size defaults (only applied if the user did not pass an
 % explicit paper-size option above).
 \@ifundefined{cv@papersize}{%
-  \ifdefstring{\cv@theme}{german-cv}{%
+  \ifdefstring{\cv@theme}{tabular-cv}{%
     \def\cv@papersize{a4paper}%
   }{%
     \ifdefstring{\cv@theme}{classic-resume}{%
@@ -96,14 +96,14 @@
         \def\cv@papersize{a4paper}%
       }{%
         \ClassError{andre-cv}{Unknown theme '\cv@theme'}%
-          {Supported themes are 'german-cv', 'classic-resume', and 'modern-resume'.}%
+          {Supported themes are 'tabular-cv', 'classic-resume', and 'modern-resume'.}%
       }%
     }%
   }%
 }{}
 % Resolve 'auto' letter style: pick the natural default for each theme
 \ifdefstring{\cv@letterstyle}{auto}{%
-  \ifdefstring{\cv@theme}{german-cv}{%
+  \ifdefstring{\cv@theme}{tabular-cv}{%
     \def\cv@letterstyle{german-din}%
   }{%
     \def\cv@letterstyle{us-business}%
