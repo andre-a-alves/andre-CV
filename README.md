@@ -120,12 +120,9 @@ or
 \SetPhone{203 555 0198}
 \SetEmail{indyjones@marshall.edu}
 
-\MakeHeader
-  {\DisplayName}
-  {\DisplayTown}
-  {\DisplayEmail~$\cdot$~\DisplayPhone}
-
 \begin{document}
+\DisplayHeader{Archaeologist}{./img/photo.png}
+
 \section{Experience}
 \cventry[
   dates    = {1936 - Present},
@@ -218,11 +215,11 @@ Paper, language, and letter style can all be overridden explicitly:
 
 `SetTown`, `SetPhone`, `SetEmail`, `SetCitizenship`, `SetGithub`,
 `SetLinkedIn`, `SetXing`, and `SetHomepage` are rendered in a deterministic
-category order in the Tabular CV header and the `modern-resume` header.
+category order in every theme header.
 
-The `modern-resume` header renders a single contact line from those
-personal details. Location, phone, and email are plain text; platform links
-such as GitHub, LinkedIn, Xing, and homepage keep their icons.
+The resume headers render a single contact line from those personal details.
+Location, phone, and email are plain text; platform links such as GitHub,
+LinkedIn, Xing, and homepage keep their icons.
 
 For `\SetHomepage`, pass a bare host/path such as `www.example.com`; the
 class prepends `https://`.
@@ -230,6 +227,8 @@ class prepends `https://`.
 #### Theming
 
 - `\SetAccentColor{ColorName}` overrides the accent color.
+- `\DisplayHeader{subtitle}` or `\DisplayHeader{subtitle}{image-path}` renders the CV/resume header for every theme.
+- `\DisplaySignature{signature-image-path}{location}` renders a signature block.
 
 Built-in color names: `UltramarineBlue`, `YellowGreen`, `Fuchsia`,
 `Tangerine`, `ElectricViolet`, `Coquelicot`, `Rose`.
@@ -265,25 +264,16 @@ The letter is placed before `\begin{document}` content and the CV starts
 on a new page numbered from 1. The visual style (layout, fonts, header
 placement) is controlled by the active `letter=` option.
 
-#### Theme-specific commands
+#### Compatibility and layout commands
 
-`theme=tabular-cv`:
+- `\MakeHeader{subtitle}` is kept as a compatibility alias for older resume documents.
+- `\MakeHeader{name}{subtitle}` and `\MakeHeader{name}{subtitle}{contact-line}` are also accepted for older samples.
+- `\ResizeTabular{width}` affects `theme=tabular-cv` and is ignored by the resume themes.
+- `\HeaderImageSizeCm{number}` affects `theme=tabular-cv` and is ignored by the resume themes.
 
-- `\DisplayHeader{subtitle}` or `\DisplayHeader{subtitle}{image-path}`
-- `\DisplaySignature{signature-image-path}{location}`
-- `\ResizeTabular{width}`
-- `\HeaderImageSizeCm{number}`
-
-`theme=classic-resume`:
-
-- `\MakeHeader{line1}{line2}{line3}`
-- `\SetBadge{scale}{image-path}`
-
-`theme=modern-resume`:
-
-- `\MakeHeader{name}{subtitle}`; contact details render automatically from
-  the `\SetTown`, `\SetPhone`, `\SetEmail`, and platform-link commands.
-- `\SetBadge{scale}{image-path}`
+The recommended portable header command is `\DisplayHeader`; documents that
+use it can switch between `tabular-cv`, `classic-resume`, and `modern-resume`
+by changing only the `theme=` class option.
 
 ## Licenses
 

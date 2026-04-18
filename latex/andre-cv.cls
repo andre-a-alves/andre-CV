@@ -136,6 +136,7 @@
 \RequirePackage{wrapfig}
 \RequirePackage{luacode} % for use of Lua code
 \RequirePackage{pgfkeys}
+\RequirePackage{xparse}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
@@ -154,6 +155,29 @@
     personalDetails = {}
     personalDetailsIndex = 1
     setPictureWidth = 0
+
+    function sortedPersonalDetailsCopy(arr)
+        local items = {}
+        for _, detail in ipairs(arr) do
+            items[#items + 1] = detail
+        end
+        table.sort(items, function(a, b)
+            return (a.sortKey or 0) < (b.sortKey or 0)
+        end)
+        return items
+    end
+
+    function printInlinePersonalDetails(arr, includeIcons)
+        local texItems = {}
+        for _, detail in ipairs(sortedPersonalDetailsCopy(arr)) do
+            if includeIcons or (detail.sortKey or 0) >= 50 then
+                texItems[#texItems + 1] = "\\mbox{" .. detail.icon .. detail.value .. "}"
+            else
+                texItems[#texItems + 1] = "\\mbox{" .. detail.value .. "}"
+            end
+        end
+        tex.sprint(table.concat(texItems, "\\hspace{0.45em}{\\textperiodcentered}\\hspace{0.45em}"))
+    end
 \end{luacode}
 
 \newcommand{\FooterGrayColor}[1]{\color{gray} #1}
@@ -255,6 +279,12 @@
         personalDetailsIndex = personalDetailsIndex + 1
     }
 }
+\newcommand*{\RenderPersonalDetails}{%
+    \directlua{printInlinePersonalDetails(personalDetails, false)}%
+}
+\newcommand*{\RenderIconPersonalDetails}{%
+    \directlua{printInlinePersonalDetails(personalDetails, true)}%
+}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
@@ -321,7 +351,70 @@
 \newcommand*{\cv@renderletter@begin}{}
 \newcommand*{\cv@renderletter@end}{}
 
+\newbool{cv@document@started}
+\newbool{cv@header@configured}
+\newbool{cv@header@rendered}
+\newcommand*{\cv@header@subtitle}{}
+\newcommand*{\cv@header@image}{}
+\newcommand*{\cv@header@contact}{\RenderPersonalDetails}
+
+\AtBeginDocument{\booltrue{cv@document@started}}
+
+\newcommand*{\cv@configure@header}[2]{%
+  \def\cv@header@subtitle{#1}%
+  \def\cv@header@image{#2}%
+  \booltrue{cv@header@configured}%
+  \boolfalse{cv@header@rendered}%
+}
+
+\newcommand*{\cv@maybe@render@header}{%
+  \ifbool{cv@header@configured}{%
+    \ifbool{cv@header@rendered}{}{%
+      \booltrue{cv@header@rendered}%
+      \cv@render@header%
+    }%
+  }{}%
+}
+
+\NewDocumentCommand{\DisplayHeader}{m g}{%
+  \IfNoValueTF{#2}%
+    {\cv@configure@header{#1}{}}%
+    {\cv@configure@header{#1}{#2}}%
+  \ifbool{cv@document@started}{\cv@maybe@render@header}{}%
+}
+
+% Backward-compatible adapter for older resume samples:
+%   \MakeHeader{subtitle}
+%   \MakeHeader{name}{subtitle}
+%   \MakeHeader{name}{subtitle}{contact-line}
+\NewDocumentCommand{\MakeHeader}{m g g}{%
+  \IfNoValueTF{#2}{%
+    \cv@configure@header{#1}{}%
+  }{%
+    \IfNoValueTF{#3}{%
+      \cv@configure@header{#2}{}%
+    }{%
+      \def\cv@header@contact{#3}%
+      \cv@configure@header{#2}{}%
+    }%
+  }%
+  \ifbool{cv@document@started}{\cv@maybe@render@header}{}%
+}
+
+\newcommand*{\ResizeTabular}[1]{}
+\newcommand*{\HeaderImageSizeCm}[1]{}
+
+\newcommand*{\DisplaySignature}[2]{%
+  \bigskip
+  \begin{flushright}
+    \includegraphics[width=5cm]{#1}\\
+    #2\\
+    \today
+  \end{flushright}
+}
+
 \renewcommand*{\section}[2][]{%
+  \cv@maybe@render@header%
   \cv@render@sectionheading{#2}%
 }
 
@@ -350,6 +443,7 @@
 }
 
 \newcommand*{\cventry}[2][]{%
+  \cv@maybe@render@header%
   \def\cv@entry@dates{}\def\cv@entry@title{}\def\cv@entry@org{}%
   \def\cv@entry@location{}\def\cv@entry@url{}%
   \setkeys{cventry}{#1}%
@@ -357,6 +451,7 @@
 }
 
 \newcommand*{\cvitem}[2]{%
+  \cv@maybe@render@header%
   \cv@render@item{#1}{#2}%
 }
 
