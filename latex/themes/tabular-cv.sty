@@ -71,15 +71,7 @@
 }
 
 \renewcommand*{\cv@render@header}{%
-	\ifthenelse{\equal{}{\cv@header@image}}{%
-		\ifbool{cv@header@badge}{%
-			\def\cv@tabular@header@image{\cv@header@badgeimage}%
-		}{%
-			\def\cv@tabular@header@image{}%
-		}%
-	}{%
-		\def\cv@tabular@header@image{\cv@header@image}%
-	}%
+	\def\cv@tabular@header@image{\cv@header@image}%
 	\directlua{
 		local pictureWidth = getPictureWidthFromArray(personalDetails)
 		tex.sprint("\\renewcommand{\\picturewidth}{" .. pictureWidth .. "cm}")

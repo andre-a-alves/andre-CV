@@ -11,17 +11,13 @@
 
 \pagestyle{fancy}
 \chead{\InsertHeader}
-\rhead{\cv@classicresume@badge}
+\rhead{\cv@classicresume@headerimage}
 \lfoot{\FooterGrayColor{\today}}
 \geometry{includehead, headsep=0.2in, footskip=0.25in}
 \fancypagestyle{noheader}{\fancyhead{}}
 
-\newcommand*{\cv@classicresume@badge}{%
-	\ifthenelse{\equal{}{\cv@header@image}}{%
-		\ifbool{cv@header@badge}{%
-			\includegraphics[scale=\cv@header@badgescale]{\cv@header@badgeimage}%
-		}{}%
-	}{%
+\newcommand*{\cv@classicresume@headerimage}{%
+	\ifthenelse{\equal{}{\cv@header@image}}{}{%
 		\includegraphics[height=0.45in]{\cv@header@image}%
 	}%
 }

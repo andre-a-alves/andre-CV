@@ -268,7 +268,6 @@ placement) is controlled by the active `letter=` option.
 
 - `\MakeHeader{subtitle}` is kept as a compatibility alias for older resume documents.
 - `\MakeHeader{name}{subtitle}` and `\MakeHeader{name}{subtitle}{contact-line}` are also accepted for older samples.
-- `\SetBadge{scale}{image-path}` is accepted by every theme; resume themes render it as a small header image, and `tabular-cv` uses it as the header image when `\DisplayHeader` does not receive one.
 - `\ResizeTabular{width}` affects `theme=tabular-cv` and is ignored by the resume themes.
 - `\HeaderImageSizeCm{number}` affects `theme=tabular-cv` and is ignored by the resume themes.
 

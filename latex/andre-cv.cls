@@ -354,11 +354,8 @@
 \newbool{cv@document@started}
 \newbool{cv@header@configured}
 \newbool{cv@header@rendered}
-\newbool{cv@header@badge}
 \newcommand*{\cv@header@subtitle}{}
 \newcommand*{\cv@header@image}{}
-\newcommand*{\cv@header@badgescale}{1}
-\newcommand*{\cv@header@badgeimage}{}
 \newcommand*{\cv@header@contact}{\RenderPersonalDetails}
 
 \AtBeginDocument{\booltrue{cv@document@started}}
@@ -402,12 +399,6 @@
     }%
   }%
   \ifbool{cv@document@started}{\cv@maybe@render@header}{}%
-}
-
-\newcommand*{\SetBadge}[2]{%
-  \booltrue{cv@header@badge}%
-  \def\cv@header@badgescale{#1}%
-  \def\cv@header@badgeimage{#2}%
 }
 
 \newcommand*{\ResizeTabular}[1]{}
