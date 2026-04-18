@@ -2,7 +2,7 @@
 
 A polyglot monorepo containing:
 
-- A LaTeX document-class package for building German-style CVs and classic resumes with optional cover letters
+- A LaTeX document-class package for building tabular CVs and classic resumes with optional cover letters
 - Rust libraries and CLI tooling for generating LaTeX from structured YAML data
 
 ## Repository Layout
@@ -12,7 +12,7 @@ andre-cv/
 ├── latex/          LaTeX classes and themes (self-contained, copy-and-use)
 │   ├── andre-cv.cls
 │   ├── themes/
-│   │   ├── german-cv.sty
+│   │   ├── tabular-cv.sty
 │   │   ├── classic-resume.sty
 │   │   └── modern-resume.sty
 │   └── letters/
@@ -35,7 +35,7 @@ compatibility is not guaranteed between revisions.
 
 <table>
 <tr>
-<td align="center"><b>german-cv</b><br><img src="samples/previews/german-cv.png" width="340"></td>
+<td align="center"><b>tabular-cv</b><br><img src="samples/previews/tabular-cv.png" width="340"></td>
 <td align="center"><b>classic-resume</b><br><img src="samples/previews/classic-resume.png" width="340"></td>
 <td align="center"><b>modern-resume</b><br><img src="samples/previews/modern-resume.png" width="340"></td>
 </tr>
@@ -56,7 +56,7 @@ Copy the `latex/` directory somewhere on your `TEXINPUTS` path and use the
 class directly:
 
 ```tex
-\documentclass[theme=german-cv,10pt]{andre-cv}
+\documentclass[theme=tabular-cv,10pt]{andre-cv}
 ```
 
 or
@@ -76,10 +76,10 @@ or
 - `fontspec`, `luacode`, `biblatex` / `biber` (for bibliography support in samples)
 - Compile with `lualatex`, not `pdflatex`
 
-### Example — German-style CV
+### Example — Tabular CV
 
 ```tex
-\documentclass[theme=german-cv,10pt]{andre-cv}
+\documentclass[theme=tabular-cv,10pt]{andre-cv}
 
 \setmainfont{Source Sans 3}
 \setsansfont{Source Sans 3}
@@ -145,10 +145,10 @@ Compile from `samples/` so that relative image paths resolve correctly:
 
 ```bash
 cd samples
-TEXINPUTS=../latex//: lualatex german-cv.tex
-biber german-cv
-TEXINPUTS=../latex//: lualatex german-cv.tex
-TEXINPUTS=../latex//: lualatex german-cv.tex
+TEXINPUTS=../latex//: lualatex tabular-cv.tex
+biber tabular-cv
+TEXINPUTS=../latex//: lualatex tabular-cv.tex
+TEXINPUTS=../latex//: lualatex tabular-cv.tex
 ```
 
 ```bash
@@ -173,7 +173,7 @@ If you are not using `biblatex`, skip the `biber` step.
 
 The unified class accepts:
 
-- `theme=german-cv`, `theme=classic-resume`, or `theme=modern-resume`
+- `theme=tabular-cv`, `theme=classic-resume`, or `theme=modern-resume`
 - `letter=german-din`, `letter=us-business`, or `letter=none`
 - `10pt`, `11pt`, `12pt`
 - `a4paper`, `letterpaper`
@@ -181,12 +181,12 @@ The unified class accepts:
 
 Theme defaults:
 
-- `theme=german-cv` and `theme=modern-resume` default to `a4paper`
+- `theme=tabular-cv` and `theme=modern-resume` default to `a4paper`
 - `theme=classic-resume` defaults to `letterpaper`
 
 Letter style defaults (applied automatically when `letter=` is not specified):
 
-- `theme=german-cv` defaults to `letter=german-din`
+- `theme=tabular-cv` defaults to `letter=german-din`
 - `theme=classic-resume` and `theme=modern-resume` default to `letter=us-business`
 
 Use `letter=none` to suppress the cover letter entirely:
@@ -198,7 +198,7 @@ Use `letter=none` to suppress the cover letter entirely:
 Paper, language, and letter style can all be overridden explicitly:
 
 ```tex
-\documentclass[theme=german-cv,10pt,letterpaper,german,letter=us-business]{andre-cv}
+\documentclass[theme=tabular-cv,10pt,letterpaper,german,letter=us-business]{andre-cv}
 ```
 
 ### Document API
@@ -218,7 +218,7 @@ Paper, language, and letter style can all be overridden explicitly:
 
 `SetTown`, `SetPhone`, `SetEmail`, `SetCitizenship`, `SetGithub`,
 `SetLinkedIn`, `SetXing`, and `SetHomepage` are rendered in a deterministic
-category order in the German CV header and the `modern-resume` header.
+category order in the Tabular CV header and the `modern-resume` header.
 
 The `modern-resume` header renders a single contact line from those
 personal details. Location, phone, and email are plain text; platform links
@@ -267,7 +267,7 @@ placement) is controlled by the active `letter=` option.
 
 #### Theme-specific commands
 
-`theme=german-cv`:
+`theme=tabular-cv`:
 
 - `\DisplayHeader{subtitle}` or `\DisplayHeader{subtitle}{image-path}`
 - `\DisplaySignature{signature-image-path}{location}`

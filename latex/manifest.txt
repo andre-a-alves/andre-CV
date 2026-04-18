@@ -1,11 +1,11 @@
 latex/andre-cv.cls
-latex/themes/german-cv.sty
+latex/themes/tabular-cv.sty
 latex/themes/classic-resume.sty
 latex/themes/modern-resume.sty
 latex/letters/german-din.sty
 latex/letters/us-business.sty
 latex/manifest.txt
-samples/german-cv.tex
+samples/tabular-cv.tex
 samples/classic-resume.tex
 samples/modern-resume.tex
 samples/papers.bib
