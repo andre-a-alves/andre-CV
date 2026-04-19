@@ -1,0 +1,67 @@
+theme: modern-resume
+font:
+  main: Source Sans 3
+  sans: Source Sans 3
+  mono: Source Sans 3
+
+personal:
+  name: Dr. Henry Jones, Jr.
+  address_one: 123 Artifact Lane
+  address_two: Marshall College, Bedford, Connecticut
+  address_three: USA
+  town: Bedford, Connecticut, USA
+  phone: "+1 203 555 0198"
+  email: indyjones@marshall.edu
+  citizenship: USA
+  linkedin: indy-jones
+
+header:
+  subtitle: Archaeologist, Professor, Explorer
+  image: ./img/DALLE_adventurer.png
+
+sections:
+  - type: summary
+    title: Summary
+    body: Adventurous archaeologist and professor with a record of uncovering priceless artifacts, leading field teams, and solving problems under pressure.
+
+  - type: entries
+    title: Experience
+    entries:
+      - dates: 1936 - Present
+        title: Professor of Archaeology
+        org: Marshall College
+        location: Bedford, Connecticut, USA
+        bullets:
+          - Lectures on theories of archaeology, methods of excavation, and history of ancient civilizations.
+          - Supervises graduate students in their fieldwork and thesis preparation.
+      - dates: 1920 - Present
+        title: Archaeologist and Explorer
+        org: Freelance
+        location: Global
+        bullets:
+          - Conducted numerous archaeological expeditions around the world.
+          - Collaborated with museums worldwide to ensure safe and ethical display of artifacts.
+
+  - type: entries
+    title: Education
+    entries:
+      - dates: "1922"
+        title: Ph.D. in Archaeology
+        org: University of Chicago
+        location: Chicago, Illinois, USA
+        bullets:
+          - Dissertation on The Influence of Ritualistic Symbolism in Ancient Mayan Artifacts.
+      - dates: "1916"
+        title: Bachelor of Arts in European History
+        org: Princeton University
+        location: Princeton, New Jersey, USA
+        bullets:
+          - Graduated with honors, focusing on ancient European civilizations and their languages.
+
+  - type: items
+    title: Skills
+    items:
+      - label: Languages
+        value: English, German, Ancient Greek, Latin, Arabic
+      - label: Expertise
+        value: Field excavation, artifact authentication, ancient languages, archival research
