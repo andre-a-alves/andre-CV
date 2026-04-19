@@ -19,7 +19,7 @@
 
 \pagestyle{fancy}
 \chead{\InsertHeader}
-\rhead{\cv@modernresume@headerimage}
+\rhead{}
 \lfoot{\FooterGrayColor{\today}}
 \geometry{includehead, headsep=0.1in, footskip=0.25in}
 \fancypagestyle{noheader}{\fancyhead{}}
@@ -42,12 +42,6 @@
 % Header
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\newcommand*{\cv@modernresume@headerimage}{%
-  \ifthenelse{\equal{}{\cv@header@image}}{}{%
-    \includegraphics[height=0.45in]{\cv@header@image}%
-  }%
-}
 
 \renewcommand*{\cv@render@header}{%
   \def\InsertHeader{%
