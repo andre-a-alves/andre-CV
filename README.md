@@ -41,6 +41,10 @@ compatibility is not guaranteed between revisions.
 </tr>
 </table>
 
+- `classic-resume` is the original resume style.
+- `modern-resume` is a slightly more modern resume style.
+- `tabular-cv` is a classic German CV style.
+
 ## Cover Letter Styles
 
 <table>
@@ -53,33 +57,23 @@ compatibility is not guaranteed between revisions.
 ## LaTeX Quick Start
 
 Copy the `latex/` directory somewhere on your `TEXINPUTS` path and use the
-class directly:
-
-```tex
-\documentclass[theme=tabular-cv,10pt]{andre-cv}
-```
-
-or
-
-```tex
-\documentclass[theme=classic-resume,10pt]{andre-cv}
-```
-
-or
+class directly. Change `theme=` to select a style:
 
 ```tex
 \documentclass[theme=modern-resume,10pt]{andre-cv}
 ```
+
+Available themes are `classic-resume`, `modern-resume`, and `tabular-cv`.
 
 ### Requirements
 
 - `fontspec`, `luacode`, `biblatex` / `biber` (for bibliography support in samples)
 - Compile with `lualatex`, not `pdflatex`
 
-### Example — Tabular CV
+### Minimal Example
 
 ```tex
-\documentclass[theme=tabular-cv,10pt]{andre-cv}
+\documentclass[theme=modern-resume,10pt]{andre-cv}
 
 \setmainfont{Source Sans 3}
 \setsansfont{Source Sans 3}
@@ -89,7 +83,6 @@ or
 \SetTown{Bedford, Connecticut, USA}
 \SetPhone{+1 203 555 0198}
 \SetEmail{indyjones@marshall.edu}
-\SetCitizenship{USA}
 
 \begin{document}
 \DisplayHeader{Archaeologist}{./img/photo.png}
@@ -106,34 +99,9 @@ or
 \end{document}
 ```
 
-### Example — Classic resume
-
-```tex
-\documentclass[theme=classic-resume,10pt]{andre-cv}
-
-\setmainfont{Source Sans 3}
-\setsansfont{Source Sans 3}
-\setmonofont{Source Sans 3}
-
-\SetName{Dr. Henry Jones, Jr.}
-\SetTown{Bedford, Connecticut}
-\SetPhone{203 555 0198}
-\SetEmail{indyjones@marshall.edu}
-
-\begin{document}
-\DisplayHeader{Archaeologist}{./img/photo.png}
-
-\section{Experience}
-\cventry[
-  dates    = {1936 - Present},
-  title    = {Professor of Archaeology},
-  org      = {Marshall College},
-  location = {Bedford, Connecticut},
-]{\cvitemize{
-  \item Example bullet
-}}
-\end{document}
-```
+The same document can switch between styles by changing only `theme=`.
+The optional header image is rendered by `tabular-cv`; the resume themes
+ignore it.
 
 ### Building the Samples
 
@@ -142,26 +110,11 @@ Compile from `samples/` so that relative image paths resolve correctly:
 
 ```bash
 cd samples
-TEXINPUTS=../latex//: lualatex tabular-cv.tex
-biber tabular-cv
-TEXINPUTS=../latex//: lualatex tabular-cv.tex
-TEXINPUTS=../latex//: lualatex tabular-cv.tex
-```
-
-```bash
-cd samples
-TEXINPUTS=../latex//: lualatex classic-resume.tex
-biber classic-resume
-TEXINPUTS=../latex//: lualatex classic-resume.tex
-TEXINPUTS=../latex//: lualatex classic-resume.tex
-```
-
-```bash
-cd samples
-TEXINPUTS=../latex//: lualatex modern-resume.tex
-biber modern-resume
-TEXINPUTS=../latex//: lualatex modern-resume.tex
-TEXINPUTS=../latex//: lualatex modern-resume.tex
+sample=modern-resume # or classic-resume, tabular-cv
+TEXINPUTS=../latex//: lualatex "$sample.tex"
+biber "$sample"
+TEXINPUTS=../latex//: lualatex "$sample.tex"
+TEXINPUTS=../latex//: lualatex "$sample.tex"
 ```
 
 If you are not using `biblatex`, skip the `biber` step.
@@ -227,7 +180,8 @@ class prepends `https://`.
 #### Theming
 
 - `\SetAccentColor{ColorName}` overrides the accent color.
-- `\DisplayHeader{subtitle}` or `\DisplayHeader{subtitle}{image-path}` renders the CV/resume header for every theme.
+- `\DisplayHeader{subtitle}` renders the CV/resume header.
+- `\DisplayHeader{subtitle}{image-path}` also provides a header image; `tabular-cv` renders it and the resume themes ignore it.
 - `\DisplaySignature{signature-image-path}{location}` renders a signature block.
 
 Built-in color names: `UltramarineBlue`, `YellowGreen`, `Fuchsia`,
@@ -279,10 +233,10 @@ by changing only the `theme=` class option.
 
 This repository uses two licenses depending on the component:
 
-| Component | License | File |
-|-----------|---------|------|
-| `latex/` — LaTeX classes and themes | LaTeX Project Public License 1.3c | `latex/LICENSE.txt` |
-| `libs/`, `tools/` — Rust source code | Apache License 2.0 | `LICENSE.txt` |
+| Component                            | License                           | File                |
+|--------------------------------------|-----------------------------------|---------------------|
+| `latex/` — LaTeX classes and themes  | LaTeX Project Public License 1.3c | `latex/LICENSE.txt` |
+| `libs/`, `tools/` — Rust source code | Apache License 2.0                | `LICENSE.txt`       |
 
 The LaTeX classes (`latex/`) are distributed under the LPPL 1.3c because that
 is the standard license for LaTeX packages and is expected by CTAN. The LPPL

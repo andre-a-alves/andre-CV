@@ -8,6 +8,7 @@ latex/manifest.txt
 samples/tabular-cv.tex
 samples/classic-resume.tex
 samples/modern-resume.tex
+samples/indy-resume-content.tex
 samples/papers.bib
 samples/img/DALLE_adventurer.png
 samples/img/DALLE-indy-sig.png

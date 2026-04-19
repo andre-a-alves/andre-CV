@@ -22,100 +22,14 @@
 %   TEXINPUTS=../latex//: lualatex tabular-cv.tex
 \documentclass[theme=tabular-cv,10pt]{andre-cv}
 
-\usepackage{lipsum}
-\usepackage[backend=biber, style=chicago-authordate]{biblatex}
-\addbibresource{papers.bib}
-\nocite{duality}
-\nocite{methods}
-
 \setmainfont{Source Sans 3}
 \setsansfont{Source Sans 3}
 \setmonofont{Source Sans 3}
 
-\SetName{Dr. Henry Jones, Jr.}
-\SetAddressOne{123 Artifact Lane}
-\SetAddressTwo{Marshall College, Bedford, Connecticut}
-\SetAddressThree{USA}
-\SetTown{Bedford, Connecticut, USA}
-\SetPhone{+1 203 555 0198}
-\SetEmail{indyjones@marshall.edu}
-\SetCitizenship{USA}
-%\SetGithub{andre-a-alves}
-%\SetLinkedIn{andre-a-alves}
-%\SetHomepage{www.andre-a-alves.com}
-%\SetXing{Andre\_Alves12}
-%\HeaderImageSizeCm{3.6}
-
-\begin{document}
-	\begin{coverletter}[
-		to-name    = {Global Institute of Archaeology},
-		to-address = {123 Explorer's Way\\Heritage City, HC 45678\\USA},
-		subject    = {Application for Professor of Archaeology and Director of Ancient Studies},
-		opening    = {Dear recruiting manager,},
-		closing    = {Sincerely yours},
-		signature  = {./img/DALLE-indy-sig.png},
-	]
-	\lipsum[1] \\
-
-	\lipsum[2] \\
-
-	\lipsum[3]\\
-
-	\lipsum[4]\\
-
-	\lipsum[5][1-2]
-	\end{coverletter}
-
-	\DisplayHeader{Archaeologist}{./img/DALLE_adventurer.png}
-
-	\section{Experience}
-	\cventry[
-		dates    = {1936 - Present},
-		title    = {Professor of Archaeology},
-		org      = {Marshall College},
-		location = {Bedford, Connecticut, USA},
-	]{\cvitemize{
-		\item Lectures on theories of archaeology, methods of excavation, and history of ancient civilizations.
-		\item Supervises graduate students in their fieldwork and thesis preparation.
-		\item Conducts and publishes research on various archaeological finds and their implications on historical knowledge.
-		\item Organizes and leads summer archaeological expeditions for students and researchers.
-	}}
-	\cventry[
-		dates    = {1920 - Present},
-		title    = {Archaeologist and Explorer},
-		org      = {Freelance},
-		location = {Global},
-	]{\cvitemize{
-		\item Conducted numerous archaeological expeditions around the world, including in South America, Asia, Africa, and Europe.
-		\item Recovered and preserved iconic artifacts such as the Ark of the Covenant and the Holy Grail.
-		\item Collaborated with museums worldwide to ensure safe and ethical display of artifacts.
-		\item Navigated complex political and environmental terrains to access and excavate sites.
-	}}
-
-	\section{Education}
-	\cventry[
-		dates    = {1922},
-		title    = {Ph.D. in Archaeology},
-		org      = {University of Chicago},
-		location = {Chicago, Illinois, USA},
-	]{\cvitemize{
-		\item Dissertation on \emph{The Influence of Ritualistic Symbolism in Ancient Mayan Artifacts.}.
-		\item Conducted extensive field research in Central America as part of doctoral studies.
-	}}
-	\cventry[
-		dates    = {1916},
-		title    = {Bachelor of Arts in European History},
-		org      = {Princeton University},
-		location = {Princeton, New Jersey, USA},
-	]{\cvitemize{
-		\item Graduated with honors, focusing on ancient European civilizations and their languages.
-	}}
-
-	\section{Relevant Publications}
-	\printbibliography[heading=none]
-
+\AtEndDocument{%
 	\DisplaySignature
 	{./img/DALLE-indy-sig.png}
-	{Bedford}
+	{Bedford}%
+}
 
-\end{document}
+\input{indy-resume-content.tex}

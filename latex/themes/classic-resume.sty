@@ -11,16 +11,10 @@
 
 \pagestyle{fancy}
 \chead{\InsertHeader}
-\rhead{\cv@classicresume@headerimage}
+\rhead{}
 \lfoot{\FooterGrayColor{\today}}
 \geometry{includehead, headsep=0.2in, footskip=0.25in}
 \fancypagestyle{noheader}{\fancyhead{}}
-
-\newcommand*{\cv@classicresume@headerimage}{%
-	\ifthenelse{\equal{}{\cv@header@image}}{}{%
-		\includegraphics[height=0.45in]{\cv@header@image}%
-	}%
-}
 
 \renewcommand*{\cv@render@header}{%
 	\def\InsertHeader{%
